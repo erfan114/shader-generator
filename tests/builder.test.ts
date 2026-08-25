@@ -1,10 +1,17 @@
 import { describe, expect, it } from "vitest";
 
 import { InputObject } from "../src/builder/objects/input.object.js";
+import { MainObject } from "../src/builder/objects/main.object.js";
 import { OutputObject } from "../src/builder/objects/output.object.js";
 import { UniformObject } from "../src/builder/objects/uniform.object.js";
+import {
+  AVAILABLE_COMPILERS,
+  type BuildTarget,
+} from "../src/compiler/index.js";
 import { Builder } from "../src/index.js";
 import { DATATYPE } from "../src/types.js";
+
+const BUILD_TARGETS = Object.keys(AVAILABLE_COMPILERS) as BuildTarget[];
 
 describe("Builder", () => {
   it("creates a uniform", () => {
@@ -38,5 +45,30 @@ describe("Builder", () => {
     });
 
     expect(output).toBeInstanceOf(OutputObject);
+  });
+
+  it("creates main", () => {
+    const builder = new Builder();
+
+    const main = builder.main();
+
+    expect(main).toBeInstanceOf(MainObject);
+  });
+
+  it("main is singleton", () => {
+    const builder = new Builder();
+
+    const main1 = builder.main();
+    const main2 = builder.main();
+
+    expect(main1).toStrictEqual(main2);
+  });
+
+  it("throws error when main is not defined", () => {
+    const builder = new Builder();
+
+    for (const target of BUILD_TARGETS) {
+      expect(() => builder.build(target)).toThrow();
+    }
   });
 });
