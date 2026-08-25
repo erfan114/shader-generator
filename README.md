@@ -2,6 +2,8 @@
 
 A utility library for generating GLSL shader source code programmatically.
 
+![Banner](https://github.com/erfan114/shader-generator/blob/assets/banner.png)
+
 ## Overview
 
 The main idea of this library is to let you build shaders using code while supporting both **GLSL ES 1.00** and **GLSL ES 3.00**.
