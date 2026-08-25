@@ -1,27 +1,32 @@
+// * UTILITY TYPES
+export type Vector2<T> = [T, T];
+export type Vector3<T> = [T, T, T];
+export type Vector4<T> = [T, T, T, T];
+
 // * DATA TYPES
 export const DATATYPE = {
   // Scalar
   FLOAT: 0x00,
   INT: 0x01,
   UINT: 0x02,
-  BOOLEAN: 0x03,
+  BOOL: 0x03,
 
   // Vector
-  VECTOR2: 0x04,
-  VECTOR3: 0x05,
-  VECTOR4: 0x06,
+  VEC2: 0x04,
+  VEC3: 0x05,
+  VEC4: 0x06,
 
-  INT_VECTOR2: 0x07,
-  INT_VECTOR3: 0x08,
-  INT_VECTOR4: 0x09,
+  INT_VEC2: 0x07,
+  INT_VEC3: 0x08,
+  INT_VEC4: 0x09,
 
-  UINT_VECTOR2: 0x0a,
-  UINT_VECTOR3: 0x0b,
-  UINT_VECTOR4: 0x0c,
+  UINT_VEC2: 0x0a,
+  UINT_VEC3: 0x0b,
+  UINT_VEC4: 0x0c,
 
-  BOOLEAN_VECTOR2: 0x0d,
-  BOOLEAN_VECTOR3: 0x0e,
-  BOOLEAN_VECTOR4: 0x0f,
+  BOOLEAN_VEC2: 0x0d,
+  BOOLEAN_VEC3: 0x0e,
+  BOOLEAN_VEC4: 0x0f,
 
   // Matrix
   MATRIX2: 0x10,
