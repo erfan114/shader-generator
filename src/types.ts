@@ -24,9 +24,9 @@ export const DATATYPE = {
   UINT_VEC3: 0x0b,
   UINT_VEC4: 0x0c,
 
-  BOOLEAN_VEC2: 0x0d,
-  BOOLEAN_VEC3: 0x0e,
-  BOOLEAN_VEC4: 0x0f,
+  BOOL_VEC2: 0x0d,
+  BOOL_VEC3: 0x0e,
+  BOOL_VEC4: 0x0f,
 
   // Matrix
   MATRIX2: 0x10,
