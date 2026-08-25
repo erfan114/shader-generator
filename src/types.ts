@@ -1,3 +1,4 @@
+// * DATA TYPES
 export const DATATYPE = {
   // Scalar
   FLOAT: 0x00,
