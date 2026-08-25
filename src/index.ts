@@ -1,3 +1,2 @@
-/* 
-Shader Structure -> Builder -> Output
-*/
+export type { BuildTarget } from "./compiler/index.js";
+export { Builder } from "./builder.js";
