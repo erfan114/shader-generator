@@ -1,0 +1,53 @@
+export const DATATYPE = {
+  // Scalar
+  FLOAT: 0x00,
+  INT: 0x01,
+  UINT: 0x02,
+  BOOLEAN: 0x03,
+
+  // Vector
+  VECTOR2: 0x04,
+  VECTOR3: 0x05,
+  VECTOR4: 0x06,
+
+  INT_VECTOR2: 0x07,
+  INT_VECTOR3: 0x08,
+  INT_VECTOR4: 0x09,
+
+  UINT_VECTOR2: 0x0a,
+  UINT_VECTOR3: 0x0b,
+  UINT_VECTOR4: 0x0c,
+
+  BOOLEAN_VECTOR2: 0x0d,
+  BOOLEAN_VECTOR3: 0x0e,
+  BOOLEAN_VECTOR4: 0x0f,
+
+  // Matrix
+  MATRIX2: 0x10,
+  MATRIX3: 0x11,
+  MATRIX4: 0x12,
+
+  MATRIX2x3: 0x13,
+  MATRIX2x4: 0x14,
+
+  MATRIX3x2: 0x15,
+  MATRIX3x4: 0x16,
+
+  MATRIX4x2: 0x17,
+  MATRIX4x3: 0x18,
+
+  // Sampler
+  SAMPLER_2D: 0x19,
+  INT_SAMPLER_2D: 0x1b,
+  UINT_SAMPLER_2D: 0x1c,
+
+  SAMPLER_3D: 0x1d,
+  INT_SAMPLER_3D: 0x1f,
+  UINT_SAMPLER_3D: 0x20,
+
+  SAMPLER_CUBE: 0x21,
+  INT_SAMPLER_CUBE: 0x23,
+  UINT_SAMPLER_CUBE: 0x24,
+} as const;
+
+export type DataType = (typeof DATATYPE)[keyof typeof DATATYPE];
