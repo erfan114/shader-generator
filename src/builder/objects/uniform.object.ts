@@ -6,5 +6,5 @@ export type UniformObjectOptions = {
 };
 
 export class UniformObject {
-  public constructor(private options: UniformObjectOptions) {}
+  public constructor(public readonly options: UniformObjectOptions) {}
 }

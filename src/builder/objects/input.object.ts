@@ -1,5 +1,5 @@
 import type { IOObjectOptions } from "./common.js";
 
 export class InputObject {
-  public constructor(private options: IOObjectOptions) {}
+  public constructor(public readonly options: IOObjectOptions) {}
 }
