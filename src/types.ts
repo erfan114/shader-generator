@@ -1,7 +1,7 @@
 // * UTILITY TYPES
-export type Vector2<T> = [T, T];
-export type Vector3<T> = [T, T, T];
-export type Vector4<T> = [T, T, T, T];
+export type Vec2<T> = [T, T];
+export type Vec3<T> = [T, T, T];
+export type Vec4<T> = [T, T, T, T];
 
 // * DATA TYPES
 export const DATATYPE = {
