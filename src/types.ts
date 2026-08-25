@@ -3,6 +3,19 @@ export type Vec2<T> = [T, T];
 export type Vec3<T> = [T, T, T];
 export type Vec4<T> = [T, T, T, T];
 
+export type Matrix2<T> = Vec2<Vec2<T>>;
+export type Matrix3<T> = Vec3<Vec3<T>>;
+export type Matrix4<T> = Vec4<Vec4<T>>;
+
+export type Matrix2x3<T> = Vec2<Vec3<T>>;
+export type Matrix2x4<T> = Vec2<Vec4<T>>;
+
+export type Matrix3x2<T> = Vec3<Vec2<T>>;
+export type Matrix3x4<T> = Vec3<Vec4<T>>;
+
+export type Matrix4x2<T> = Vec4<Vec2<T>>;
+export type Matrix4x3<T> = Vec4<Vec3<T>>;
+
 // * DATA TYPES
 export const DATATYPE = {
   // Scalar
@@ -41,7 +54,11 @@ export const DATATYPE = {
 
   MATRIX4x2: 0x17,
   MATRIX4x3: 0x18,
+} as const;
 
+export type DataType = (typeof DATATYPE)[keyof typeof DATATYPE];
+
+export const SAMPLER_DATATYPE = {
   // Sampler
   SAMPLER_2D: 0x19,
   INT_SAMPLER_2D: 0x1b,
@@ -56,4 +73,7 @@ export const DATATYPE = {
   UINT_SAMPLER_CUBE: 0x24,
 } as const;
 
-export type DataType = (typeof DATATYPE)[keyof typeof DATATYPE];
+export type SamplerDataType =
+  (typeof SAMPLER_DATATYPE)[keyof typeof SAMPLER_DATATYPE];
+
+export type GlobalDataType = DataType | SamplerDataType;

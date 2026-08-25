@@ -1,4 +1,5 @@
 import type { BuildTarget } from "../compiler/index.js";
+import { returnAdd } from "../helpers/set.helper.js";
 import type { IOObjectOptions } from "./objects/common.js";
 import { InputObject } from "./objects/input.object.js";
 import { MainObject } from "./objects/main.object.js";
@@ -15,19 +16,13 @@ export class Builder {
 
   private mainObject?: MainObject;
 
-  private returnAdd<T>(to: Set<T>, item: T) {
-    to.add(item);
-
-    return item;
-  }
-
   /**
    * Creates a uniform object and adds it to the builder's uniforms set.
    * @param options - The options for creating the uniform object.
    * @returns The created uniform object.
    */
   public uniform(options: UniformObjectOptions) {
-    return this.returnAdd(this.uniforms, new UniformObject(options));
+    return returnAdd(this.uniforms, new UniformObject(options));
   }
 
   /**
@@ -36,7 +31,7 @@ export class Builder {
    * @returns The created input object.
    */
   public input(options: IOObjectOptions) {
-    return this.returnAdd(this.inputs, new InputObject(options));
+    return returnAdd(this.inputs, new InputObject(options));
   }
 
   /**
@@ -45,7 +40,7 @@ export class Builder {
    * @returns The created output object.
    */
   public output(options: IOObjectOptions) {
-    return this.returnAdd(this.outputs, new OutputObject(options));
+    return returnAdd(this.outputs, new OutputObject(options));
   }
 
   public main(): MainObject {
