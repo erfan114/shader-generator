@@ -1,5 +1,5 @@
 import type { BuildTarget } from "../compiler/index.js";
-import { returnAdd } from "../helpers/set.helper.js";
+import { addToSet } from "../helpers/set.helper.js";
 import type { IOObjectOptions } from "./objects/common.js";
 import { InputObject } from "./objects/input.object.js";
 import { MainObject } from "./objects/main.object.js";
@@ -22,7 +22,7 @@ export class Builder {
    * @returns The created uniform object.
    */
   public uniform(options: UniformObjectOptions) {
-    return returnAdd(this.uniforms, new UniformObject(options));
+    return addToSet(this.uniforms, new UniformObject(options));
   }
 
   /**
@@ -31,7 +31,7 @@ export class Builder {
    * @returns The created input object.
    */
   public input(options: IOObjectOptions) {
-    return returnAdd(this.inputs, new InputObject(options));
+    return addToSet(this.inputs, new InputObject(options));
   }
 
   /**
@@ -40,7 +40,7 @@ export class Builder {
    * @returns The created output object.
    */
   public output(options: IOObjectOptions) {
-    return returnAdd(this.outputs, new OutputObject(options));
+    return addToSet(this.outputs, new OutputObject(options));
   }
 
   public main(): MainObject {

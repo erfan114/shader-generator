@@ -1,4 +1,4 @@
-export function returnAdd<T>(to: Set<T>, item: T) {
+export function addToSet<T>(to: Set<T>, item: T) {
   to.add(item);
 
   return item;
