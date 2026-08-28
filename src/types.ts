@@ -111,4 +111,4 @@ export const DATATYPE = {
   ...SAMPLER_DATATYPE,
 } as const;
 
-export type DataType = (typeof DATATYPE)[keyof typeof DATATYPE];
+export type DataType = ObjectValues<typeof DATATYPE>;
