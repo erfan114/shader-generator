@@ -12,6 +12,18 @@ import type { OperationOutput, OperationRHS } from "./common.js";
 
 export type AddCombinationResult<R, O> = OperationRHS<R> & OperationOutput<O>;
 
+// Scalar utility types
+type CommonScalarAddCombinationResult =
+  | AddCombinationResult<typeof DATATYPE.MATRIX2, typeof DATATYPE.MATRIX2>
+  | AddCombinationResult<typeof DATATYPE.MATRIX3, typeof DATATYPE.MATRIX3>
+  | AddCombinationResult<typeof DATATYPE.MATRIX4, typeof DATATYPE.MATRIX4>
+  | AddCombinationResult<typeof DATATYPE.MATRIX2x3, typeof DATATYPE.MATRIX2x3>
+  | AddCombinationResult<typeof DATATYPE.MATRIX2x4, typeof DATATYPE.MATRIX2x4>
+  | AddCombinationResult<typeof DATATYPE.MATRIX3x2, typeof DATATYPE.MATRIX3x2>
+  | AddCombinationResult<typeof DATATYPE.MATRIX3x4, typeof DATATYPE.MATRIX3x4>
+  | AddCombinationResult<typeof DATATYPE.MATRIX4x2, typeof DATATYPE.MATRIX4x2>
+  | AddCombinationResult<typeof DATATYPE.MATRIX4x3, typeof DATATYPE.MATRIX4x3>;
+
 // Float vector utility types
 type VecAddCombinationResult<O extends FloatVecDatatype> =
   | AddCombinationResult<typeof DATATYPE.FLOAT, O>
@@ -82,18 +94,7 @@ export type AddCombination<T extends Datatype> = {
     | AddCombinationResult<typeof DATATYPE.UINT_VEC2, typeof DATATYPE.VEC2>
     | AddCombinationResult<typeof DATATYPE.UINT_VEC3, typeof DATATYPE.VEC3>
     | AddCombinationResult<typeof DATATYPE.UINT_VEC4, typeof DATATYPE.VEC4>
-    | AddCombinationResult<typeof DATATYPE.MATRIX2, typeof DATATYPE.MATRIX2>
-    | AddCombinationResult<typeof DATATYPE.MATRIX3, typeof DATATYPE.MATRIX3>
-    | AddCombinationResult<typeof DATATYPE.MATRIX4, typeof DATATYPE.MATRIX4>
-    | AddCombinationResult<typeof DATATYPE.MATRIX2x3, typeof DATATYPE.MATRIX2x3>
-    | AddCombinationResult<typeof DATATYPE.MATRIX2x4, typeof DATATYPE.MATRIX2x4>
-    | AddCombinationResult<typeof DATATYPE.MATRIX3x2, typeof DATATYPE.MATRIX3x2>
-    | AddCombinationResult<typeof DATATYPE.MATRIX3x4, typeof DATATYPE.MATRIX3x4>
-    | AddCombinationResult<typeof DATATYPE.MATRIX4x2, typeof DATATYPE.MATRIX4x2>
-    | AddCombinationResult<
-        typeof DATATYPE.MATRIX4x3,
-        typeof DATATYPE.MATRIX4x3
-      >;
+    | CommonScalarAddCombinationResult;
 
   [DATATYPE.INT]:
     | AddCombinationResult<typeof DATATYPE.FLOAT, typeof DATATYPE.FLOAT>
@@ -108,18 +109,7 @@ export type AddCombination<T extends Datatype> = {
     | AddCombinationResult<typeof DATATYPE.UINT_VEC2, typeof DATATYPE.UINT_VEC2>
     | AddCombinationResult<typeof DATATYPE.UINT_VEC3, typeof DATATYPE.UINT_VEC3>
     | AddCombinationResult<typeof DATATYPE.UINT_VEC4, typeof DATATYPE.UINT_VEC4>
-    | AddCombinationResult<typeof DATATYPE.MATRIX2, typeof DATATYPE.MATRIX2>
-    | AddCombinationResult<typeof DATATYPE.MATRIX3, typeof DATATYPE.MATRIX3>
-    | AddCombinationResult<typeof DATATYPE.MATRIX4, typeof DATATYPE.MATRIX4>
-    | AddCombinationResult<typeof DATATYPE.MATRIX2x3, typeof DATATYPE.MATRIX2x3>
-    | AddCombinationResult<typeof DATATYPE.MATRIX2x4, typeof DATATYPE.MATRIX2x4>
-    | AddCombinationResult<typeof DATATYPE.MATRIX3x2, typeof DATATYPE.MATRIX3x2>
-    | AddCombinationResult<typeof DATATYPE.MATRIX3x4, typeof DATATYPE.MATRIX3x4>
-    | AddCombinationResult<typeof DATATYPE.MATRIX4x2, typeof DATATYPE.MATRIX4x2>
-    | AddCombinationResult<
-        typeof DATATYPE.MATRIX4x3,
-        typeof DATATYPE.MATRIX4x3
-      >;
+    | CommonScalarAddCombinationResult;
 
   [DATATYPE.UINT]:
     | AddCombinationResult<typeof DATATYPE.FLOAT, typeof DATATYPE.FLOAT>
@@ -134,18 +124,7 @@ export type AddCombination<T extends Datatype> = {
     | AddCombinationResult<typeof DATATYPE.UINT_VEC2, typeof DATATYPE.UINT_VEC2>
     | AddCombinationResult<typeof DATATYPE.UINT_VEC3, typeof DATATYPE.UINT_VEC3>
     | AddCombinationResult<typeof DATATYPE.UINT_VEC4, typeof DATATYPE.UINT_VEC4>
-    | AddCombinationResult<typeof DATATYPE.MATRIX2, typeof DATATYPE.MATRIX2>
-    | AddCombinationResult<typeof DATATYPE.MATRIX3, typeof DATATYPE.MATRIX3>
-    | AddCombinationResult<typeof DATATYPE.MATRIX4, typeof DATATYPE.MATRIX4>
-    | AddCombinationResult<typeof DATATYPE.MATRIX2x3, typeof DATATYPE.MATRIX2x3>
-    | AddCombinationResult<typeof DATATYPE.MATRIX2x4, typeof DATATYPE.MATRIX2x4>
-    | AddCombinationResult<typeof DATATYPE.MATRIX3x2, typeof DATATYPE.MATRIX3x2>
-    | AddCombinationResult<typeof DATATYPE.MATRIX3x4, typeof DATATYPE.MATRIX3x4>
-    | AddCombinationResult<typeof DATATYPE.MATRIX4x2, typeof DATATYPE.MATRIX4x2>
-    | AddCombinationResult<
-        typeof DATATYPE.MATRIX4x3,
-        typeof DATATYPE.MATRIX4x3
-      >;
+    | CommonScalarAddCombinationResult;
 
   // Float vectors
   [DATATYPE.VEC2]: VecAddCombinationResult<typeof DATATYPE.VEC2>;
