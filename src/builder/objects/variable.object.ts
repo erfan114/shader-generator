@@ -1,6 +1,8 @@
 import type {
+  BoolVecDatatype,
   DATATYPE,
-  DataType,
+  FloatVecDatatype,
+  IntVecDatatype,
   Matrix2,
   Matrix2x3,
   Matrix2x4,
@@ -10,12 +12,23 @@ import type {
   Matrix4,
   Matrix4x2,
   Matrix4x3,
+  MatrixDatatype,
+  ScalarDataType,
+  UintVecDatatype,
   Vec2,
   Vec3,
   Vec4,
 } from "../../types.js";
 
-type VariableValueType<T extends DataType> = {
+export type VariableDataType =
+  | ScalarDataType
+  | FloatVecDatatype
+  | IntVecDatatype
+  | UintVecDatatype
+  | BoolVecDatatype
+  | MatrixDatatype;
+
+type VariableValueType<T extends VariableDataType> = {
   [DATATYPE.FLOAT]: number;
   [DATATYPE.INT]: number;
   [DATATYPE.UINT]: number;
@@ -51,12 +64,14 @@ type VariableValueType<T extends DataType> = {
   [DATATYPE.MATRIX4x3]: Matrix4x3<number>;
 }[T];
 
-export type VariableObjectProps<T extends DataType> = {
+export type VariableObjectProps<T extends VariableDataType> = {
   name: string;
   type: T;
   value: VariableValueType<T> | null;
 };
 
-export class VariableObject<T extends DataType = DataType> {
+export class VariableObject<T extends VariableDataType = VariableDataType> {
   public constructor(public readonly options: VariableObjectProps<T>) {}
+
+  add<T>() {}
 }
