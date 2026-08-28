@@ -100,7 +100,7 @@ export const SAMPLER_DATATYPE = {
 
 export type SamplerDatatype = ObjectValues<typeof SAMPLER_DATATYPE>;
 
-// * DATA TYPES
+// * ALL TYPES
 export const DATATYPE = {
   ...SCALAR_DATATYPE,
   ...FLOAT_VEC_DATATYPE,

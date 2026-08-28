@@ -1,10 +1,11 @@
 import type {
   DATATYPE,
-  Datatype,
   FloatVecDatatype,
   INT_VEC_DATATYPE,
   IntVecDatatype,
   MatrixDatatype,
+  SCALAR_DATATYPE,
+  ScalarDataType,
   UINT_VEC_DATATYPE,
   UintVecDatatype,
 } from "../../types.js";
@@ -79,7 +80,14 @@ type MatrixAddCombinationResult<O extends MatrixDatatype> =
   | AddCombinationResult<typeof DATATYPE.UINT, O>
   | AddCombinationResult<O, O>;
 
-export type AddCombination<T extends Datatype> = {
+export type AddableDatatype =
+  | Exclude<ScalarDataType, typeof SCALAR_DATATYPE.BOOL>
+  | FloatVecDatatype
+  | IntVecDatatype
+  | UintVecDatatype
+  | MatrixDatatype;
+
+export type AddCombination<T extends AddableDatatype> = {
   // Scalar
   [DATATYPE.FLOAT]:
     | AddCombinationResult<typeof DATATYPE.FLOAT, typeof DATATYPE.FLOAT>
@@ -152,4 +160,4 @@ export type AddCombination<T extends Datatype> = {
   [DATATYPE.MATRIX3x4]: MatrixAddCombinationResult<typeof DATATYPE.MATRIX3x4>;
   [DATATYPE.MATRIX4x2]: MatrixAddCombinationResult<typeof DATATYPE.MATRIX4x2>;
   [DATATYPE.MATRIX4x3]: MatrixAddCombinationResult<typeof DATATYPE.MATRIX4x3>;
-};
+}[T];
