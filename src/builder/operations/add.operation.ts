@@ -1,6 +1,6 @@
 import type {
   DATATYPE,
-  DataType,
+  Datatype,
   FloatVecDatatype,
   INT_VEC_DATATYPE,
   IntVecDatatype,
@@ -67,7 +67,7 @@ type MatrixAddCombinationResult<O extends MatrixDatatype> =
   | AddCombinationResult<typeof DATATYPE.UINT, O>
   | AddCombinationResult<O, O>;
 
-export type AddCombination<T extends DataType> = {
+export type AddCombination<T extends Datatype> = {
   // Scalar
   [DATATYPE.FLOAT]:
     | AddCombinationResult<typeof DATATYPE.FLOAT, typeof DATATYPE.FLOAT>

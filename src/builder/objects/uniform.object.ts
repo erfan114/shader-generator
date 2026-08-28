@@ -1,8 +1,8 @@
-import type { DataType } from "../../types.js";
+import type { Datatype } from "../../types.js";
 
 export type UniformObjectOptions = {
   name: string;
-  type: DataType;
+  type: Datatype;
 };
 
 export class UniformObject {

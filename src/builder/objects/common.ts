@@ -1,7 +1,7 @@
-import type { DataType } from "../../types.js";
+import type { Datatype } from "../../types.js";
 
 export type IOObjectOptions = {
   name: string;
-  type: DataType;
+  type: Datatype;
   flatten?: boolean;
 };

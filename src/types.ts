@@ -98,7 +98,7 @@ export const SAMPLER_DATATYPE = {
   UINT_SAMPLER_CUBE: 0x24,
 } as const;
 
-export type SamplerDataType = ObjectValues<typeof SAMPLER_DATATYPE>;
+export type SamplerDatatype = ObjectValues<typeof SAMPLER_DATATYPE>;
 
 // * DATA TYPES
 export const DATATYPE = {
@@ -111,4 +111,4 @@ export const DATATYPE = {
   ...SAMPLER_DATATYPE,
 } as const;
 
-export type DataType = ObjectValues<typeof DATATYPE>;
+export type Datatype = ObjectValues<typeof DATATYPE>;
