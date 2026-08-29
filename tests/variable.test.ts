@@ -82,14 +82,19 @@ const TEST_DATA: { [key in VariableDataType]: VariableValueType<key> } = {
 
 describe("Variable", () => {
   it("creates without error", () => {
+    const test_name = "myVar";
+
     for (const [type, value] of entries(TEST_DATA)) {
       const myVar = variable({
-        name: "myVar",
+        name: test_name,
         type,
         value,
       });
 
       expect(myVar).toBeTruthy();
+      expect(myVar.name).toBe(test_name);
+      expect(myVar.value).toBe(value);
+      expect(myVar.type).toBe(type);
     }
   });
 });
