@@ -1,4 +1,8 @@
-import { type ObjectValues, omit } from "../../../helpers/object.helper.js";
+import {
+  type ObjectValues,
+  omit,
+  valuesInclude,
+} from "../../../helpers/object.helper.js";
 import {
   type DATATYPE,
   FLOAT_VEC_DATATYPE,
@@ -118,6 +122,12 @@ export const ADDITIVE_DATATYPE = {
 } as const;
 
 export type AdditiveDatatype = ObjectValues<typeof ADDITIVE_DATATYPE>;
+
+export function isAdditiveDatatype(
+  datatype: unknown,
+): datatype is AdditiveDatatype {
+  return valuesInclude(ADDITIVE_DATATYPE, datatype);
+}
 
 type AdditiveCombinationMap = {
   // Scalar

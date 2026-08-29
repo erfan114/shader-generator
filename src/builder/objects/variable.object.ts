@@ -1,24 +1,29 @@
-import type {
-  BoolVecDatatype,
+import {
+  type BoolVecDatatype,
   DATATYPE,
-  FloatVecDatatype,
-  IntVecDatatype,
-  Matrix2,
-  Matrix2x3,
-  Matrix2x4,
-  Matrix3,
-  Matrix3x2,
-  Matrix3x4,
-  Matrix4,
-  Matrix4x2,
-  Matrix4x3,
-  MatrixDatatype,
-  ScalarDataType,
-  UintVecDatatype,
-  Vec2,
-  Vec3,
-  Vec4,
+  type FloatVecDatatype,
+  type IntVecDatatype,
+  type Matrix2,
+  type Matrix2x3,
+  type Matrix2x4,
+  type Matrix3,
+  type Matrix3x2,
+  type Matrix3x4,
+  type Matrix4,
+  type Matrix4x2,
+  type Matrix4x3,
+  type MatrixDatatype,
+  type ScalarDataType,
+  type UintVecDatatype,
+  type Vec2,
+  type Vec3,
+  type Vec4,
 } from "../../types.js";
+import {
+  type AdditiveCombination,
+  type AdditiveDatatype,
+  isAdditiveDatatype,
+} from "../operations/types/additive.type.js";
 
 export type VariableDataType =
   | ScalarDataType
@@ -70,8 +75,33 @@ export type VariableObjectProps<T extends VariableDataType> = {
   value: VariableValueType<T> | null;
 };
 
-export class VariableObject<T extends VariableDataType = VariableDataType> {
-  public constructor(public readonly options: VariableObjectProps<T>) {}
+type VariableAddProperties<T extends VariableDataType> =
+  T extends AdditiveDatatype
+    ? {
+        add: <R extends AdditiveDatatype>(
+          rhs: Variable<R>,
+        ) => AdditiveCombination<T, R> extends VariableDataType
+          ? Variable<AdditiveCombination<T, R>>
+          : never;
+      }
+    : {};
 
-  add<T>() {}
+export type Variable<T extends VariableDataType> = VariableObjectProps<T> &
+  VariableAddProperties<T>;
+
+export function variable<T extends VariableDataType>(
+  options: VariableObjectProps<T>,
+): Variable<T> {
+  const result = { ...options } as Variable<T>;
+
+  if (isAdditiveDatatype(options.type)) {
+    Object.assign(result, {
+      add: <R extends AdditiveDatatype>(rhs: Variable<R>) => {
+        // implementation
+        throw new Error("Not implemented");
+      },
+    });
+  }
+
+  return result;
 }
