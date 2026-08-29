@@ -75,19 +75,21 @@ export type VariableObjectProps<T extends VariableDataType> = {
   value: VariableValueType<T> | null;
 };
 
-type VariableAddProperties<T extends VariableDataType> =
-  T extends AdditiveDatatype
-    ? {
-        add: <R extends AdditiveDatatype>(
-          rhs: Variable<R>,
-        ) => AdditiveCombination<T, R> extends VariableDataType
-          ? Variable<AdditiveCombination<T, R>>
-          : never;
-      }
-    : {};
+type VariableAdditiveHandler<T extends AdditiveDatatype> = <
+  R extends AdditiveDatatype,
+>(
+  rhs: Variable<R>,
+) => AdditiveCombination<T, R> extends VariableDataType
+  ? Variable<AdditiveCombination<T, R>>
+  : never;
+
+type VariableAdditiveProperties<T extends AdditiveDatatype> = {
+  add: VariableAdditiveHandler<T>;
+  subtract: VariableAdditiveHandler<T>;
+};
 
 export type Variable<T extends VariableDataType> = VariableObjectProps<T> &
-  VariableAddProperties<T>;
+  (T extends AdditiveDatatype ? VariableAdditiveProperties<T> : {});
 
 export function variable<T extends VariableDataType>(
   options: VariableObjectProps<T>,
@@ -100,7 +102,11 @@ export function variable<T extends VariableDataType>(
         // implementation
         throw new Error("Not implemented");
       },
-    });
+      subtract: <R extends AdditiveDatatype>(rhs: Variable<R>) => {
+        // implementation
+        throw new Error("Not implemented");
+      },
+    } satisfies VariableAdditiveProperties<typeof options.type>);
   }
 
   return result;
