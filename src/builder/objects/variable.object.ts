@@ -88,7 +88,8 @@ type VariableAdditiveProperties<T extends AdditiveDatatype> = {
   subtract: VariableAdditiveHandler<T>;
 };
 
-export type Variable<T extends VariableDataType> = VariableObjectProps<T> &
+export type Variable<T extends VariableDataType = VariableDataType> =
+  VariableObjectProps<T> &
   (T extends AdditiveDatatype ? VariableAdditiveProperties<T> : {});
 
 export function variable<T extends VariableDataType>(

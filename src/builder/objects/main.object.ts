@@ -1,14 +1,15 @@
 import { addToSet } from "../../helpers/set.helper.js";
 import {
+  type Variable,
   type VariableDataType,
-  VariableObject,
   type VariableObjectProps,
+  variable,
 } from "./variable.object.js";
 
 export class MainObject {
-  private readonly variables = new Set<VariableObject>();
+  private readonly variables = new Set<Variable>();
 
   public variable<T extends VariableDataType>(options: VariableObjectProps<T>) {
-    return addToSet(this.variables, new VariableObject(options));
+    return addToSet(this.variables, variable(options));
   }
 }
