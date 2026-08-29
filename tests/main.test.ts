@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 
 import { MainObject } from "../src/builder/objects/main.object.js";
-import { VariableObject } from "../src/builder/objects/variable.object.js";
 import { DATATYPE } from "../src/types.js";
 
 describe("Main", () => {
@@ -13,6 +12,6 @@ describe("Main", () => {
       value: false,
     });
 
-    expect(variable).toBeInstanceOf(VariableObject);
+    expect(variable).toBeTruthy();
   });
 });

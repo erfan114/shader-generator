@@ -33,7 +33,7 @@ export type VariableDataType =
   | BoolVecDatatype
   | MatrixDatatype;
 
-type VariableValueType<T extends VariableDataType> = {
+export type VariableValueType<T extends VariableDataType> = {
   [DATATYPE.FLOAT]: number;
   [DATATYPE.INT]: number;
   [DATATYPE.UINT]: number;
@@ -90,7 +90,7 @@ type VariableAdditiveProperties<T extends AdditiveDatatype> = {
 
 export type Variable<T extends VariableDataType = VariableDataType> =
   VariableObjectProps<T> &
-  (T extends AdditiveDatatype ? VariableAdditiveProperties<T> : {});
+    (T extends AdditiveDatatype ? VariableAdditiveProperties<T> : {});
 
 export function variable<T extends VariableDataType>(
   options: VariableObjectProps<T>,

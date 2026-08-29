@@ -17,6 +17,12 @@ export function omit<T extends object, K extends keyof T>(
   return result;
 }
 
+export function entries<T extends object>(obj: T) {
+  return Object.entries(obj) as {
+    [K in keyof T]: [K, T[K]];
+  }[keyof T][];
+}
+
 export function valuesInclude<T extends object>(
   target: T,
   key: unknown,
