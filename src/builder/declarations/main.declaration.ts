@@ -4,7 +4,7 @@ import {
   type VariableDataType,
   type VariableObjectProps,
   variable,
-} from "./variable.object.js";
+} from "./variable.declaration.js";
 
 export class MainObject {
   private readonly variables = new Set<Variable>();

@@ -4,7 +4,7 @@ import {
   type VariableDataType,
   type VariableValueType,
   variable,
-} from "../src/builder/objects/variable.object.js";
+} from "../src/builder/declarations/variable.declaration.js";
 import { entries } from "../src/helpers/object.helper.js";
 import { DATATYPE } from "../src/types.js";
 

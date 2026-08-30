@@ -1,13 +1,13 @@
 import type { BuildTarget } from "../compiler/index.js";
 import { addToSet } from "../helpers/set.helper.js";
-import type { IOObjectOptions } from "./objects/common.js";
-import { InputObject } from "./objects/input.object.js";
-import { MainObject } from "./objects/main.object.js";
-import { OutputObject } from "./objects/output.object.js";
+import type { IOObjectOptions } from "./declarations/common.js";
+import { InputObject } from "./declarations/input.declaration.js";
+import { MainObject } from "./declarations/main.declaration.js";
+import { OutputObject } from "./declarations/output.declaration.js";
 import {
   UniformObject,
   type UniformObjectOptions,
-} from "./objects/uniform.object.js";
+} from "./declarations/uniform.declaration.js";
 
 export class Builder {
   private readonly uniforms = new Set<UniformObject>();

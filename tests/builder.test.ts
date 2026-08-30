@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
 
-import { InputObject } from "../src/builder/objects/input.object.js";
-import { MainObject } from "../src/builder/objects/main.object.js";
-import { OutputObject } from "../src/builder/objects/output.object.js";
-import { UniformObject } from "../src/builder/objects/uniform.object.js";
+import { InputObject } from "../src/builder/declarations/input.declaration.js";
+import { MainObject } from "../src/builder/declarations/main.declaration.js";
+import { OutputObject } from "../src/builder/declarations/output.declaration.js";
+import { UniformObject } from "../src/builder/declarations/uniform.declaration.js";
 import {
   AVAILABLE_COMPILERS,
   type BuildTarget,
