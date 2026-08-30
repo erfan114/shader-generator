@@ -1,3 +1,3 @@
-import type { BuilderNode } from "../../node.js";
+import type { OperationNode } from "./common.js";
 
-export type ModulusNode = BuilderNode<"modulus">;
+export type ModulusNode<L, R> = OperationNode<"modulus", L, R>;
