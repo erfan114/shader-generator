@@ -1,5 +1,5 @@
-import type { IOObjectOptions } from "./common.js";
+import type { IODeclarationOptions } from "./common.js";
 
-export class InputObject {
-  public constructor(public readonly options: IOObjectOptions) {}
+export class InputDeclaration {
+  public constructor(public readonly options: IODeclarationOptions) {}
 }

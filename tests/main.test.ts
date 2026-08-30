@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import { MainObject } from "../src/builder/declarations/main.declaration.js";
+import { MainDeclaration } from "../src/builder/declarations/main.declaration.js";
 import { DATATYPE } from "../src/types.js";
 
 describe("Main", () => {
   it("creates a variable", () => {
-    const main = new MainObject();
+    const main = new MainDeclaration();
     const variable = main.variable({
       name: "myVar",
       type: DATATYPE.BOOL,

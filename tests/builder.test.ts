@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
 
-import { InputObject } from "../src/builder/declarations/input.declaration.js";
-import { MainObject } from "../src/builder/declarations/main.declaration.js";
-import { OutputObject } from "../src/builder/declarations/output.declaration.js";
-import { UniformObject } from "../src/builder/declarations/uniform.declaration.js";
+import { InputDeclaration } from "../src/builder/declarations/input.declaration.js";
+import { MainDeclaration } from "../src/builder/declarations/main.declaration.js";
+import { OutputDeclaration } from "../src/builder/declarations/output.declaration.js";
+import { UniformDeclaration } from "../src/builder/declarations/uniform.declaration.js";
 import {
   AVAILABLE_COMPILERS,
   type BuildTarget,
@@ -22,7 +22,7 @@ describe("Builder", () => {
       type: DATATYPE.FLOAT,
     });
 
-    expect(uniform).toBeInstanceOf(UniformObject);
+    expect(uniform).toBeInstanceOf(UniformDeclaration);
   });
 
   it("creates an input", () => {
@@ -33,7 +33,7 @@ describe("Builder", () => {
       type: DATATYPE.FLOAT,
     });
 
-    expect(input).toBeInstanceOf(InputObject);
+    expect(input).toBeInstanceOf(InputDeclaration);
   });
 
   it("creates an output", () => {
@@ -44,7 +44,7 @@ describe("Builder", () => {
       type: DATATYPE.FLOAT,
     });
 
-    expect(output).toBeInstanceOf(OutputObject);
+    expect(output).toBeInstanceOf(OutputDeclaration);
   });
 
   it("creates main", () => {
@@ -52,7 +52,7 @@ describe("Builder", () => {
 
     const main = builder.main();
 
-    expect(main).toBeInstanceOf(MainObject);
+    expect(main).toBeInstanceOf(MainDeclaration);
   });
 
   it("main is singleton", () => {

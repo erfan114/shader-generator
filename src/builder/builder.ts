@@ -1,28 +1,28 @@
 import type { BuildTarget } from "../compiler/index.js";
 import { addToSet } from "../helpers/set.helper.js";
-import type { IOObjectOptions } from "./declarations/common.js";
-import { InputObject } from "./declarations/input.declaration.js";
-import { MainObject } from "./declarations/main.declaration.js";
-import { OutputObject } from "./declarations/output.declaration.js";
+import type { IODeclarationOptions } from "./declarations/common.js";
+import { InputDeclaration } from "./declarations/input.declaration.js";
+import { MainDeclaration } from "./declarations/main.declaration.js";
+import { OutputDeclaration } from "./declarations/output.declaration.js";
 import {
-  UniformObject,
-  type UniformObjectOptions,
+  UniformDeclaration,
+  type UniformDeclarationOptions,
 } from "./declarations/uniform.declaration.js";
 
 export class Builder {
-  private readonly uniforms = new Set<UniformObject>();
-  private readonly inputs = new Set<InputObject>();
-  private readonly outputs = new Set<OutputObject>();
+  private readonly uniforms = new Set<UniformDeclaration>();
+  private readonly inputs = new Set<InputDeclaration>();
+  private readonly outputs = new Set<OutputDeclaration>();
 
-  private mainObject?: MainObject;
+  private mainObject?: MainDeclaration;
 
   /**
    * Creates a uniform object and adds it to the builder's uniforms set.
    * @param options - The options for creating the uniform object.
    * @returns The created uniform object.
    */
-  public uniform(options: UniformObjectOptions) {
-    return addToSet(this.uniforms, new UniformObject(options));
+  public uniform(options: UniformDeclarationOptions) {
+    return addToSet(this.uniforms, new UniformDeclaration(options));
   }
 
   /**
@@ -30,8 +30,8 @@ export class Builder {
    * @param options - The options for creating the input object.
    * @returns The created input object.
    */
-  public input(options: IOObjectOptions) {
-    return addToSet(this.inputs, new InputObject(options));
+  public input(options: IODeclarationOptions) {
+    return addToSet(this.inputs, new InputDeclaration(options));
   }
 
   /**
@@ -39,12 +39,12 @@ export class Builder {
    * @param options - The options for creating the output object.
    * @returns The created output object.
    */
-  public output(options: IOObjectOptions) {
-    return addToSet(this.outputs, new OutputObject(options));
+  public output(options: IODeclarationOptions) {
+    return addToSet(this.outputs, new OutputDeclaration(options));
   }
 
-  public main(): MainObject {
-    this.mainObject ??= new MainObject();
+  public main(): MainDeclaration {
+    this.mainObject ??= new MainDeclaration();
 
     return this.mainObject;
   }

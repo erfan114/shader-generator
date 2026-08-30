@@ -6,7 +6,7 @@ import {
   variable,
 } from "./variable.declaration.js";
 
-export class MainObject {
+export class MainDeclaration {
   private readonly variables = new Set<Variable>();
 
   public variable<T extends VariableDataType>(options: VariableObjectProps<T>) {

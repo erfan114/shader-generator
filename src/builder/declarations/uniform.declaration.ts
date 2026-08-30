@@ -1,10 +1,10 @@
 import type { Datatype } from "../../types.js";
 
-export type UniformObjectOptions = {
+export type UniformDeclarationOptions = {
   name: string;
   type: Datatype;
 };
 
-export class UniformObject {
-  public constructor(public readonly options: UniformObjectOptions) {}
+export class UniformDeclaration {
+  public constructor(public readonly options: UniformDeclarationOptions) {}
 }
