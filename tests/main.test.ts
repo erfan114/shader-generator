@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { MainDeclaration } from "../src/builder/declarations/main.declaration.js";
+import { MainDeclaration } from "../src/builder/nodes/main.node.js";
 import { DATATYPE } from "../src/types.js";
 
 describe("Main", () => {

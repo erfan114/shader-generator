@@ -1,13 +1,13 @@
 import type { BuildTarget } from "../compiler/index.js";
 import { addToSet } from "../helpers/set.helper.js";
-import type { IODeclarationOptions } from "./declarations/common.js";
-import { InputDeclaration } from "./declarations/input.declaration.js";
-import { MainDeclaration } from "./declarations/main.declaration.js";
-import { OutputDeclaration } from "./declarations/output.declaration.js";
+import type { IODeclarationOptions } from "./nodes/common.js";
+import { InputDeclaration } from "./nodes/input.node.js";
+import { MainDeclaration } from "./nodes/main.node.js";
+import { OutputDeclaration } from "./nodes/output.node.js";
 import {
   UniformDeclaration,
   type UniformDeclarationOptions,
-} from "./declarations/uniform.declaration.js";
+} from "./nodes/uniform.node.js";
 
 export class Builder {
   private readonly uniforms = new Set<UniformDeclaration>();
