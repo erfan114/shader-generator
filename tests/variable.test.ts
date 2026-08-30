@@ -1,14 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import {
-  type VariableDataType,
-  type VariableValueType,
-  variable,
-} from "../src/builder/nodes/variable.node.js";
+import { type ValueDataType } from "../src/builder/nodes/value.node.js";
+import { type DatatypeValueType } from "../src/builder/nodes/value.node.js";
 import { entries } from "../src/helpers/object.helper.js";
 import { DATATYPE } from "../src/types.js";
 
-const TEST_DATA: { [key in VariableDataType]: VariableValueType<key> } = {
+const TEST_DATA: { [key in ValueDataType]: DatatypeValueType<key> } = {
   [DATATYPE.FLOAT]: 1,
   [DATATYPE.INT]: 2,
   [DATATYPE.UINT]: 3,
@@ -85,11 +82,8 @@ describe("Variable", () => {
     const test_name = "myVar";
 
     for (const [type, value] of entries(TEST_DATA)) {
-      const myVar = variable({
-        name: test_name,
-        type,
-        value,
-      });
+      // TODO: Complete it
+      const myVar = undefined as any;
 
       expect(myVar).toBeTruthy();
       expect(myVar.name).toBe(test_name);

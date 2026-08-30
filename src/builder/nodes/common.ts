@@ -1,9 +1,13 @@
 import type { Datatype } from "../../types.js";
+import type { GlobalOwnedNode } from "./global.node.js";
 
-export type Node<T extends PropertyKey, D> = { kind: T } & D;
-
-export type IODeclarationOptions = {
+export type IONodeOptions<Type extends Datatype> = {
   name: string;
-  type: Datatype;
+  type: Type;
   flatten?: boolean;
 };
+
+export type IONode<
+  Kind extends PropertyKey,
+  Type extends Datatype,
+> = GlobalOwnedNode<Kind, IONodeOptions<Type>>;

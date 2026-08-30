@@ -2,7 +2,7 @@ import {
   type ObjectValues,
   omit,
   valuesInclude,
-} from "../../../helpers/object.helper.js";
+} from "../../../../helpers/object.helper.js";
 import {
   type DATATYPE,
   FLOAT_VEC_DATATYPE,
@@ -14,7 +14,7 @@ import {
   SCALAR_DATATYPE,
   UINT_VEC_DATATYPE,
   type UintVecDatatype,
-} from "../../../types.js";
+} from "../../../../types.js";
 
 export type AdditiveCombinationResult<R extends PropertyKey, O> = {
   [key in R]: O;

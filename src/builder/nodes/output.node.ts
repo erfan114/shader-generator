@@ -1,5 +1,4 @@
-import type { IODeclarationOptions } from "./common.js";
+import type { Datatype } from "../../types.js";
+import type { IONode } from "./common.js";
 
-export class OutputDeclaration {
-  public constructor(public readonly options: IODeclarationOptions) {}
-}
+export type OutputNode<Type extends Datatype> = IONode<"output", Type>;
