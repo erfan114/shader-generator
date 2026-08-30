@@ -1,3 +1,3 @@
-import type { BuilderNode } from "../../node.js";
+import type { OperationNode } from "./common.js";
 
-export type MultiplicationNode = BuilderNode<"multiplication">;
+export type MultiplicationNode<L, R> = OperationNode<"multiplication", L, R>;
