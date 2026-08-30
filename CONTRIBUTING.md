@@ -4,6 +4,10 @@ Thank you for your interest in contributing to **GLSL Generator**!
 
 GLSL Generator is a TypeScript library for programmatically generating GLSL shader source code for WebGL.
 
+## Architecture
+
+Before making substantial changes to the library, please review the [Architecture](ARCHITECTURE.md) document. It describes the `Builder → Compiler → Runtime/GLSL` architecture and the relationships between the core components.
+
 ## Contribution Workflow
 
 All contributions should be made through a **fork and pull request**.
