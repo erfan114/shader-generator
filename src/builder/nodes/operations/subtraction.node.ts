@@ -5,3 +5,14 @@ export type SubtractionNode<
   L extends AdditiveDatatype,
   R extends AdditiveDatatype,
 > = OperationNode<"subtraction", L, R>;
+
+export function subtract<
+  L extends AdditiveDatatype,
+  R extends AdditiveDatatype,
+>(left: L, right: R): SubtractionNode<L, R> {
+  return {
+    kind: "subtraction",
+    left,
+    right,
+  };
+}
