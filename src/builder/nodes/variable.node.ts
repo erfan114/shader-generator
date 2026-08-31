@@ -24,4 +24,7 @@ export type VariableNode<
   }
 >;
 
-export class VariableNodeModel extends NodeModel<VariableNode> {}
+export class VariableNodeModel<
+  Type extends ValueDataType = ValueDataType,
+  Owner extends ScopeNode = ScopeNode,
+> extends NodeModel<VariableNode<Type, Owner>> {}
