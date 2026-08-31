@@ -33,6 +33,14 @@ export class Builder {
   }
 
   /**
+   * Creates a new function and returns it for later uses
+   * @returns The created function
+   */
+  public createFunction() {
+    throw new NotImplementedError();
+  }
+
+  /**
    * Creates main function and returns it
    * @returns The main function
    */
