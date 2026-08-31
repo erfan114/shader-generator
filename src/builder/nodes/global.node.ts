@@ -76,7 +76,10 @@ export class GlobalNodeModel extends NodeModel<GlobalNode> {
    * Creates a new function and returns it for later uses
    * @returns The created function
    */
-  public createFunction<R extends Datatype | null>(): FunctionNodeModel<R> {
+  public createFunction<R extends Datatype | null>(
+    definition: (fn: unknown) => unknown,
+    body: (...args: unknown[]) => unknown,
+  ): FunctionNodeModel<R> {
     throw new NotImplementedError();
   }
 
