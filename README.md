@@ -154,3 +154,7 @@ The key design principle is:
 The builder should describe **what the shader needs**, while the compiler decides **how that shader is expressed in the target GLSL version**.
 
 This separation makes it possible to support additional GLSL versions or compilation strategies in the future without changing the shader-building API.
+
+## Progress
+
+See [TODO.md](./TODO.md) for the full list of implemented and remaining features.
