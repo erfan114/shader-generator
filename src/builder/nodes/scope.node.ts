@@ -1,4 +1,4 @@
-import type { BuilderNode, OwnableNode } from "../node.js";
+import { type BuilderNode, NodeModel, type OwnableNode } from "../node.js";
 
 export type ScopeNode<Owner = unknown> = OwnableNode<
   "scope",
@@ -7,3 +7,5 @@ export type ScopeNode<Owner = unknown> = OwnableNode<
     nodes: BuilderNode[];
   }
 >;
+
+export class ScopeNodeModel extends NodeModel<ScopeNode> {}

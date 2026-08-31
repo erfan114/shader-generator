@@ -1,4 +1,4 @@
-import type { OwnableNode } from "../node.js";
+import { NodeModel, type OwnableNode } from "../node.js";
 import type { ScopeNode } from "./scope.node.js";
 import type {
   DatatypeValueType,
@@ -23,3 +23,5 @@ export type VariableNode<
     value: ValueNode<Type, VariableNode>;
   }
 >;
+
+export class VariableNodeModel extends NodeModel<VariableNode> {}

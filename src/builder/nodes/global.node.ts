@@ -1,4 +1,4 @@
-import type { BuilderNode, OwnableNode } from "../node.js";
+import { type BuilderNode, NodeModel, type OwnableNode } from "../node.js";
 import type { DefineNode } from "./define.node.js";
 
 export type GlobalNode = BuilderNode<
@@ -12,3 +12,5 @@ export type GlobalOwnedNode<
   Kind extends PropertyKey = PropertyKey,
   Data = unknown,
 > = OwnableNode<Kind, GlobalNode, Data>;
+
+export class GlobalNodeModel extends NodeModel<GlobalNode> {}

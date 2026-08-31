@@ -12,3 +12,7 @@ export type OwnableNode<
 > = BuilderNode<Kind, Data> & {
   owner: Owner;
 };
+
+export class NodeModel<T extends BuilderNode> {
+  public constructor(protected readonly node: T) {}
+}
