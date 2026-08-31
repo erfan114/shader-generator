@@ -2,32 +2,38 @@
 
 ## Core Builder (`src/builder/builder.ts`)
 
+- [x] `Builder` class with `global` property and `build()` method
+- [x] `public readonly global = new GlobalNodeModel(createGlobalNode())`
+- [ ] `build()` — body: look up compiler by target, call `compiler.compile(this)`, return source string
+
+## Global Node (`src/builder/nodes/global.node.ts`)
+
+- [x] `GlobalNode` type with `defines[]` and `main?` fields
+- [x] `createGlobalNode()` factory function
+- [x] `GlobalNodeModel` class
 - [x] Method signatures with proper return types
   - [x] `createDefine(options)` → `DefineNodeModel`
   - [x] `createUniform(options)` → `UniformNodeModel<Type>`
   - [x] `createInput(options)` → `InputNodeModel<Type>`
   - [x] `createOutput(options)` → `OutputNodeModel<Type>`
   - [x] `createFunction()` → `FunctionNodeModel`
-  - [x] `getMain()` → `FunctionNodeModel`
-  - [x] `build(target)` → `string`
+  - [x] `provideMain()` → `FunctionNodeModel`
 - [ ] Internal state storage
   - [ ] `uniforms: Set<UniformNode>`
   - [ ] `inputs: Set<InputNode>`
   - [ ] `outputs: Set<OutputNode>`
-  - [ ] `defines: Set<DefineNode>`
   - [ ] `functions: Set<FunctionNode>`
-  - [ ] `global: GlobalNode` instance
 - [ ] `createDefine()` — body: create node, store it, return it
 - [ ] `createUniform()` — body: create node, store it, return it
 - [ ] `createInput()` — body: create node, store it, return it
 - [ ] `createOutput()` — body: create node, store it, return it
 - [ ] `createFunction()` — body: create `FunctionNode` with return type, params, body scope
-- [ ] `getMain()` — body: create/return singleton `MainNode` with `ScopeNode`
-- [ ] `build()` — body: look up compiler by target, call `compiler.compile(this)`, return source string
+- [ ] `provideMain()` — body: create/return singleton `MainNode` with `ScopeNode`
 
 ## Node Model Layer (`src/builder/node.ts`)
 
 - [x] `NodeModel<T>` base class
+- [x] `Ownable<T>` type in `types.ts`
 - [x] `UniformNodeModel` — extends `NodeModel<UniformNode<Type>>`
 - [x] `InputNodeModel` — extends `NodeModel<InputNode<Type>>`
 - [x] `OutputNodeModel` — extends `NodeModel<OutputNode<Type>>`
@@ -35,24 +41,29 @@
 - [x] `FunctionNodeModel` — extends `NodeModel<FunctionNode>`
 - [x] `ScopeNodeModel<Owner>` — extends `NodeModel<ScopeNode<Owner>>`
 - [x] `ValueNodeModel` — extends `NodeModel<ValueNode>`
-- [x] `VariableNodeModel` — extends `NodeModel<VariableNode>`
+- [x] `VariableNodeModel<Type, Owner>` — extends `NodeModel<VariableNode<Type, Owner>>`
 - [x] `GlobalNodeModel` — extends `NodeModel<GlobalNode>`
+
+## Function Node (`src/builder/nodes/function.node.ts`)
+
+- [x] `FunctionNodeOptions` type
+- [x] `createFunctionNode()` factory function
+- [x] `FunctionNodeModel.createScope()` — method signature
+- [ ] `FunctionNodeModel.createScope()` — implementation
 
 ## Scope API (`src/builder/nodes/scope.node.ts`)
 
 - [x] `ScopeNodeModel<Owner>` generic class definition
-- [x] `FunctionNodeModel.createScope()` — method signature
 - [x] `ScopeNodeModel.createScope()` — method signature
-- [ ] `FunctionNodeModel.createScope()` — implementation
+- [x] `ScopeNodeModel.createVariable<Type, Owner>()` — method signature
 - [ ] `ScopeNodeModel.createScope()` — implementation
+- [ ] `ScopeNodeModel.createVariable()` — implementation
 - [ ] Add nodes to scope (`scope.nodes[]`)
-- [ ] Get current active scope from builder
 - [ ] Enter/exit scope context
 
 ## Variable API (`src/builder/nodes/variable.node.ts`)
 
-- [x] `VariableNodeModel` class definition
-- [ ] `scope.variable({ name, type, value })` — create `VariableNode`
+- [x] `VariableNodeModel<Type, Owner>` generic class definition
 - [ ] Create associated `ValueNode` from value data
 - [ ] Wire ownership: `ValueNode.owner = VariableNode`, `VariableNode.owner = ScopeNode`
 - [ ] Retrieve variable by name from scope
