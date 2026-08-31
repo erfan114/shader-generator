@@ -8,4 +8,4 @@ export type ScopeNode<Owner = unknown> = OwnableNode<
   }
 >;
 
-export class ScopeNodeModel extends NodeModel<ScopeNode> {}
+export class ScopeNodeModel<Owner> extends NodeModel<ScopeNode<Owner>> {}
