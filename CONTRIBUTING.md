@@ -8,6 +8,10 @@ GLSL Generator is a TypeScript library for programmatically generating GLSL shad
 
 Before making substantial changes to the library, please review the [Architecture](ARCHITECTURE.md) document. It describes the `Builder → Compiler → Runtime/GLSL` architecture and the relationships between the core components.
 
+## Progress
+
+Not all features are implemented yet. See [TODO.md](./TODO.md) for the full checklist of what's done and what's remaining.
+
 ## Contribution Workflow
 
 All contributions should be made through a **fork and pull request**.
