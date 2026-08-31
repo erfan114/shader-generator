@@ -13,7 +13,7 @@ describe("Builder", () => {
   it("creates a uniform", () => {
     const builder = new Builder();
 
-    const uniform = builder.createUniform({
+    const uniform = builder.global.createUniform({
       name: "myUniform",
       type: DATATYPE.FLOAT,
     });
@@ -25,7 +25,7 @@ describe("Builder", () => {
   it("creates an input", () => {
     const builder = new Builder();
 
-    const input = builder.createInput({
+    const input = builder.global.createInput({
       name: "myInput",
       type: DATATYPE.FLOAT,
     });
@@ -37,7 +37,7 @@ describe("Builder", () => {
   it("creates an output", () => {
     const builder = new Builder();
 
-    const output = builder.createOutput({
+    const output = builder.global.createOutput({
       name: "myOutput",
       type: DATATYPE.FLOAT,
     });
@@ -49,7 +49,7 @@ describe("Builder", () => {
   it("creates main", () => {
     const builder = new Builder();
 
-    const main = builder.getMain();
+    const main = builder.global.provideMain();
 
     // TODO: Improve the tests to its instance
     expect(main).toBeInstanceOf(Object);
@@ -58,8 +58,8 @@ describe("Builder", () => {
   it("main is singleton", () => {
     const builder = new Builder();
 
-    const main1 = builder.getMain();
-    const main2 = builder.getMain();
+    const main1 = builder.global.provideMain();
+    const main2 = builder.global.provideMain();
 
     expect(main1).toStrictEqual(main2);
   });

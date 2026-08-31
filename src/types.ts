@@ -112,3 +112,8 @@ export const DATATYPE = {
 } as const;
 
 export type Datatype = ObjectValues<typeof DATATYPE>;
+
+// * OWNABLE
+export type Ownable<T> = {
+  owner: T;
+};
