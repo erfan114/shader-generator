@@ -9,7 +9,7 @@ import type {
 } from "./define.node.js";
 import {
   type FunctionNode,
-  type FunctionNodeModel,
+  FunctionNodeModel,
   createFunctionNode,
 } from "./function.node.js";
 import type { InputNodeModel } from "./input.node.js";
@@ -76,14 +76,21 @@ export class GlobalNodeModel extends NodeModel<GlobalNode> {
    * Creates a new function and returns it for later uses
    * @returns The created function
    */
-  public createFunction(): FunctionNodeModel {
+  public createFunction<R extends Datatype | null>(): FunctionNodeModel<R> {
     throw new NotImplementedError();
   }
 
-  public provideMain(): FunctionNodeModel {
-    this.node.main ??= createFunctionNode({ owner: this.node });
+  public provideMain(): FunctionNodeModel<null> {
+    if (!this.node.main) {
+      const mainNode = createFunctionNode({
+        owner: this.node,
+        name: "main",
+        returnType: null,
+      });
+      this.node.main = mainNode;
+    }
 
-    throw new NotImplementedError();
+    return new FunctionNodeModel(this.node.main);
   }
 }
 

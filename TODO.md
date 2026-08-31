@@ -16,62 +16,62 @@ Legend:
 
 ## Global Node (`src/builder/nodes/global.node.ts`)
 
-- ✅ `GlobalNode` type with `defines[]` and `main?` fields
+- ✅ `GlobalNode` type with `defines[]`, `main?` fields
 - ✅ `createGlobalNode()` factory function
 - ✅ `GlobalNodeModel` class
+- ✅ `provideMain()` — creates/returns singleton `MainNode` with scope
 - 🚧 `createDefine()` — throws `NotImplementedError`
 - 🚧 `createUniform()` — throws `NotImplementedError`
 - 🚧 `createInput()` — throws `NotImplementedError`
 - 🚧 `createOutput()` — throws `NotImplementedError`
 - 🚧 `createFunction()` — throws `NotImplementedError`
-- 🚧 `provideMain()` — throws `NotImplementedError` (has partial logic: assigns `this.node.main`)
-- ❌ Internal state storage
-  - ❌ `uniforms: Set<UniformNode>`
-  - ❌ `inputs: Set<InputNode>`
-  - ❌ `outputs: Set<OutputNode>`
-  - ❌ `functions: Set<FunctionNode>`
+- ❌ Internal state storage for uniforms/inputs/outputs/defines/functions
+
+## Function Node (`src/builder/nodes/function.node.ts`)
+
+- ✅ `FunctionNodeOptions` type (name, returnType)
+- ✅ `createFunctionNode()` factory function
+- ✅ `FunctionNodeModel` class
+- ✅ `createScope()` — creates/retrieves lazy `ScopeNodeModel` for the function
+- ✅ `addArgument(options)` — adds arg to scope, returns scope
+- ✅ `name` getter/setter — get/set function name
+- ✅ `returnType` getter/setter — get/set return type (`Datatype | null`)
+- ✅ `scope` getter — access the function's local scope
+
+## Scope API (`src/builder/nodes/scope.node.ts`)
+
+- ✅ `ScopeNode<Owner>` type with `nodes[]`, `args: Set`, `variables: Set`
+- ✅ `createScopeNode()` factory function
+- ✅ `ScopeNodeModel<Owner>` class
+- ✅ `createScope()` — creates child scope
+- ✅ `createArgument(options)` — creates `ArgumentNode`, adds to `args` set
+- ✅ `createVariable(options)` — creates `VariableNodeModel`, adds to `variables` set
+- ❌ Add arbitrary nodes to scope (`scope.nodes[]`)
+- ❌ Enter/exit scope context in builder
+
+## Argument API (`src/builder/nodes/argument.node.ts`)
+
+- ✅ `ArgumentNodeOptions` type (name, type)
+- ✅ `ArgumentNode` type (kind, name, type, owner)
+
+## Variable API (`src/builder/nodes/variable.node.ts`)
+
+- ✅ `VariableNodeModel<Type, Owner>` generic class definition
+- ✅ `VariableNode` type with name + value (ValueNode)
+- ✅ `VariableObjectProps` type
+
+## Value API (`src/builder/nodes/value.node.ts`)
+
+- ✅ `ValueNodeModel` class definition
+- ✅ `ValueNode` type with type + data
+- ✅ `ValueDataType` type
+- ✅ `DatatypeValueType<T>` mapping
 
 ## Node Model Layer (`src/builder/node.ts`)
 
 - ✅ `NodeModel<T>` base class
 - ✅ `Ownable<T>` type in `types.ts`
-- ✅ `UniformNodeModel` — extends `NodeModel<UniformNode<Type>>`
-- ✅ `InputNodeModel` — extends `NodeModel<InputNode<Type>>`
-- ✅ `OutputNodeModel` — extends `NodeModel<OutputNode<Type>>`
-- ✅ `DefineNodeModel` — extends `NodeModel<DefineNode>`
-- ✅ `FunctionNodeModel` — extends `NodeModel<FunctionNode>`
-- ✅ `ScopeNodeModel<Owner>` — extends `NodeModel<ScopeNode<Owner>>`
-- ✅ `ValueNodeModel` — extends `NodeModel<ValueNode>`
-- ✅ `VariableNodeModel<Type, Owner>` — extends `NodeModel<VariableNode<Type, Owner>>`
-- ✅ `GlobalNodeModel` — extends `NodeModel<GlobalNode>`
-
-## Function Node (`src/builder/nodes/function.node.ts`)
-
-- ✅ `FunctionNodeOptions` type
-- ✅ `createFunctionNode()` factory function
-- 🚧 `FunctionNodeModel.createScope()` — throws `NotImplementedError`
-
-## Scope API (`src/builder/nodes/scope.node.ts`)
-
-- ✅ `ScopeNodeModel<Owner>` generic class definition
-- 🚧 `ScopeNodeModel.createScope()` — throws `NotImplementedError`
-- 🚧 `ScopeNodeModel.createVariable<Type, Owner>()` — throws `NotImplementedError`
-- ❌ Add nodes to scope (`scope.nodes[]`)
-- ❌ Enter/exit scope context
-
-## Variable API (`src/builder/nodes/variable.node.ts`)
-
-- ✅ `VariableNodeModel<Type, Owner>` generic class definition
-- ❌ Create associated `ValueNode` from value data
-- ❌ Wire ownership: `ValueNode.owner = VariableNode`, `VariableNode.owner = ScopeNode`
-- ❌ Retrieve variable by name from scope
-
-## Value API (`src/builder/nodes/value.node.ts`)
-
-- ✅ `ValueNodeModel` class definition
-- ❌ Create literal/constant `ValueNode` from raw data
-- ❌ Validate data matches declared type
-- ❌ Wire ownership to parent node
+- ✅ All node model classes (Uniform, Input, Output, Define, Function, Scope, Value, Variable, Global)
 
 ## Operation APIs (`src/builder/nodes/operations/`)
 
@@ -80,46 +80,18 @@ Legend:
 - ✅ `multiply(left, right)` — creates and returns `MultiplicationNode`
 - ✅ `divide(left, right)` — creates and returns `DivisionNode`
 - ✅ `modulo(left, right)` — creates and returns `ModulusNode`
-- ❌ Type-check operands against `AdditiveDatatype` / `MultiplicativeDatatype` at runtime
-- ❌ Resolve result type from combination maps at runtime
-- ❌ Allow operations to be used as operands (composable expressions)
+- ✅ `OperationNode` base type (left, right)
+- ✅ Type-level combination maps (`AdditiveCombination`, `MultiplicativeCombination`)
+- ✅ `AdditiveDatatype` / `MultiplicativeDatatype` types + runtime guards
 - ❌ Wire ownership for operation nodes
 
 ## Compiler (`src/compiler/`)
 
-- ❌ `Compiler` — abstract `compile(builder): string` method
+- ❌ `Compiler` — abstract class (empty)
 - ❌ `WebGLCompiler` — GLSL ES 1.00 code generation (empty class)
 - ❌ `WebGL2Compiler` — GLSL ES 3.00 code generation (empty class)
 - ❌ GLSL type name mapping (`DATATYPE` enum → GLSL string)
-  - ❌ Scalars: `float`, `int`, `uint`, `bool`
-  - ❌ Vectors: `vec2`, `vec3`, `vec4`, `ivec2`, `ivec3`, `ivec4`, `uvec2`, `uvec3`, `uvec4`, `bvec2`, `bvec3`, `bvec4`
-  - ❌ Matrices: `mat2`, `mat3`, `mat4`, `mat2x3`, `mat2x4`, `mat3x2`, `mat3x4`, `mat4x2`, `mat4x3`
-  - ❌ Samplers: `sampler2D`, `isampler2D`, `usampler2D`, `sampler3D`, `isampler3D`, `usampler3D`, `samplerCube`, `isamplerCube`, `usamplerCube`
-- ❌ Emit uniforms (`uniform <type> <name>;`)
-- ❌ Emit inputs
-  - ❌ WebGL1: `attribute <type> <name>;`
-  - ❌ WebGL2: `in <type> <name>;`
-- ❌ Emit outputs
-  - ❌ WebGL1: `varying <type> <name>;`
-  - ❌ WebGL2: `out <type> <name>;`
-- ❌ Emit `#define` preprocessor directives
-- ❌ Emit function definitions (`<returnType> <name>(<params>) { <body> }`)
-- ❌ Emit `main()` function
-- ❌ Emit variable declarations (`<type> <name> = <value>;`)
-- ❌ Emit operation expressions (`<left> + <right>`, etc.)
-- ❌ Emit precision qualifiers
-  - ❌ Default precision for float/int in fragment shader
-  - ❌ Version-specific rules (WebGL1 vertex shader has default precision)
-- ❌ Emit value literals
-  - ❌ Scalars: `1.0`, `2`, `true`
-  - ❌ Vectors: `vec2(1.0, 2.0)`, `vec3(1.0, 2.0, 3.0)`
-  - ❌ Matrices: `mat4(1.0, 0.0, ...)` (column-major)
-- ❌ Version header (`#version 100` vs `#version 300 es`)
-- ❌ WebGL2-specific transforms
-  - ❌ `texture2D()` → `texture()`
-  - ❌ `gl_FragColor` → custom `out` variable
-  - ❌ `attribute` → `in`
-  - ❌ `varying` → `out` (fragment) / `in` (vertex)
+- ❌ Emit source code for any node types
 
 ## Additional GLSL Features
 
@@ -129,13 +101,6 @@ Legend:
 - ❌ Struct definitions
 - ❌ `const` declarations
 - ❌ Built-in function wrappers
-  - ❌ `texture2D()` / `texture()`
-  - ❌ `normalize()`, `dot()`, `cross()`, `length()`
-  - ❌ `mix()`, `clamp()`, `smoothstep()`
-  - ❌ `sin()`, `cos()`, `pow()`, `exp()`, `log()`
-  - ❌ `min()`, `max()`, `abs()`, `sign()`
-  - ❌ `floor()`, `ceil()`, `fract()`, `mod()`
-  - ❌ `reflect()`, `refract()`, `distance()`, `faceforward()`
 - ❌ Uniform blocks / `layout(std140)`
 - ❌ Assignment statements (`a = b`)
 - ❌ Return statements
@@ -145,8 +110,10 @@ Legend:
 
 ## Tests (`tests/`)
 
-- ❌ `builder.test.ts` — verify returned node types, verify storage in builder
+- ❌ `builder.test.ts` — needs assertion improvements for node instances
 - ❌ `main.test.ts` — test variable creation inside main scope
 - ❌ `variable.test.ts` — test all data types for variable creation
 - ❌ Add operation tests
+- ❌ Add function/argument tests
+- ❌ Add scope/variable tests
 - ❌ Add compiler output tests (snapshot tests for generated GLSL)

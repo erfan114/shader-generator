@@ -1,25 +1,83 @@
-import { NotImplementedError } from "../../errors.js";
+import { addToSet } from "../../helpers/set.helper.js";
+import type { Datatype } from "../../types.js";
 import { type BuilderNode, NodeModel, type OwnableNode } from "../node.js";
-import type { ValueDataType } from "./value.node.js";
-import type { VariableNodeModel } from "./variable.node.js";
+import {
+  type ArgumentNode,
+  type ArgumentNodeOptions,
+} from "./argument.node.js";
+import {
+  type DatatypeValueType,
+  type ValueDataType,
+  type ValueNode,
+} from "./value.node.js";
+import { VariableNodeModel } from "./variable.node.js";
 
 export type ScopeNode<Owner = unknown> = OwnableNode<
   "scope",
   Owner,
   {
     nodes: BuilderNode[];
+    args: Set<ArgumentNode>;
+    variables: Set<VariableNodeModel>;
   }
 >;
 
+export function createScopeNode<Owner>(owner: Owner): ScopeNode<Owner> {
+  return {
+    kind: "scope",
+    owner,
+    nodes: [],
+    args: new Set(),
+    variables: new Set(),
+  };
+}
+
 export class ScopeNodeModel<Owner> extends NodeModel<ScopeNode<Owner>> {
   public createScope(): ScopeNodeModel<typeof this.node> {
-    throw new NotImplementedError();
+    const scopeNode = createScopeNode(this.node);
+    return new ScopeNodeModel(scopeNode);
   }
 
-  public createVariable<
-    Type extends ValueDataType,
-    Owner extends ScopeNode,
-  >(): VariableNodeModel<Type, Owner> {
-    throw new NotImplementedError();
+  public createArgument<Type extends Datatype>(
+    options: ArgumentNodeOptions<Type>,
+  ): ArgumentNode<Type, typeof this.node> {
+    const arg: ArgumentNode<Type, typeof this.node> = {
+      kind: "argument",
+      name: options.name,
+      type: options.type,
+      owner: this.node,
+    };
+
+    addToSet(this.node.args, arg);
+
+    return arg;
+  }
+
+  public createVariable<Type extends ValueDataType>(options: {
+    name: string;
+    type: Type;
+    value: DatatypeValueType<Type> | null;
+  }): VariableNodeModel<Type, typeof this.node> {
+    const valueNode: ValueNode<Type, unknown> = {
+      kind: "value",
+      type: options.type,
+      data: options.value,
+      owner: null,
+    } as ValueNode<Type, unknown>;
+
+    const variableNode = {
+      kind: "variable",
+      name: options.name,
+      value: valueNode,
+      owner: this.node,
+    } as any;
+
+    const variableModel = new VariableNodeModel<Type, typeof this.node>(
+      variableNode,
+    );
+
+    addToSet(this.node.variables, variableModel);
+
+    return variableModel;
   }
 }
