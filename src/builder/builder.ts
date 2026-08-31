@@ -10,7 +10,9 @@ export class Builder {
    * @param options - The options for creating the uniform object.
    * @returns The created uniform object.
    */
-  public uniform<Type extends Datatype>(options: UniformNodeOptions<Type>) {
+  public createUniform<Type extends Datatype>(
+    options: UniformNodeOptions<Type>,
+  ) {
     throw new NotImplementedError();
   }
 
@@ -19,7 +21,7 @@ export class Builder {
    * @param options - The options for creating the input object.
    * @returns The created input object.
    */
-  public input<Type extends Datatype>(options: IONodeOptions<Type>) {
+  public createInput<Type extends Datatype>(options: IONodeOptions<Type>) {
     throw new NotImplementedError();
   }
 
@@ -28,7 +30,7 @@ export class Builder {
    * @param options - The options for creating the output object.
    * @returns The created output object.
    */
-  public output<Type extends Datatype>(options: IONodeOptions<Type>) {
+  public createOutput<Type extends Datatype>(options: IONodeOptions<Type>) {
     throw new NotImplementedError();
   }
 
@@ -44,7 +46,7 @@ export class Builder {
    * Creates main function and returns it
    * @returns The main function
    */
-  public main() {
+  public getMain() {
     throw new NotImplementedError();
   }
 
