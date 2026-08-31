@@ -32,6 +32,10 @@ export class Builder {
     throw new NotImplementedError();
   }
 
+  /**
+   * Creates main function and returns it
+   * @returns The main function
+   */
   public main() {
     throw new NotImplementedError();
   }
