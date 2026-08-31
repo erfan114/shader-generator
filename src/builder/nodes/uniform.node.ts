@@ -7,9 +7,11 @@ export type UniformNodeOptions<Type extends Datatype> = {
   type: Type;
 };
 
-export type UniformNode<Type extends Datatype = Datatype> = GlobalOwnedNode<
+export type UniformNode<Type extends Datatype> = GlobalOwnedNode<
   "uniform",
   UniformNodeOptions<Type>
 >;
 
-export class UniformNodeModel extends NodeModel<UniformNode> {}
+export class UniformNodeModel<Type extends Datatype> extends NodeModel<
+  UniformNode<Type>
+> {}
