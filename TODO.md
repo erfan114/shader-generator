@@ -2,6 +2,14 @@
 
 ## Core Builder (`src/builder/builder.ts`)
 
+- [x] Method signatures with proper return types
+  - [x] `createDefine(options)` → `DefineNodeModel`
+  - [x] `createUniform(options)` → `UniformNodeModel<Type>`
+  - [x] `createInput(options)` → `InputNodeModel<Type>`
+  - [x] `createOutput(options)` → `OutputNodeModel<Type>`
+  - [x] `createFunction()` → `FunctionNodeModel`
+  - [x] `getMain()` → `FunctionNodeModel`
+  - [x] `build(target)` → `string`
 - [ ] Internal state storage
   - [ ] `uniforms: Set<UniformNode>`
   - [ ] `inputs: Set<InputNode>`
@@ -9,23 +17,41 @@
   - [ ] `defines: Set<DefineNode>`
   - [ ] `functions: Set<FunctionNode>`
   - [ ] `global: GlobalNode` instance
-- [ ] `uniform()` — create node, store it, return it
-- [ ] `input()` — create node, store it, return it
-- [ ] `output()` — create node, store it, return it
-- [ ] `main()` — create/return singleton `MainNode` with `ScopeNode`
-- [ ] `define()` — create `DefineNode`, store it, return it
-- [ ] `function()` — create custom `FunctionNode` with return type, params, body scope
-- [ ] `build()` — look up compiler by target, call `compiler.compile(this)`, return source string
+- [ ] `createDefine()` — body: create node, store it, return it
+- [ ] `createUniform()` — body: create node, store it, return it
+- [ ] `createInput()` — body: create node, store it, return it
+- [ ] `createOutput()` — body: create node, store it, return it
+- [ ] `createFunction()` — body: create `FunctionNode` with return type, params, body scope
+- [ ] `getMain()` — body: create/return singleton `MainNode` with `ScopeNode`
+- [ ] `build()` — body: look up compiler by target, call `compiler.compile(this)`, return source string
+
+## Node Model Layer (`src/builder/node.ts`)
+
+- [x] `NodeModel<T>` base class
+- [x] `UniformNodeModel` — extends `NodeModel<UniformNode<Type>>`
+- [x] `InputNodeModel` — extends `NodeModel<InputNode<Type>>`
+- [x] `OutputNodeModel` — extends `NodeModel<OutputNode<Type>>`
+- [x] `DefineNodeModel` — extends `NodeModel<DefineNode>`
+- [x] `FunctionNodeModel` — extends `NodeModel<FunctionNode>`
+- [x] `ScopeNodeModel<Owner>` — extends `NodeModel<ScopeNode<Owner>>`
+- [x] `ValueNodeModel` — extends `NodeModel<ValueNode>`
+- [x] `VariableNodeModel` — extends `NodeModel<VariableNode>`
+- [x] `GlobalNodeModel` — extends `NodeModel<GlobalNode>`
 
 ## Scope API (`src/builder/nodes/scope.node.ts`)
 
-- [ ] Create scope (instantiate `ScopeNode`)
+- [x] `ScopeNodeModel<Owner>` generic class definition
+- [x] `FunctionNodeModel.createScope()` — method signature
+- [x] `ScopeNodeModel.createScope()` — method signature
+- [ ] `FunctionNodeModel.createScope()` — implementation
+- [ ] `ScopeNodeModel.createScope()` — implementation
 - [ ] Add nodes to scope (`scope.nodes[]`)
 - [ ] Get current active scope from builder
 - [ ] Enter/exit scope context
 
 ## Variable API (`src/builder/nodes/variable.node.ts`)
 
+- [x] `VariableNodeModel` class definition
 - [ ] `scope.variable({ name, type, value })` — create `VariableNode`
 - [ ] Create associated `ValueNode` from value data
 - [ ] Wire ownership: `ValueNode.owner = VariableNode`, `VariableNode.owner = ScopeNode`
@@ -33,20 +59,22 @@
 
 ## Value API (`src/builder/nodes/value.node.ts`)
 
+- [x] `ValueNodeModel` class definition
 - [ ] Create literal/constant `ValueNode` from raw data
 - [ ] Validate data matches declared type
 - [ ] Wire ownership to parent node
 
 ## Operation APIs (`src/builder/nodes/operations/`)
 
-- [ ] `add(left, right)` — create `AdditionNode`
-- [ ] `subtract(left, right)` — create `SubtractionNode`
-- [ ] `multiply(left, right)` — create `MultiplicationNode`
-- [ ] `divide(left, right)` — create `DivisionNode`
-- [ ] `modulo(left, right)` — create `ModulusNode`
-- [ ] Type-check operands against `AdditiveDatatype` / `MultiplicativeDatatype`
-- [ ] Resolve result type from combination maps
+- [x] `add(left, right)` — create `AdditionNode`
+- [x] `subtract(left, right)` — create `SubtractionNode`
+- [x] `multiply(left, right)` — create `MultiplicationNode`
+- [x] `divide(left, right)` — create `DivisionNode`
+- [x] `modulo(left, right)` — create `ModulusNode`
+- [ ] Type-check operands against `AdditiveDatatype` / `MultiplicativeDatatype` at runtime
+- [ ] Resolve result type from combination maps at runtime
 - [ ] Allow operations to be used as operands (composable expressions)
+- [ ] Wire ownership for operation nodes
 
 ## Compiler (`src/compiler/`)
 
