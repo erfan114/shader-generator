@@ -6,7 +6,7 @@ import type { BuilderNode } from "./node.js";
 
 */
 
-export type BuilderGenerator = Generator<BuilderNode>;
+export type BuilderGenerator = () => Generator<BuilderNode>;
 
 export class Builder {
   public static from_generator(generator: BuilderGenerator): Builder {
