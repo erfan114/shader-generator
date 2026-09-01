@@ -94,3 +94,5 @@ flowchart LR
 
     style Builder fill:#ffe1df,stroke:#f43f20,stroke-width:2px;
 ```
+
+We will use typescript native generators to implement this feature because it would be much more easier for developers to use generator syntax rather than defining OOP objects and relating them together
