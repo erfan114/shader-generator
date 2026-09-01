@@ -1,6 +1,9 @@
 import { type Datatype } from "../../types.js";
 import { NodeModel } from "../node.js";
-import type { ArgumentNodeOptions } from "./argument.node.js";
+import type {
+  ArgumentNodeModel,
+  ArgumentNodeOptions,
+} from "./argument.node.js";
 import type { GlobalOwnedNode } from "./global.node.js";
 import {
   type ScopeNode,
@@ -51,6 +54,16 @@ export function createFunctionDefinition<
   };
 }
 
+export type FunctionDefinitionHandler<
+  Args extends ArgumentNodeOptions[],
+  Return extends ValueDataType | null,
+> = (fn: FunctionDefinition) => FunctionDefinition<Args, Return>;
+
+export type FunctionBodyArgs<Args extends ArgumentNodeOptions[]> = {
+  [K in keyof Args]: Args[K] extends ArgumentNodeOptions<infer Name, infer Type>
+    ? ArgumentNodeModel<Name, Type>
+    : never;
+};
 // * FUNCTION NODE
 export type FunctionNodeOptions<R extends ValueDataType | null> = {
   name: string | undefined;

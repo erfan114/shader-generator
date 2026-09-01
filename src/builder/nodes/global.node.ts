@@ -1,9 +1,9 @@
 import { NotImplementedError } from "../../errors.js";
 import type { Datatype } from "../../types.js";
 import { type BuilderNode, NodeModel, type OwnableNode } from "../node.js";
-import type {
+import {
   ArgumentNodeModel,
-  ArgumentNodeOptions,
+  type ArgumentNodeOptions,
 } from "./argument.node.js";
 import type { IONodeOptions } from "./common.js";
 import type {
@@ -12,7 +12,9 @@ import type {
   DefineNodeOptions,
 } from "./define.node.js";
 import {
+  type FunctionBodyArgs,
   type FunctionDefinition,
+  type FunctionDefinitionHandler,
   type FunctionNode,
   FunctionNodeModel,
   createFunctionDefinition,
@@ -96,24 +98,24 @@ export class GlobalNodeModel extends NodeModel<GlobalNode> {
    * @returns The created function node model.
    */
   public createFunction<
-    Args extends unknown[],
+    Args extends ArgumentNodeOptions[],
     Return extends ValueDataType | null,
   >(
-    definition: (fn: FunctionDefinition) => FunctionDefinition<Args, Return>,
+    definition: FunctionDefinitionHandler<Args, Return>,
     body: (
-      ...args: {
-        [K in keyof Args]: Args[K] extends ArgumentNodeOptions<
-          infer Name,
-          infer Type
-        >
-          ? ArgumentNodeModel<Name, Type>
-          : never;
-      }
+      ...args: FunctionBodyArgs<Args>
     ) => Return extends ValueDataType ? ValueNode<Return> : void,
-  ): FunctionNodeModel<Return> {
+  ) {
     const fnDefinition = definition(createFunctionDefinition());
+    const mappedArgs = fnDefinition.args.map(
+      (arg) =>
+        new ArgumentNodeModel({
+          kind: "argument",
+          ...arg,
+        }),
+    ) as unknown as FunctionBodyArgs<Args>;
 
-    throw new NotImplementedError();
+    return () => body(...mappedArgs);
   }
 
   public provideMain(): FunctionNodeModel<null> {

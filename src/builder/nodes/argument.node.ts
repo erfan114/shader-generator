@@ -1,9 +1,12 @@
 import type { Datatype, Ownable } from "../../types.js";
-import type { OwnableNode } from "../node.js";
+import type { BuilderNode } from "../node.js";
 import type { ScopeNode } from "./scope.node.js";
 
 // * ARGUMENT NODE
-export type ArgumentNodeOptions<Name extends string, Type extends Datatype> = {
+export type ArgumentNodeOptions<
+  Name extends string = string,
+  Type extends Datatype = Datatype,
+> = {
   name: Name;
   type: Type;
 };
@@ -11,10 +14,8 @@ export type ArgumentNodeOptions<Name extends string, Type extends Datatype> = {
 export type ArgumentNode<
   Name extends string = string,
   Type extends Datatype = Datatype,
-  Owner extends ScopeNode = ScopeNode,
-> = OwnableNode<
+> = BuilderNode<
   "argument",
-  Owner,
   {
     name: Name;
     type: Type;
