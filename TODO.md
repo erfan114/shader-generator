@@ -1,6 +1,7 @@
 # Builder Implementation Checklist
 
 Legend:
+
 - ✅ = Fully implemented
 - 🚧 = Placeholder (exists but throws `NotImplementedError`)
 - ❌ = Not started (no code yet)
@@ -63,8 +64,8 @@ Legend:
 ```ts
 // Define args at creation time with full type safety
 const fn = createFunctionDefinition()
-  .withArg({ name: 'time', type: DATATYPE.FLOAT })
-  .withArg({ name: 'color', type: DATATYPE.VEC3 })
+  .withArg({ name: "time", type: DATATYPE.FLOAT })
+  .withArg({ name: "color", type: DATATYPE.VEC3 })
   .withReturn(DATATYPE.VEC4);
 
 // fn.args is typed: [ArgumentNodeOptions<'time', FLOAT>, ArgumentNodeOptions<'color', VEC3>]
@@ -151,7 +152,7 @@ const fn = createFunctionDefinition()
 ## Tests (`tests/`)
 
 - ❌ `tests/builder/node.test.ts` — only tests Symbol.iterator
-- ❌ `tests/variable.test.ts` — still uses `undefined as any` placeholder
+- ❌ Add variable tests
 - ❌ Add operation tests
 - ❌ Add function/argument tests
 - ❌ Add scope/variable tests
