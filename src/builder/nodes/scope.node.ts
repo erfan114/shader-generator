@@ -1,10 +1,6 @@
 import { addToSet } from "../../helpers/set.helper.js";
-import type { Datatype } from "../../types.js";
 import { type BuilderNode, NodeModel, type OwnableNode } from "../node.js";
-import {
-  type ArgumentNode,
-  type ArgumentNodeOptions,
-} from "./argument.node.js";
+import { type ArgumentNode } from "./argument.node.js";
 import {
   type DatatypeValueType,
   type ValueDataType,
