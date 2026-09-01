@@ -169,3 +169,9 @@ const shaderIR = shader(function* () {
   });
 });
 ```
+
+This idea comes from what [Effect TS generators](https://www.effect.website/docs/v3/onboarding) are doing under the hood and it is simple:
+
+- We will have some types that they extend a general type named `BuilderNode`
+- The `BuilderNode` will have a property named `kind` to detect its type and another property named `data` for its data
+- Every important part of GLSL will have a type that extends `BuilderNode` for example we will have a function for creating uniforms named `uniform`
