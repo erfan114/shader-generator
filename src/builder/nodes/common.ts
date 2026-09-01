@@ -1,5 +1,5 @@
 import type { Datatype } from "../../types.js";
-import type { GlobalOwnedNode } from "./global.node.js";
+import type { BuilderNode } from "../node.js";
 
 export type IONodeOptions<Type extends Datatype> = {
   name: string;
@@ -7,7 +7,7 @@ export type IONodeOptions<Type extends Datatype> = {
   flatten?: boolean;
 };
 
-export type IONode<
-  Kind extends PropertyKey,
-  Type extends Datatype,
-> = GlobalOwnedNode<Kind, IONodeOptions<Type>>;
+export type IONode<Kind extends string, Type extends Datatype> = BuilderNode<
+  Kind,
+  IONodeOptions<Type>
+>;

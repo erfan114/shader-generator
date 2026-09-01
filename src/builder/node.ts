@@ -1,18 +1,22 @@
-import type { Ownable } from "../types.js";
+export type BuilderNodeOptions<Kind extends string = string, Data = unknown> = {
+  kind: Kind;
+  data: Data;
+};
 
 export type BuilderNode<
-  Kind extends PropertyKey = PropertyKey,
+  Kind extends string = string,
   Data = unknown,
-> = {
-  kind: Kind;
-} & Data;
+> = BuilderNodeOptions<Kind, Data> & {
+  [Symbol.iterator](): Generator<BuilderNode<Kind, Data>, Data, Data>;
+};
 
-export type OwnableNode<
-  Kind extends PropertyKey = PropertyKey,
-  Owner = unknown,
-  Data = unknown,
-> = BuilderNode<Kind, Data> & Ownable<Owner>;
-
-export class NodeModel<T extends BuilderNode> {
-  public constructor(protected readonly node: T) {}
+export function builderNode<Kind extends string, Data, Methods>(
+  options: BuilderNodeOptions<Kind, Data>,
+): BuilderNode<Kind, Data> {
+  return {
+    ...options,
+    *[Symbol.iterator]() {
+      return yield this;
+    },
+  };
 }

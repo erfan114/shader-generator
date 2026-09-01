@@ -1,6 +1,5 @@
-import type { Datatype, Ownable } from "../../types.js";
-import type { BuilderNode } from "../node.js";
-import type { ScopeNode } from "./scope.node.js";
+import type { Datatype } from "../../types.js";
+import { type BuilderNode, builderNode } from "../node.js";
 
 // * ARGUMENT NODE
 export type ArgumentNodeOptions<
@@ -14,31 +13,13 @@ export type ArgumentNodeOptions<
 export type ArgumentNode<
   Name extends string = string,
   Type extends Datatype = Datatype,
-> = BuilderNode<
-  "argument",
-  {
-    name: Name;
-    type: Type;
-  }
->;
+> = BuilderNode<"argument", ArgumentNodeOptions<Name, Type>>;
 
 export function createArgumentNode<Name extends string, Type extends Datatype>(
-  options: ArgumentNodeOptions<Name, Type> & Ownable<ScopeNode>,
+  options: ArgumentNodeOptions<Name, Type>,
 ): ArgumentNode<Name, Type> {
-  return {
+  return builderNode({
     kind: "argument",
-    ...options,
-  };
-}
-
-export class ArgumentNodeModel<Name extends string, Type extends Datatype> {
-  constructor(public node: ArgumentNode<Name, Type>) {}
-
-  public get name() {
-    return this.node.name;
-  }
-
-  public get type() {
-    return this.node.type;
-  }
+    data: options,
+  });
 }

@@ -1,3 +1,4 @@
+import { builderNode } from "../../node.js";
 import type { OperationNode } from "./common.js";
 import type { MultiplicativeDatatype } from "./types/multiplicative.type.js";
 
@@ -10,9 +11,11 @@ export function divide<
   L extends MultiplicativeDatatype,
   R extends MultiplicativeDatatype,
 >(left: L, right: R): DivisionNode<L, R> {
-  return {
+  return builderNode({
     kind: "division",
-    left,
-    right,
-  };
+    data: {
+      left,
+      right,
+    },
+  });
 }

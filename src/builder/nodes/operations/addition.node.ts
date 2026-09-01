@@ -1,3 +1,4 @@
+import { builderNode } from "../../node.js";
 import type { OperationNode } from "./common.js";
 import type { AdditiveDatatype } from "./types/additive.type.js";
 
@@ -10,9 +11,11 @@ export function add<L extends AdditiveDatatype, R extends AdditiveDatatype>(
   left: L,
   right: R,
 ): AdditionNode<L, R> {
-  return {
+  return builderNode({
     kind: "addition",
-    left,
-    right,
-  };
+    data: {
+      left,
+      right,
+    },
+  });
 }
