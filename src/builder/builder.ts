@@ -9,9 +9,11 @@ import type { BuilderNode } from "./node.js";
 export type BuilderGenerator = Generator<BuilderNode>;
 
 export class Builder {
-  public static generate(generator: BuilderGenerator): Builder {
-    throw new NotImplementedError();
+  public static from_generator(generator: BuilderGenerator): Builder {
+    return new Builder(generator);
   }
+
+  private constructor(protected readonly generator: BuilderGenerator) {}
 
   /**
    * Builds the shader for the specified target.
