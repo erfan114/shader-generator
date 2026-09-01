@@ -110,7 +110,7 @@ The entire DSL is backed by a bitmask-style datatype registry in `src/types.ts`.
 GLSL type is a constant numeric value, grouped into families, then merged into a single
 `DATATYPE` object.
 
-```
+```sh
 DATATYPE (merged registry)
 ├── SCALAR_DATATYPE        FLOAT, INT, UINT, BOOL
 ├── FLOAT_VEC_DATATYPE     VEC2, VEC3, VEC4
