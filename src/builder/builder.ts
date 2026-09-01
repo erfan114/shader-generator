@@ -1,9 +1,15 @@
 import type { BuildTarget } from "../compiler/index.js";
 import { NotImplementedError } from "../errors.js";
-import { GlobalNodeModel, createGlobalNode } from "./nodes/global.node.js";
+
+/* 
+
+
+*/
 
 export class Builder {
-  public readonly global = new GlobalNodeModel(createGlobalNode());
+  public static generate(generator: Generator): Builder {
+    throw new NotImplementedError();
+  }
 
   /**
    * Builds the shader for the specified target.

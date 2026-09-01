@@ -6,30 +6,29 @@ import {
   type ArgumentNodeOptions,
 } from "./argument.node.js";
 import type { IONodeOptions } from "./common.js";
-import type {
-  DefineNode,
-  DefineNodeModel,
-  DefineNodeOptions,
-} from "./define.node.js";
+import type { DefineNodeModel, DefineNodeOptions } from "./define.node.js";
 import {
   type FunctionBodyArgs,
   type FunctionDefinition,
   type FunctionDefinitionHandler,
-  type FunctionNode,
-  FunctionNodeModel,
   createFunctionDefinition,
-  createFunctionNode,
 } from "./function.node.js";
 import type { InputNodeModel } from "./input.node.js";
 import type { OutputNodeModel } from "./output.node.js";
 import type { UniformNodeModel, UniformNodeOptions } from "./uniform.node.js";
 import type { ValueDataType, ValueNode } from "./value.node.js";
 
-export type GlobalNode = BuilderNode<
+export type GlobalNode<
+  Defines = [],
+  Uniforms = [],
+  Inputs = [],
+  Outputs = [],
+  Functions = [],
+> = BuilderNode<
   "global",
   {
-    main?: FunctionNode;
-    defines: DefineNode[];
+    defines: Defines;
+    uniforms: Uniforms;
   }
 >;
 
@@ -117,25 +116,13 @@ export class GlobalNodeModel extends NodeModel<GlobalNode> {
 
     return () => body(...mappedArgs);
   }
-
-  public provideMain(): FunctionNodeModel<null> {
-    if (!this.node.main) {
-      const mainNode = createFunctionNode({
-        owner: this.node,
-        name: "main",
-        returnType: null,
-      });
-      this.node.main = mainNode;
-    }
-
-    return new FunctionNodeModel(this.node.main);
-  }
 }
 
 export function createGlobalNode(): GlobalNode {
   const node: GlobalNode = {
     kind: "global",
     defines: [],
+    uniforms: [],
   };
 
   return node;

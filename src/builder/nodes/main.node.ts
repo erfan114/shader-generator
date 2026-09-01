@@ -1,3 +1,3 @@
 import type { FunctionNode } from "./function.node.js";
 
-export type MainNode = FunctionNode;
+export type MainFunctionNode = FunctionNode;
