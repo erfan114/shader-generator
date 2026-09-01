@@ -38,21 +38,6 @@ export class ScopeNodeModel<Owner> extends NodeModel<ScopeNode<Owner>> {
     return new ScopeNodeModel(scopeNode);
   }
 
-  public createArgument<Type extends Datatype>(
-    options: ArgumentNodeOptions<Type>,
-  ): ArgumentNode<Type, typeof this.node> {
-    const arg: ArgumentNode<Type, typeof this.node> = {
-      kind: "argument",
-      name: options.name,
-      type: options.type,
-      owner: this.node,
-    };
-
-    addToSet(this.node.args, arg);
-
-    return arg;
-  }
-
   public createVariable<Type extends ValueDataType>(options: {
     name: string;
     type: Type;

@@ -1,6 +1,10 @@
 import { NotImplementedError } from "../../errors.js";
 import type { Datatype } from "../../types.js";
 import { type BuilderNode, NodeModel, type OwnableNode } from "../node.js";
+import type {
+  ArgumentNodeModel,
+  ArgumentNodeOptions,
+} from "./argument.node.js";
 import type { IONodeOptions } from "./common.js";
 import type {
   DefineNode,
@@ -8,13 +12,16 @@ import type {
   DefineNodeOptions,
 } from "./define.node.js";
 import {
+  type FunctionDefinition,
   type FunctionNode,
   FunctionNodeModel,
+  createFunctionDefinition,
   createFunctionNode,
 } from "./function.node.js";
 import type { InputNodeModel } from "./input.node.js";
 import type { OutputNodeModel } from "./output.node.js";
 import type { UniformNodeModel, UniformNodeOptions } from "./uniform.node.js";
+import type { ValueDataType, ValueNode } from "./value.node.js";
 
 export type GlobalNode = BuilderNode<
   "global",
@@ -76,10 +83,24 @@ export class GlobalNodeModel extends NodeModel<GlobalNode> {
    * Creates a new function and returns it for later uses
    * @returns The created function
    */
-  public createFunction<R extends Datatype | null>(
-    definition: (fn: unknown) => unknown,
-    body: (...args: unknown[]) => unknown,
-  ): FunctionNodeModel<R> {
+  public createFunction<
+    Args extends unknown[],
+    Return extends ValueDataType | null,
+  >(
+    definition: (fn: FunctionDefinition) => FunctionDefinition<Args, Return>,
+    body: (
+      ...args: {
+        [K in keyof Args]: Args[K] extends ArgumentNodeOptions<
+          infer Name,
+          infer Type
+        >
+          ? ArgumentNodeModel<Name, Type>
+          : never;
+      }
+    ) => Return extends ValueDataType ? ValueNode<Return> : void,
+  ): FunctionNodeModel<Return> {
+    const fnDefinition = definition(createFunctionDefinition());
+
     throw new NotImplementedError();
   }
 
