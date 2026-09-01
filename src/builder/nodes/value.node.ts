@@ -19,7 +19,7 @@ import type {
   Vec3,
   Vec4,
 } from "../../types.js";
-import { NodeModel, type OwnableNode } from "../node.js";
+import type { BuilderNode } from "../node.js";
 
 export type ValueDataType =
   | ScalarDataType
@@ -65,16 +65,10 @@ export type DatatypeValueType<T extends ValueDataType> = {
   [DATATYPE.MATRIX4x3]: Matrix4x3<number>;
 }[T];
 
-export type ValueNode<
-  Type extends ValueDataType = ValueDataType,
-  Owner = unknown,
-> = OwnableNode<
+export type ValueNode<Type extends ValueDataType = ValueDataType> = BuilderNode<
   "value",
-  Owner,
   {
     type: Type;
     data: DatatypeValueType<Type>;
   }
 >;
-
-export class ValueNodeModel extends NodeModel<ValueNode> {}

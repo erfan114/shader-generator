@@ -1,3 +1,4 @@
+import { builderNode } from "../../node.js";
 import type { OperationNode } from "./common.js";
 import type { MultiplicativeDatatype } from "./types/multiplicative.type.js";
 
@@ -10,9 +11,8 @@ export function multiply<
   L extends MultiplicativeDatatype,
   R extends MultiplicativeDatatype,
 >(left: L, right: R): MultiplicationNode<L, R> {
-  return {
+  return builderNode({
     kind: "multiplication",
-    left,
-    right,
-  };
+    data: { left, right },
+  });
 }

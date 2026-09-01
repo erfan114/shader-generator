@@ -1,9 +1,19 @@
 import type { BuildTarget } from "../compiler/index.js";
 import { NotImplementedError } from "../errors.js";
-import { GlobalNodeModel, createGlobalNode } from "./nodes/global.node.js";
+import type { BuilderNode } from "./node.js";
+
+/* 
+
+*/
+
+export type BuilderGenerator = () => Generator<BuilderNode>;
 
 export class Builder {
-  public readonly global = new GlobalNodeModel(createGlobalNode());
+  public static from_generator(generator: BuilderGenerator): Builder {
+    return new Builder(generator);
+  }
+
+  private constructor(protected readonly generator: BuilderGenerator) {}
 
   /**
    * Builds the shader for the specified target.
