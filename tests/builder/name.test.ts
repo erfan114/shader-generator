@@ -26,4 +26,12 @@ describe("Name generator", () => {
       `${NAME_GENERATOR_NAMING_PREFIX}b`,
     );
   });
+
+  it("should throw for negative offsets", () => {
+    const nameGenerator = createNameGenerator();
+
+    nameGenerator.next();
+
+    expect(() => nameGenerator.next(0)).toThrow(RangeError);
+  });
 });
