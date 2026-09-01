@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 
-import { createNameGenerator } from "../../src/builder/name.js";
+import {
+  NAME_GENERATOR_NAMING_PREFIX,
+  createNameGenerator,
+} from "../../src/builder/name.js";
 
 describe("Name generator", () => {
   it("Generate unique names", () => {
@@ -10,5 +13,17 @@ describe("Name generator", () => {
     const lastTenNamesSet = new Set(lastTenNamesArray);
 
     expect(lastTenNamesArray).toHaveLength(lastTenNamesSet.size);
+  });
+
+  it("Skip 10 names", () => {
+    const nameGenerator = createNameGenerator();
+
+    expect(nameGenerator.next().value).toBe(`${NAME_GENERATOR_NAMING_PREFIX}0`);
+    expect(nameGenerator.next().value).toBe(`${NAME_GENERATOR_NAMING_PREFIX}1`);
+
+    // The next generated name advances by 10.
+    expect(nameGenerator.next(10).value).toBe(
+      `${NAME_GENERATOR_NAMING_PREFIX}b`,
+    );
   });
 });
