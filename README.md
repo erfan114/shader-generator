@@ -68,9 +68,7 @@ generator function that `yield*`-s `BuilderNode` values; the `Builder` wraps tha
 generator and (eventually) walks the yielded nodes to feed them to the compiler.
 
 ```ts
-import { Builder } from "shader-generator";
-import { uniform } from "shader-generator/builder/nodes/uniform.node.js";
-import { DATATYPE } from "shader-generator/types.js";
+import { Builder, uniform, DATATYPE } from "shader-generator";
 
 const builder = Builder.from_generator(function* () {
   yield* uniform({ type: DATATYPE.FLOAT });
@@ -85,7 +83,7 @@ Operations follow the same pattern: each is a factory returning a node, so they 
 naturally inside the generator:
 
 ```ts
-import { add } from "shader-generator/builder/nodes/operations/addition.node.js";
+import { Builder, uniform, add, DATATYPE } from "shader-generator";
 
 const builder = Builder.from_generator(function* () {
   const uColor = yield* uniform({ type: DATATYPE.VEC3 });
@@ -180,9 +178,7 @@ Some GLSL ES 3.00 features may need to be emulated or transformed when targeting
 The general usage is:
 
 ```ts
-import { Builder } from "shader-generator";
-import { uniform, add } from "shader-generator/builder/nodes/uniform.node.js";
-import { DATATYPE } from "shader-generator/types.js";
+import { Builder, uniform, add, DATATYPE } from "shader-generator";
 
 // Describe the shader as a generator of BuilderNodes
 const builder = Builder.from_generator(function* () {
