@@ -196,7 +196,7 @@ const builder = Builder.from_generator(function* () {
 builder.build("webgl"); // → GLSL ES 1.00  (not yet implemented)
 ```
 
-The exact API is still evolving as the shader representation and compiler architecture are developed. See [ARCHITECTURE.md](./ARCHITECTURE.md) and [TODO.md](./TODO.md) for what is implemented and what is still in progress.
+The exact API is still evolving as the shader representation and compiler architecture are developed. See [ARCHITECTURE.md](./ARCHITECTURE.md) for details.
 
 ## Design Principle
 
