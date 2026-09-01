@@ -80,8 +80,20 @@ export class GlobalNodeModel extends NodeModel<GlobalNode> {
   }
 
   /**
-   * Creates a new function and returns it for later uses
-   * @returns The created function
+   * Creates a new function from a typed function definition and body.
+   *
+   * The function definition is built using {@link FunctionDefinition}, allowing
+   * arguments and the return type to be declared fluently. The body receives
+   * the corresponding argument models with their names and data types preserved.
+   *
+   * @param definition A callback used to define the function's arguments and
+   *   return type.
+   * @param body The function body. Its arguments are inferred from the
+   *   {@link FunctionDefinition} and are provided as {@link ArgumentNodeModel}
+   *   instances. If the function has a return type, the body must return a
+   *   corresponding {@link ValueNode}; otherwise, the body must return `void`.
+   *
+   * @returns The created function node model.
    */
   public createFunction<
     Args extends unknown[],
