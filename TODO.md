@@ -1,7 +1,6 @@
 # Builder Implementation Checklist
 
 Legend:
-
 - ✅ = Fully implemented
 - 🚧 = Placeholder (exists but throws `NotImplementedError`)
 - ❌ = Not started (no code yet)
@@ -34,14 +33,26 @@ Legend:
 
 ## Uniform Node (`src/builder/nodes/uniform.node.ts`)
 
-- ✅ `UniformNodeOptions<Type>` (type only)
+- ✅ `UniformNodeOptions<Type>` type
+- ✅ `UniformNodeData<Type>` type (options + states)
+- ✅ `UniformNodeStates` type (name)
+- ✅ `UniformNodeMethods<Type>` type (`.as(alias)`)
 - ✅ `UniformNode<Type>` type
 - ✅ `uniform()` factory function
+- ✅ `.as(alias)` method on uniform node
 
 ## Input / Output Nodes (`src/builder/nodes/input.node.ts`, `output.node.ts`)
 
+- ✅ `IONodeOptions<Type>` type (in `common.ts`)
+- ✅ `IONodeStates` type (name, flatten)
+- ✅ `IONodeData<Type>` type
+- ✅ `IONodeMethods<Kind, Type>` type (`.as()`, `.flat()`)
+- ✅ `IONode<Kind, Type>` type
+- ✅ `io()` higher-order factory (in `common.ts`)
 - ✅ `InputNode<Type>` / `OutputNode<Type>` types
-- ❌ `input()` / `output()` factory functions
+- ✅ `input()` / `output()` factory functions
+- ✅ `.as(alias)` method on input/output nodes
+- ✅ `.flat()` method on input/output nodes
 
 ## Define Node (`src/builder/nodes/define.node.ts`)
 
@@ -50,22 +61,24 @@ Legend:
 
 ## Function Node (`src/builder/nodes/function.node.ts`)
 
-- ✅ `FunctionNodeOptions<R>` type (name, returnType)
-- ✅ `FunctionNode<R>` type
-- ✅ `createFunctionNode<R>()` factory function
-- ✅ `FunctionDefinition<Args, R>` type with fluent builder
-- ✅ `createFunctionDefinition()` factory function
+- ✅ `FunctionDefinitionGenerator<Args, Return>` type
+- ✅ `FunctionBody<Args, Returns>` type
+- ✅ `FunctionNodeOptions<Args, Returns>` type (args, returns, body)
+- ✅ `FunctionNodeStates` type (name)
+- ✅ `FunctionNode<Args, Returns>` type
+- ✅ `fn()` factory function (takes `definitionGenerator` + `body`)
+- ✅ `FunctionDefinition` type with fluent builder
+- ✅ `generateFunctionDefinition()` factory function (was `createFunctionDefinition`)
 - ✅ `FunctionDefinition.withArg()` — adds typed argument
 - ✅ `FunctionDefinition.withReturn()` — sets return type
-- ✅ `FunctionDefinitionHandler` type
 
 ## Function Definition API (key feature)
 
 ```ts
 // Define args at creation time with full type safety
-const fn = createFunctionDefinition()
-  .withArg({ name: "time", type: DATATYPE.FLOAT })
-  .withArg({ name: "color", type: DATATYPE.VEC3 })
+const fn = generateFunctionDefinition()
+  .withArg({ name: 'time', type: DATATYPE.FLOAT })
+  .withArg({ name: 'color', type: DATATYPE.VEC3 })
   .withReturn(DATATYPE.VEC4);
 
 // fn.args is typed: [ArgumentNodeOptions<'time', FLOAT>, ArgumentNodeOptions<'color', VEC3>]
@@ -76,27 +89,28 @@ const fn = createFunctionDefinition()
 
 - ✅ `ArgumentNodeOptions<Name, Type>` type
 - ✅ `ArgumentNode<Name, Type>` type
-- ✅ `createArgumentNode()` factory function
+- ✅ `argument()` factory function (was `createArgumentNode`)
 
 ## Scope API (`src/builder/nodes/scope.node.ts`)
 
-- ✅ `ScopeNode` type with `nodes`, `args: Set`, `variables: Set`
-- ✅ `createScopeNode()` factory function
-- ❌ Variable creation methods on scope
-- ❌ Node insertion methods on scope
-
-## Variable API (`src/builder/nodes/variable.node.ts`)
-
-- ✅ `VariableNode<Type>` type
-- ✅ `VariableObjectProps<T>` type
-- ❌ `variable()` factory function
+- ✅ `ScopeBody<Returns>` type (generator function)
+- ✅ `ScopeNodeOptions<Returns>` type
+- ✅ `ScopeNode<Returns>` type
+- ✅ `scope()` factory function (replaces `createScopeNode`; takes a `body` generator)
 
 ## Value API (`src/builder/nodes/value.node.ts`)
 
-- ✅ `ValueNode<Type>` type
+- ✅ `VALUE_DATATYPE` constant (all non-sampler datatypes)
 - ✅ `ValueDataType` type
 - ✅ `DatatypeValueType<T>` mapping
+- ✅ `ValueNode<Type>` type
 - ❌ `value()` factory function
+
+## Variable API (`src/builder/nodes/variable.node.ts`)
+
+- ✅ `VariableObjectProps<T>` type
+- ✅ `VariableNode<Type>` type
+- ❌ `variable()` factory function
 
 ## Operation APIs (`src/builder/nodes/operations/`)
 
@@ -151,10 +165,15 @@ const fn = createFunctionDefinition()
 
 ## Tests (`tests/`)
 
-- ❌ `tests/builder/node.test.ts` — only tests Symbol.iterator
-- ❌ Add variable tests
+- ✅ `tests/counter.test.ts` — counter generator
+- ✅ `tests/builder/name.test.ts` — unique name generation + skip offsets
+- ✅ `tests/builder/node.test.ts` — `Symbol.iterator` on `builderNode`
+- ✅ `tests/builder/uniform.test.ts` — `.as()` on uniform
+- ✅ `tests/builder/input.test.ts` — `.as()` and `.flat()` on input
+- ✅ `tests/builder/output.test.ts` — `.as()` and `.flat()` on output
+- ✅ `tests/builder/function.test.ts` — `generateFunctionDefinition()` fluent API
+- ❌ Add variable tests (`tests/variable.test.ts` was removed, not yet replaced)
 - ❌ Add operation tests
-- ❌ Add function/argument tests
-- ❌ Add scope/variable tests
+- ❌ Add scope tests
 - ❌ Add compiler output tests (snapshot tests for generated GLSL)
 - ❌ Add builder integration tests (full shader generation)
