@@ -18,9 +18,9 @@ export type FunctionDefinition<
   withReturn<NewReturn extends ValueDataType>(
     returnType: NewReturn,
   ): FunctionDefinition<Args, NewReturn>;
-} & FunctionNodeOptions<Args, Returns>;
+} & Pick<FunctionNodeOptions<Args, Returns>, "args" | "returns">;
 
-export function createFunctionDefinition<
+export function generateFunctionDefinition<
   Args extends ArgumentNodeOptions[] = [],
   R extends ValueDataType | null = null,
 >(
@@ -32,22 +32,29 @@ export function createFunctionDefinition<
     returns,
 
     withArg(arg) {
-      return createFunctionDefinition(
+      return generateFunctionDefinition(
         [...args, arg] as [...Args, typeof arg],
         returns,
       );
     },
 
     withReturn(returnType) {
-      return createFunctionDefinition(args, returnType);
+      return generateFunctionDefinition(args, returnType);
     },
   };
 }
 
-export type FunctionDefinitionHandler<
+export type FunctionDefinitionGenerator<
   Args extends ArgumentNodeOptions[],
   Return extends ValueDataType | null,
 > = (fn: FunctionDefinition) => FunctionDefinition<Args, Return>;
+
+// * FUNCTION BODY
+export type FunctionBody<
+  Args extends ArgumentNodeOptions[],
+  Returns extends ValueDataType | null,
+  // TODO: Generator shouldn't yield unknown, fix it
+> = (...args: Args) => Generator<unknown, Returns>;
 
 // * FUNCTION NODE
 export type FunctionNodeOptions<
@@ -56,6 +63,7 @@ export type FunctionNodeOptions<
 > = {
   args: Args;
   returns: Returns;
+  body: FunctionBody<Args, Returns>;
 };
 
 export type FunctionNodeStates = Partial<{
@@ -71,8 +79,8 @@ export function fn<
   Args extends ArgumentNodeOptions[],
   Returns extends ValueDataType | null,
 >(
-  definition: FunctionDefinitionHandler<Args, Returns>,
-  body: () => Generator,
+  definitionGenerator: FunctionDefinitionGenerator<Args, Returns>,
+  body: FunctionBody<Args, Returns>,
 ): FunctionNode<Args, Returns> {
   throw new NotImplementedError();
 }
