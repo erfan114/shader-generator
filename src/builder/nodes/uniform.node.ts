@@ -1,6 +1,8 @@
 import type { Datatype } from "../../types.js";
 import { type BuilderNode, builderNode } from "../node.js";
 
+const UNIFORM_KIND = "uniform";
+
 export type UniformNodeOptions<Type extends Datatype> = {
   type: Type;
 };
@@ -17,7 +19,7 @@ export type UniformNodeMethods<Type extends Datatype> = {
 };
 
 export type UniformNode<Type extends Datatype = Datatype> = BuilderNode<
-  "uniform",
+  typeof UNIFORM_KIND,
   UniformNodeData<Type>,
   UniformNodeMethods<Type>
 >;
@@ -27,11 +29,11 @@ export function uniform<Type extends Datatype>(
 ): UniformNode<Type> {
   const create = (data: UniformNodeData<Type>): UniformNode<Type> => {
     return builderNode<
-      "uniform",
+      typeof UNIFORM_KIND,
       UniformNodeOptions<Type>,
       UniformNodeMethods<Type>
     >({
-      kind: "uniform",
+      kind: UNIFORM_KIND,
       data,
 
       as(alias) {
