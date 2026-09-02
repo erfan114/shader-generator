@@ -1,18 +1,23 @@
-export type BuilderNodeOptions<Kind extends string = string, Data = unknown> = {
+export type BuilderNodeOptions<
+  Kind extends string = string,
+  Data = unknown,
+  Methods = unknown,
+> = {
   kind: Kind;
   data: Data;
-};
+} & Methods;
 
 export type BuilderNode<
   Kind extends string = string,
   Data = unknown,
-> = BuilderNodeOptions<Kind, Data> & {
+  Methods = unknown,
+> = BuilderNodeOptions<Kind, Data, Methods> & {
   [Symbol.iterator](): Generator<BuilderNode<Kind, Data>, Data, Data>;
 };
 
 export function builderNode<Kind extends string, Data, Methods>(
-  options: BuilderNodeOptions<Kind, Data>,
-): BuilderNode<Kind, Data> {
+  options: BuilderNodeOptions<Kind, Data, Methods>,
+): BuilderNode<Kind, Data, Methods> {
   return {
     ...options,
     *[Symbol.iterator]() {
