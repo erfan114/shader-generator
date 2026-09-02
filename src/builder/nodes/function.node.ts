@@ -3,8 +3,6 @@ import { type BuilderNode, builderNode } from "../node.js";
 import type { ArgumentNodeOptions } from "./argument.node.js";
 import type { ValueDataType } from "./value.node.js";
 
-const FUNCTION_KIND = "function";
-
 // * FUNCTION DEFINITION
 export type FunctionDefinition<
   Args extends ArgumentNodeOptions[] = [],
@@ -56,6 +54,8 @@ export type FunctionBody<
 > = (...args: Args) => Generator<unknown, Returns>;
 
 // * FUNCTION NODE
+const FUNCTION_KIND = "function";
+
 export type FunctionNodeOptions<
   Args extends ArgumentNodeOptions[],
   Returns extends ValueDataType | null = null,
@@ -88,7 +88,7 @@ export function fn<
     data: {
       args: definition.args,
       returns: definition.returns,
-      body: body,
+      body,
     },
   });
 }
