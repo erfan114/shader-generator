@@ -50,8 +50,9 @@ export type FunctionDefinitionGenerator<
 export type FunctionBody<
   Args extends ArgumentNodeOptions[],
   Returns extends ValueDataType | null,
+> =
   // TODO: Generator shouldn't yield unknown, fix it
-> = (...args: Args) => Generator<unknown, Returns>;
+  (...args: Args) => Generator<unknown, Returns>;
 
 // * FUNCTION NODE
 const FUNCTION_KIND = "function";
