@@ -19,5 +19,6 @@ export type IONodeMethods<Kind extends string, Type extends Datatype> = {
 
 export type IONode<Kind extends string, Type extends Datatype> = BuilderNode<
   Kind,
-  IONodeOptions<Type>
+  IONodeData<Type>,
+  IONodeMethods<Kind, Type>
 >;
