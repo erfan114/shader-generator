@@ -1,33 +1,37 @@
-import type {
-  BoolVecDatatype,
-  DATATYPE,
-  FloatVecDatatype,
-  IntVecDatatype,
-  Matrix2,
-  Matrix2x3,
-  Matrix2x4,
-  Matrix3,
-  Matrix3x2,
-  Matrix3x4,
-  Matrix4,
-  Matrix4x2,
-  Matrix4x3,
-  MatrixDatatype,
-  ScalarDataType,
-  UintVecDatatype,
-  Vec2,
-  Vec3,
-  Vec4,
+import type { ObjectValues } from "../../helpers/object.helper.js";
+import {
+  BOOL_VEC_DATATYPE,
+  type DATATYPE,
+  FLOAT_VEC_DATATYPE,
+  INT_VEC_DATATYPE,
+  MATRIX_DATATYPE,
+  type Matrix2,
+  type Matrix2x3,
+  type Matrix2x4,
+  type Matrix3,
+  type Matrix3x2,
+  type Matrix3x4,
+  type Matrix4,
+  type Matrix4x2,
+  type Matrix4x3,
+  SCALAR_DATATYPE,
+  UINT_VEC_DATATYPE,
+  type Vec2,
+  type Vec3,
+  type Vec4,
 } from "../../types.js";
 import type { BuilderNode } from "../node.js";
 
-export type ValueDataType =
-  | ScalarDataType
-  | FloatVecDatatype
-  | IntVecDatatype
-  | UintVecDatatype
-  | BoolVecDatatype
-  | MatrixDatatype;
+export const VALUE_DATATYPE = {
+  ...SCALAR_DATATYPE,
+  ...FLOAT_VEC_DATATYPE,
+  ...INT_VEC_DATATYPE,
+  ...UINT_VEC_DATATYPE,
+  ...BOOL_VEC_DATATYPE,
+  ...MATRIX_DATATYPE,
+} as const;
+
+export type ValueDataType = ObjectValues<typeof VALUE_DATATYPE>;
 
 export type DatatypeValueType<T extends ValueDataType> = {
   [DATATYPE.FLOAT]: number;
