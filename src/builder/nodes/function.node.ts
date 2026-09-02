@@ -1,27 +1,27 @@
+import { NotImplementedError } from "../../errors.js";
 import { type Datatype } from "../../types.js";
-import { type BuilderNode, builderNode } from "../node.js";
+import { type BuilderNode } from "../node.js";
 import type { ArgumentNodeOptions } from "./argument.node.js";
 import type { ValueDataType } from "./value.node.js";
 
+const FUNCTION_KIND = "function";
+
 // * FUNCTION DEFINITION
 export type FunctionDefinition<
-  Args extends unknown[] = [],
-  R extends ValueDataType | null = null,
+  Args extends ArgumentNodeOptions[] = [],
+  Returns extends ValueDataType | null = null,
 > = {
-  args: Args;
-  returns: R;
-
   withArg<Name extends string, Type extends Datatype>(
     options: ArgumentNodeOptions<Name, Type>,
-  ): FunctionDefinition<[...Args, ArgumentNodeOptions<Name, Type>], R>;
+  ): FunctionDefinition<[...Args, ArgumentNodeOptions<Name, Type>], Returns>;
 
   withReturn<NewReturn extends ValueDataType>(
     returnType: NewReturn,
   ): FunctionDefinition<Args, NewReturn>;
-};
+} & FunctionNodeOptions<Args, Returns>;
 
 export function createFunctionDefinition<
-  Args extends unknown[] = [],
+  Args extends ArgumentNodeOptions[] = [],
   R extends ValueDataType | null = null,
 >(
   args: Args = [] as unknown as Args,
@@ -50,21 +50,29 @@ export type FunctionDefinitionHandler<
 > = (fn: FunctionDefinition) => FunctionDefinition<Args, Return>;
 
 // * FUNCTION NODE
-export type FunctionNodeOptions<R extends ValueDataType | null> = {
-  name: string | undefined;
-  returnType: R;
+export type FunctionNodeOptions<
+  Args extends ArgumentNodeOptions[],
+  Returns extends ValueDataType | null = null,
+> = {
+  args: Args;
+  returns: Returns;
 };
 
-export type FunctionNode<R extends ValueDataType | null = null> = BuilderNode<
-  "function",
-  FunctionNodeOptions<R>
->;
+export type FunctionNodeStates = Partial<{
+  name: string;
+}>;
 
-export function createFunctionNode<R extends ValueDataType | null>(
-  options: FunctionNodeOptions<R>,
-): FunctionNode<R> {
-  return builderNode({
-    kind: "function",
-    data: options,
-  });
+export type FunctionNode<
+  Args extends ArgumentNodeOptions[],
+  Returns extends ValueDataType | null = null,
+> = BuilderNode<typeof FUNCTION_KIND, FunctionNodeOptions<Args, Returns>>;
+
+export function fn<
+  Args extends ArgumentNodeOptions[],
+  Returns extends ValueDataType | null,
+>(
+  definition: FunctionDefinitionHandler<Args, Returns>,
+  body: () => Generator,
+): FunctionNode<Args, Returns> {
+  throw new NotImplementedError();
 }
