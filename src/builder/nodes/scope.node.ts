@@ -1,23 +1,31 @@
 import { type BuilderNode, builderNode } from "../node.js";
-import { type ArgumentNode } from "./argument.node.js";
-import type { VariableNode } from "./variable.node.js";
+import type { ValueDataType } from "./value.node.js";
 
-export type ScopeNode = BuilderNode<
-  "scope",
-  {
-    nodes: BuilderNode[];
-    args: Set<ArgumentNode>;
-    variables: Set<VariableNode>;
-  }
+// * SCOPE BODY
+export type ScopeBody<Returns extends ValueDataType | null> = () => Generator<
+  unknown,
+  Returns
 >;
 
-export function createScopeNode(): ScopeNode {
+// * SCOPE NODE
+const SCOPE_KIND = "scope";
+
+export type ScopeNodeOptions<Returns extends ValueDataType | null = null> = {
+  body: ScopeBody<Returns>;
+};
+
+export type ScopeNode<Returns extends ValueDataType | null> = BuilderNode<
+  typeof SCOPE_KIND,
+  ScopeNodeOptions<Returns>
+>;
+
+export function scope<Returns extends ValueDataType | null>(
+  body: ScopeBody<Returns>,
+): ScopeNode<Returns> {
   return builderNode({
-    kind: "scope",
+    kind: SCOPE_KIND,
     data: {
-      nodes: [],
-      args: new Set(),
-      variables: new Set(),
+      body,
     },
   });
 }
