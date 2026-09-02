@@ -16,6 +16,7 @@ export type IONodeData<Type extends Datatype> = IONodeOptions<Type> &
 
 export type IONodeMethods<Kind extends string, Type extends Datatype> = {
   as(alias: string): IONode<Kind, Type>;
+  flat(): IONode<Kind, Type>;
 };
 
 export type IONode<Kind extends string, Type extends Datatype> = BuilderNode<
@@ -35,6 +36,12 @@ export function io<Kind extends string>(kind: Kind) {
           return create({
             ...data,
             name: alias,
+          });
+        },
+        flat() {
+          return create({
+            ...data,
+            flatten: true,
           });
         },
       });
