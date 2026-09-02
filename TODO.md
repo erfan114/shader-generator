@@ -1,6 +1,7 @@
 # Builder Implementation Checklist
 
 Legend:
+
 - ✅ = Fully implemented
 - 🚧 = Placeholder (exists but throws `NotImplementedError`)
 - ❌ = Not started (no code yet)
@@ -77,8 +78,8 @@ Legend:
 ```ts
 // Define args at creation time with full type safety
 const fn = generateFunctionDefinition()
-  .withArg({ name: 'time', type: DATATYPE.FLOAT })
-  .withArg({ name: 'color', type: DATATYPE.VEC3 })
+  .withArg({ name: "time", type: DATATYPE.FLOAT })
+  .withArg({ name: "color", type: DATATYPE.VEC3 })
   .withReturn(DATATYPE.VEC4);
 
 // fn.args is typed: [ArgumentNodeOptions<'time', FLOAT>, ArgumentNodeOptions<'color', VEC3>]
