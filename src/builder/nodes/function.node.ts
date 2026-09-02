@@ -1,6 +1,5 @@
-import { NotImplementedError } from "../../errors.js";
 import { type Datatype } from "../../types.js";
-import { type BuilderNode } from "../node.js";
+import { type BuilderNode, builderNode } from "../node.js";
 import type { ArgumentNodeOptions } from "./argument.node.js";
 import type { ValueDataType } from "./value.node.js";
 
@@ -82,5 +81,14 @@ export function fn<
   definitionGenerator: FunctionDefinitionGenerator<Args, Returns>,
   body: FunctionBody<Args, Returns>,
 ): FunctionNode<Args, Returns> {
-  throw new NotImplementedError();
+  const definition = definitionGenerator(generateFunctionDefinition());
+
+  return builderNode({
+    kind: FUNCTION_KIND,
+    data: {
+      args: definition.args,
+      returns: definition.returns,
+      body: body,
+    },
+  });
 }
