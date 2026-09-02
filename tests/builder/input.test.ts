@@ -15,4 +15,14 @@ describe("Input", () => {
 
     expect(aliasedInput.data.name).toBe(ALIAS_NAME);
   });
+
+  it("Should become flatten", () => {
+    const targetInput = input({ type: DATATYPE.FLOAT });
+
+    expect(targetInput.data.flatten).toBeUndefined();
+
+    const flattenInput = targetInput.flat();
+
+    expect(flattenInput.data.flatten).toBe(true);
+  });
 });
