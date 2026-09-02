@@ -6,7 +6,7 @@ export type ArgumentNodeOptions<
   Name extends string = string,
   Type extends Datatype = Datatype,
 > = {
-  name: Name;
+  name?: Name;
   type: Type;
 };
 
