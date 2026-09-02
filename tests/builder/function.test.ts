@@ -15,7 +15,7 @@ describe("Function", () => {
   it("definition should have nothing", () => {
     const definition = generateFunctionDefinition();
 
-    expect(definition.args).toHaveLength(0);
+    expect(definition.args).toStrictEqual([]);
     expect(definition.returns).toBeNull();
   });
 
