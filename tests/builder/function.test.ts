@@ -6,6 +6,12 @@ import { VALUE_DATATYPE } from "../../src/builder/nodes/value.node.js";
 import type { Datatype } from "../../src/types.js";
 
 describe("Function", () => {
+  const valueDatatypes = Object.values(VALUE_DATATYPE);
+
+  const toArgumentNodeOptions = (datatype: Datatype) => {
+    return { type: datatype } satisfies ArgumentNodeOptions;
+  };
+
   it("definition should have nothing", () => {
     const definition = generateFunctionDefinition();
 
@@ -25,23 +31,35 @@ describe("Function", () => {
   });
 
   it("definition should have args", () => {
-    const datatypes = Object.values(VALUE_DATATYPE);
-
     let definition = generateFunctionDefinition<ArgumentNodeOptions[]>();
 
-    for (const datatype of datatypes) {
+    for (const datatype of valueDatatypes) {
       definition = definition.withArg({ type: datatype });
     }
 
-    expect(definition.args).toHaveLength(datatypes.length);
+    expect(definition.args).toHaveLength(valueDatatypes.length);
 
-    const mapDatatype = (datatype: Datatype) => {
-      return { type: datatype } satisfies ArgumentNodeOptions;
-    };
-
-    const mappedDatatypes = datatypes.map(mapDatatype);
+    const mappedDatatypes = valueDatatypes.map(toArgumentNodeOptions);
 
     expect(definition.args).toStrictEqual(mappedDatatypes);
     expect(definition.returns).toBeNull();
+  });
+
+  it("definition should have return type and args", () => {
+    let definition = generateFunctionDefinition<ArgumentNodeOptions[]>();
+
+    for (const datatype of valueDatatypes) {
+      definition = definition.withArg(toArgumentNodeOptions(datatype));
+    }
+
+    for (const datatype of valueDatatypes) {
+      const definitionWithReturn = definition.withReturn(datatype);
+
+      expect(definitionWithReturn.args).toStrictEqual(
+        valueDatatypes.map(toArgumentNodeOptions),
+      );
+      expect(definitionWithReturn.args).toHaveLength(valueDatatypes.length);
+      expect(definitionWithReturn.returns).toBe(datatype);
+    }
   });
 });
