@@ -1,6 +1,7 @@
 import type { Datatype } from "../../types.js";
-import type { BuilderNode } from "../node.js";
+import { type BuilderNode, builderNode } from "../node.js";
 
+// * IO
 export type IONodeOptions<Type extends Datatype> = {
   type: Type;
 };
@@ -22,3 +23,23 @@ export type IONode<Kind extends string, Type extends Datatype> = BuilderNode<
   IONodeData<Type>,
   IONodeMethods<Kind, Type>
 >;
+
+export function io<Kind extends string>(kind: Kind) {
+  return <Type extends Datatype>(options: IONodeOptions<Type>) => {
+    const create = (data: IONodeData<Type>): IONode<Kind, Type> => {
+      return builderNode<Kind, IONodeOptions<Type>, IONodeMethods<Kind, Type>>({
+        kind,
+        data,
+
+        as(alias) {
+          return create({
+            ...data,
+            name: alias,
+          });
+        },
+      });
+    };
+
+    return create(options);
+  };
+}
