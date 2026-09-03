@@ -6,6 +6,7 @@ import type { Matrix3 } from "../../structures/matrix3.structure.js";
 import type { Matrix3x2 } from "../../structures/matrix3x2.structure.js";
 import type { Matrix3x4 } from "../../structures/matrix3x4.structure.js";
 import type { Matrix4 } from "../../structures/matrix4.structure.js";
+import type { Matrix4x2 } from "../../structures/matrix4x2.structure.js";
 import type { Vec2 } from "../../structures/vec2.structure.js";
 import type { Vec3 } from "../../structures/vec3.structure.js";
 import type { Vec4 } from "../../structures/vec4.structure.js";
@@ -15,7 +16,6 @@ import {
   FLOAT_VEC_DATATYPE,
   INT_VEC_DATATYPE,
   MATRIX_DATATYPE,
-  type Matrix4x2,
   type Matrix4x3,
   SCALAR_DATATYPE,
   UINT_VEC_DATATYPE,
