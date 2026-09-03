@@ -1,17 +1,17 @@
 import { type BuilderNode, builderNode } from "../node.js";
-import type { DatatypeValueType, ValueDataType } from "./value.node.js";
+import type { DatatypeValueType, ValueDatatype } from "./value.node.js";
 
 const VARIABLE_KIND = "variable";
 
-export type VariableNodeOptions<Type extends ValueDataType> = {
+export type VariableNodeOptions<Type extends ValueDatatype> = {
   type: Type;
 };
 
-type VariableValue<Type extends ValueDataType> =
+type VariableValue<Type extends ValueDatatype> =
   DatatypeValueType<Type> | undefined;
 
 export type VariableNodeStates<
-  Type extends ValueDataType,
+  Type extends ValueDatatype,
   Value extends VariableValue<Type>,
 > = Partial<{
   name: string;
@@ -19,12 +19,12 @@ export type VariableNodeStates<
 }>;
 
 export type VariableNodeData<
-  Type extends ValueDataType,
+  Type extends ValueDatatype,
   Value extends VariableValue<Type>,
 > = VariableNodeOptions<Type> & VariableNodeStates<Type, Value>;
 
 export type VariableNodeMethods<
-  Type extends ValueDataType,
+  Type extends ValueDatatype,
   Value extends VariableValue<Type>,
 > = {
   assign(
@@ -34,7 +34,7 @@ export type VariableNodeMethods<
 };
 
 export type VariableNode<
-  Type extends ValueDataType = ValueDataType,
+  Type extends ValueDatatype = ValueDatatype,
   Value extends VariableValue<Type> = VariableValue<Type>,
 > = BuilderNode<
   typeof VARIABLE_KIND,
@@ -43,7 +43,7 @@ export type VariableNode<
 >;
 
 export function variable<
-  Type extends ValueDataType,
+  Type extends ValueDatatype,
   Value extends DatatypeValueType<Type> | undefined = undefined,
 >(options: VariableNodeOptions<Type>): VariableNode<Type, Value> {
   const create = <CurrentValue extends VariableValue<Type>>(

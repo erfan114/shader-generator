@@ -1,25 +1,25 @@
 import { type Datatype } from "../../types.js";
 import { type BuilderNode, builderNode } from "../node.js";
 import type { ArgumentNodeOptions } from "./argument.node.js";
-import type { ValueDataType } from "./value.node.js";
+import type { ValueDatatype } from "./value.node.js";
 
 // * FUNCTION DEFINITION
 export type FunctionDefinition<
   Args extends ArgumentNodeOptions[] = [],
-  Returns extends ValueDataType | null = null,
+  Returns extends ValueDatatype | null = null,
 > = {
   withArg<Name extends string, Type extends Datatype>(
     options: ArgumentNodeOptions<Name, Type>,
   ): FunctionDefinition<[...Args, ArgumentNodeOptions<Name, Type>], Returns>;
 
-  withReturn<NewReturn extends ValueDataType>(
+  withReturn<NewReturn extends ValueDatatype>(
     returnType: NewReturn,
   ): FunctionDefinition<Args, NewReturn>;
 } & Pick<FunctionNodeOptions<Args, Returns>, "args" | "returns">;
 
 export function generateFunctionDefinition<
   Args extends ArgumentNodeOptions[] = [],
-  R extends ValueDataType | null = null,
+  R extends ValueDatatype | null = null,
 >(
   args: Args = [] as unknown as Args,
   returns: R = null as R,
@@ -43,13 +43,13 @@ export function generateFunctionDefinition<
 
 export type FunctionDefinitionGenerator<
   Args extends ArgumentNodeOptions[],
-  Return extends ValueDataType | null,
+  Return extends ValueDatatype | null,
 > = (fn: FunctionDefinition) => FunctionDefinition<Args, Return>;
 
 // * FUNCTION BODY
 export type FunctionBody<
   Args extends ArgumentNodeOptions[],
-  Returns extends ValueDataType | null,
+  Returns extends ValueDatatype | null,
 > =
   // TODO: Generator shouldn't yield unknown, fix it
   (...args: Args) => Generator<unknown, Returns>;
@@ -59,7 +59,7 @@ const FUNCTION_KIND = "function";
 
 export type FunctionNodeOptions<
   Args extends ArgumentNodeOptions[],
-  Returns extends ValueDataType | null = null,
+  Returns extends ValueDatatype | null = null,
 > = {
   args: Args;
   returns: Returns;
@@ -72,12 +72,12 @@ export type FunctionNodeStates = Partial<{
 
 export type FunctionNode<
   Args extends ArgumentNodeOptions[],
-  Returns extends ValueDataType | null = null,
+  Returns extends ValueDatatype | null = null,
 > = BuilderNode<typeof FUNCTION_KIND, FunctionNodeOptions<Args, Returns>>;
 
 export function fn<
   Args extends ArgumentNodeOptions[],
-  Returns extends ValueDataType | null,
+  Returns extends ValueDatatype | null,
 >(
   definitionGenerator: FunctionDefinitionGenerator<Args, Returns>,
   body: FunctionBody<Args, Returns>,

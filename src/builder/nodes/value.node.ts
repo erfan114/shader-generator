@@ -32,9 +32,9 @@ export const VALUE_DATATYPE = {
   ...MATRIX_DATATYPE,
 } as const;
 
-export type ValueDataType = ObjectValues<typeof VALUE_DATATYPE>;
+export type ValueDatatype = ObjectValues<typeof VALUE_DATATYPE>;
 
-export type DatatypeValueType<T extends ValueDataType> = {
+export type DatatypeValueType<T extends ValueDatatype> = {
   [DATATYPE.FLOAT]: number;
   [DATATYPE.INT]: number;
   [DATATYPE.UINT]: number;
@@ -73,17 +73,17 @@ export type DatatypeValueType<T extends ValueDataType> = {
 // * VALUE NODE
 const VALUE_KIND = "value";
 
-export type ValueNodeOptions<Type extends ValueDataType = ValueDataType> = {
+export type ValueNodeOptions<Type extends ValueDatatype = ValueDatatype> = {
   type: Type;
   data: DatatypeValueType<Type>;
 };
 
-export type ValueNode<Type extends ValueDataType = ValueDataType> = BuilderNode<
+export type ValueNode<Type extends ValueDatatype = ValueDatatype> = BuilderNode<
   typeof VALUE_KIND,
   ValueNodeOptions<Type>
 >;
 
-export function value<Type extends ValueDataType = ValueDataType>(
+export function value<Type extends ValueDatatype = ValueDatatype>(
   options: ValueNodeOptions<Type>,
 ): ValueNode<Type> {
   return builderNode({
