@@ -7,9 +7,12 @@ export type VariableNodeOptions<Type extends ValueDataType> = {
   type: Type;
 };
 
+type VariableValue<Type extends ValueDataType> =
+  DatatypeValueType<Type> | undefined;
+
 export type VariableNodeStates<
   Type extends ValueDataType,
-  Value extends DatatypeValueType<Type>,
+  Value extends VariableValue<Type>,
 > = Partial<{
   name: string;
   value: Value;
@@ -17,20 +20,22 @@ export type VariableNodeStates<
 
 export type VariableNodeData<
   Type extends ValueDataType,
-  Value extends DatatypeValueType<Type>,
+  Value extends VariableValue<Type>,
 > = VariableNodeOptions<Type> & VariableNodeStates<Type, Value>;
 
 export type VariableNodeMethods<
   Type extends ValueDataType,
-  Value extends DatatypeValueType<Type>,
+  Value extends VariableValue<Type>,
 > = {
-  assign(value: Value): VariableNode<Type, Value>;
+  assign(
+    value: DatatypeValueType<Type>,
+  ): VariableNode<Type, DatatypeValueType<Type>>;
   as(alias: string): VariableNode<Type, Value>;
 };
 
 export type VariableNode<
   Type extends ValueDataType = ValueDataType,
-  Value extends DatatypeValueType<Type> = DatatypeValueType<Type>,
+  Value extends VariableValue<Type> = VariableValue<Type>,
 > = BuilderNode<
   typeof VARIABLE_KIND,
   VariableNodeData<Type, Value>,
@@ -39,27 +44,27 @@ export type VariableNode<
 
 export function variable<
   Type extends ValueDataType,
-  Value extends DatatypeValueType<Type>,
+  Value extends DatatypeValueType<Type> | undefined = undefined,
 >(options: VariableNodeOptions<Type>): VariableNode<Type, Value> {
-  const create = (
-    data: VariableNodeData<Type, Value>,
-  ): VariableNode<Type, Value> => {
+  const create = <CurrentValue extends VariableValue<Type>>(
+    data: VariableNodeData<Type, CurrentValue>,
+  ): VariableNode<Type, CurrentValue> => {
     return builderNode<
       typeof VARIABLE_KIND,
       VariableNodeOptions<Type>,
-      VariableNodeMethods<Type, Value>
+      VariableNodeMethods<Type, CurrentValue>
     >({
       kind: VARIABLE_KIND,
       data,
 
       as(alias) {
-        return create({
+        return create<CurrentValue>({
           ...data,
           name: alias,
         });
       },
       assign(value) {
-        return create({
+        return create<DatatypeValueType<Type>>({
           ...data,
           value,
         });
