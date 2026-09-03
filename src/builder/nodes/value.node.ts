@@ -1,5 +1,6 @@
 import type { ObjectValues } from "../../helpers/object.helper.js";
 import type { Matrix2 } from "../../structures/matrix2.structure.js";
+import type { Matrix3 } from "../../structures/matrix3.structure.js";
 import type { Vec2 } from "../../structures/vec2.structure.js";
 import type { Vec3 } from "../../structures/vec3.structure.js";
 import type { Vec4 } from "../../structures/vec4.structure.js";
@@ -11,7 +12,6 @@ import {
   MATRIX_DATATYPE,
   type Matrix2x3,
   type Matrix2x4,
-  type Matrix3,
   type Matrix3x2,
   type Matrix3x4,
   type Matrix4,
