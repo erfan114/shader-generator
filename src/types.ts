@@ -1,7 +1,7 @@
 import type { ObjectValues } from "./helpers/object.helper.js";
+import type { Vec2 } from "./structures/vec2.structure.js";
 
 // * UTILITY TYPES
-export type Vec2<T> = [T, T];
 export type Vec3<T> = [T, T, T];
 export type Vec4<T> = [T, T, T, T];
 

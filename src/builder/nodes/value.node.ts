@@ -1,4 +1,5 @@
 import type { ObjectValues } from "../../helpers/object.helper.js";
+import type { Vec2 } from "../../structures/vec2.structure.js";
 import {
   BOOL_VEC_DATATYPE,
   type DATATYPE,
@@ -16,7 +17,6 @@ import {
   type Matrix4x3,
   SCALAR_DATATYPE,
   UINT_VEC_DATATYPE,
-  type Vec2,
   type Vec3,
   type Vec4,
 } from "../../types.js";
