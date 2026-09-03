@@ -22,16 +22,6 @@ Legend:
 - ✅ `builderNode<Kind, Data>()` factory function
 - ✅ `[Symbol.iterator]()` on nodes for generator traversal
 
-## Global Node (`src/builder/nodes/global.node.ts`)
-
-- ✅ `GlobalNode` type with generic `Defines`, `Uniforms`, `Inputs`, `Outputs`, `Functions` params
-- ✅ `createGlobalNode()` factory function
-- ❌ `createDefine()` — no factory function yet
-- ❌ `createUniform()` — now a standalone `uniform()` function in `uniform.node.ts`
-- ❌ `createInput()` — no factory function yet
-- ❌ `createOutput()` — no factory function yet
-- ❌ `createFunction()` — no factory function on GlobalNodeModel yet
-
 ## Uniform Node (`src/builder/nodes/uniform.node.ts`)
 
 - ✅ `UniformNodeOptions<Type>` type
@@ -105,13 +95,13 @@ const fn = generateFunctionDefinition()
 - ✅ `ValueDataType` type
 - ✅ `DatatypeValueType<T>` mapping
 - ✅ `ValueNode<Type>` type
-- ❌ `value()` factory function
+- ✅ `value()` factory function
 
 ## Variable API (`src/builder/nodes/variable.node.ts`)
 
-- ✅ `VariableObjectProps<T>` type
+- ❌ `VariableObjectProps<T>` type
 - ✅ `VariableNode<Type>` type
-- ❌ `variable()` factory function
+- ✅ `variable()` factory function
 
 ## Operation APIs (`src/builder/nodes/operations/`)
 
@@ -122,13 +112,13 @@ const fn = generateFunctionDefinition()
 - ✅ `modulo(left, right)` — creates `ModulusNode` via `builderNode()`
 - ✅ All use `builderNode()` factory
 - ✅ Type-level combination maps (`AdditiveCombination`, `MultiplicativeCombination`)
-- ✅ `AdditiveDatatype` / `MultiplicativeDatatype` types + runtime guards
+- ✅ `AdditiveDatatype` / `MultiplicativeDatatype` types + runtime guards (`isAdditiveDatatype`, `isMultiplicativeDatatype`)
 - ✅ `OperationNode` base type
-- ❌ Runtime type-check operands against `AdditiveDatatype` / `MultiplicativeDatatype`
+- ❌ Runtime type-check operands inside operation functions against `AdditiveDatatype` / `MultiplicativeDatatype`
 
 ## Compiler (`src/compiler/`)
 
-- ❌ `Compiler` abstract class (empty)
+- ❌ `Compiler` abstract class (empty — no code generation logic)
 - ❌ `WebGLCompiler` — GLSL ES 1.00 code generation (empty)
 - ❌ `WebGL2Compiler` — GLSL ES 3.00 code generation (empty)
 - ❌ GLSL type name mapping (`DATATYPE` enum → GLSL string)
@@ -173,8 +163,8 @@ const fn = generateFunctionDefinition()
 - ✅ `tests/builder/input.test.ts` — `.as()` and `.flat()` on input
 - ✅ `tests/builder/output.test.ts` — `.as()` and `.flat()` on output
 - ✅ `tests/builder/function.test.ts` — `generateFunctionDefinition()` fluent API
-- ❌ Add variable tests (`tests/variable.test.ts` was removed, not yet replaced)
-- ❌ Add operation tests
-- ❌ Add scope tests
+- ✅ `tests/builder/variable.test.ts` — `variable()` factory + `.as()` and `.assign()`
+- ✅ `tests/builder/addition.test.ts` — `add()` operation
+- ❌ Add scope tests (`tests/builder/scope.test.ts`)
 - ❌ Add compiler output tests (snapshot tests for generated GLSL)
 - ❌ Add builder integration tests (full shader generation)
