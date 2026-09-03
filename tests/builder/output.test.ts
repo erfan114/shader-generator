@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { output } from "../../src/builder/nodes/output.node.js";
-import { DATATYPE } from "../../src/types.js";
+import { output } from "@/builder/nodes/output.node.js";
+import { DATATYPE } from "@/types.js";
 
 describe("Output", () => {
   it("Should alias its name", () => {

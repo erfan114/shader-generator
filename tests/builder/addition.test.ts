@@ -1,9 +1,8 @@
+import { value } from "@/builder/nodes/value.node.js";
+import { variable } from "@/builder/nodes/variable.node.js";
+import { add } from "@/index.js";
+import { DATATYPE } from "@/types.js";
 import { describe, expect, it } from "vitest";
-
-import { value } from "../../src/builder/nodes/value.node.js";
-import { variable } from "../../src/builder/nodes/variable.node.js";
-import { add } from "../../src/index.js";
-import { DATATYPE } from "../../src/types.js";
 
 describe("Addition", () => {
   it("should accept two variables", () => {

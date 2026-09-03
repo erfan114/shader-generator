@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { uniform } from "../../src/index.js";
-import { DATATYPE } from "../../src/types.js";
+import { uniform } from "@/index.js";
+import { DATATYPE } from "@/types.js";
 
 describe("Uniform", () => {
   it("Should alias its name", () => {

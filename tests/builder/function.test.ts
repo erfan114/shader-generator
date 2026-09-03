@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
 
-import type { ArgumentNodeOptions } from "../../src/builder/nodes/argument.node.js";
-import { generateFunctionDefinition } from "../../src/builder/nodes/function.node.js";
-import { VALUE_DATATYPE } from "../../src/builder/nodes/value.node.js";
-import type { Datatype } from "../../src/types.js";
+import type { ArgumentNodeOptions } from "@/builder/nodes/argument.node.js";
+import { generateFunctionDefinition } from "@/builder/nodes/function.node.js";
+import { VALUE_DATATYPE } from "@/builder/nodes/value.node.js";
+import type { Datatype } from "@/types.js";
 
 describe("Function", () => {
   const valueDatatypes = Object.values(VALUE_DATATYPE);

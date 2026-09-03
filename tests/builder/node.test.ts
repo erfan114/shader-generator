@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { builderNode } from "../../src/builder/node.js";
+import { builderNode } from "@/builder/node.js";
 
 describe("Builder node", () => {
   it("should have iterator", () => {

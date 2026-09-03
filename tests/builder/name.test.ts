@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   NAME_GENERATOR_NAMING_PREFIX,
   createNameGenerator,
-} from "../../src/builder/name.js";
+} from "@/builder/name.js";
 
 describe("Name generator", () => {
   it("Generate unique names", () => {

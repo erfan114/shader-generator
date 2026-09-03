@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { createCounter } from "../src/counter.js";
+import { createCounter } from "@/counter.js";
 
 describe("Counter", () => {
   it("should use zero as first", () => {

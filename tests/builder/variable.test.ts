@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { variable } from "../../src/builder/nodes/variable.node.js";
-import { DATATYPE } from "../../src/types.js";
+import { variable } from "@/builder/nodes/variable.node.js";
+import { DATATYPE } from "@/types.js";
 
 describe("Variable", () => {
   // TODO: Test all of compatible values
