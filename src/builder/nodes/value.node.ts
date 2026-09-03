@@ -20,8 +20,9 @@ import {
   type Vec3,
   type Vec4,
 } from "../../types.js";
-import type { BuilderNode } from "../node.js";
+import { type BuilderNode, builderNode } from "../node.js";
 
+// * VALUE DATATYPE
 export const VALUE_DATATYPE = {
   ...SCALAR_DATATYPE,
   ...FLOAT_VEC_DATATYPE,
@@ -69,10 +70,24 @@ export type DatatypeValueType<T extends ValueDataType> = {
   [DATATYPE.MATRIX4x3]: Matrix4x3<number>;
 }[T];
 
+// * VALUE NODE
+const VALUE_KIND = "value";
+
+export type ValueNodeOptions<Type extends ValueDataType = ValueDataType> = {
+  type: Type;
+  data: DatatypeValueType<Type>;
+};
+
 export type ValueNode<Type extends ValueDataType = ValueDataType> = BuilderNode<
-  "value",
-  {
-    type: Type;
-    data: DatatypeValueType<Type>;
-  }
+  typeof VALUE_KIND,
+  ValueNodeOptions<Type>
 >;
+
+export function value<Type extends ValueDataType = ValueDataType>(
+  options: ValueNodeOptions<Type>,
+): ValueNode<Type> {
+  return builderNode({
+    kind: VALUE_KIND,
+    data: options,
+  });
+}
