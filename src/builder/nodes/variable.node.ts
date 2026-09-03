@@ -7,34 +7,47 @@ export type VariableNodeOptions<Type extends ValueDataType> = {
   type: Type;
 };
 
-export type VariableNodeStates<Type extends ValueDataType> = Partial<{
+export type VariableNodeStates<
+  Type extends ValueDataType,
+  Value extends DatatypeValueType<Type>,
+> = Partial<{
   name: string;
-  value: DatatypeValueType<Type>;
+  value: Value;
 }>;
 
-export type VariableNodeData<Type extends ValueDataType> =
-  VariableNodeOptions<Type> & VariableNodeStates<Type>;
+export type VariableNodeData<
+  Type extends ValueDataType,
+  Value extends DatatypeValueType<Type>,
+> = VariableNodeOptions<Type> & VariableNodeStates<Type, Value>;
 
-export type VariableNodeMethods<Type extends ValueDataType> = {
-  assign(value: DatatypeValueType<Type>): VariableNode<Type>;
-  as(alias: string): VariableNode<Type>;
+export type VariableNodeMethods<
+  Type extends ValueDataType,
+  Value extends DatatypeValueType<Type>,
+> = {
+  assign(value: Value): VariableNode<Type, Value>;
+  as(alias: string): VariableNode<Type, Value>;
 };
 
-export type VariableNode<Type extends ValueDataType = ValueDataType> =
-  BuilderNode<
-    typeof VARIABLE_KIND,
-    VariableNodeData<Type>,
-    VariableNodeMethods<Type>
-  >;
+export type VariableNode<
+  Type extends ValueDataType = ValueDataType,
+  Value extends DatatypeValueType<Type> = DatatypeValueType<Type>,
+> = BuilderNode<
+  typeof VARIABLE_KIND,
+  VariableNodeData<Type, Value>,
+  VariableNodeMethods<Type, Value>
+>;
 
-export function variable<Type extends ValueDataType>(
-  options: VariableNodeOptions<Type>,
-): VariableNode<Type> {
-  const create = (data: VariableNodeData<Type>): VariableNode<Type> => {
+export function variable<
+  Type extends ValueDataType,
+  Value extends DatatypeValueType<Type>,
+>(options: VariableNodeOptions<Type>): VariableNode<Type, Value> {
+  const create = (
+    data: VariableNodeData<Type, Value>,
+  ): VariableNode<Type, Value> => {
     return builderNode<
       typeof VARIABLE_KIND,
       VariableNodeOptions<Type>,
-      VariableNodeMethods<Type>
+      VariableNodeMethods<Type, Value>
     >({
       kind: VARIABLE_KIND,
       data,
