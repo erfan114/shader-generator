@@ -1,8 +1,4 @@
 import type { ObjectValues } from "./helpers/object.helper.js";
-import type { Vec3 } from "./structures/vec3.structure.js";
-import type { Vec4 } from "./structures/vec4.structure.js";
-
-export type Matrix4x3<T> = Vec4<Vec3<T>>;
 
 // * SCALAR TYPES
 export const SCALAR_DATATYPE = {
