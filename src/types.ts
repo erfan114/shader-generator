@@ -3,8 +3,6 @@ import type { Vec2 } from "./structures/vec2.structure.js";
 import type { Vec3 } from "./structures/vec3.structure.js";
 import type { Vec4 } from "./structures/vec4.structure.js";
 
-export type Matrix3x4<T> = Vec3<Vec4<T>>;
-
 export type Matrix4x2<T> = Vec4<Vec2<T>>;
 export type Matrix4x3<T> = Vec4<Vec3<T>>;
 
