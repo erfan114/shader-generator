@@ -35,7 +35,7 @@ export type VariableNodeMethods<
 
 export type VariableNode<
   Type extends ValueDatatype = ValueDatatype,
-  Value extends VariableValue<Type> = VariableValue<Type>,
+  Value extends VariableValue<Type> = DatatypeValueType<Type>,
 > = BuilderNode<
   typeof VARIABLE_KIND,
   VariableNodeData<Type, Value>,
