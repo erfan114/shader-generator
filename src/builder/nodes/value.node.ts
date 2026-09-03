@@ -1,16 +1,17 @@
-import type { ObjectValues } from "../../helpers/object.helper.js";
-import type { Matrix2 } from "../../structures/matrix2.structure.js";
-import type { Matrix2x3 } from "../../structures/matrix2x3.structure.js";
-import type { Matrix2x4 } from "../../structures/matrix2x4.structure.js";
-import type { Matrix3 } from "../../structures/matrix3.structure.js";
-import type { Matrix3x2 } from "../../structures/matrix3x2.structure.js";
-import type { Matrix3x4 } from "../../structures/matrix3x4.structure.js";
-import type { Matrix4 } from "../../structures/matrix4.structure.js";
-import type { Matrix4x2 } from "../../structures/matrix4x2.structure.js";
-import type { Matrix4x3 } from "../../structures/matrix4x3.structure.js";
-import type { Vec2 } from "../../structures/vec2.structure.js";
-import type { Vec3 } from "../../structures/vec3.structure.js";
-import type { Vec4 } from "../../structures/vec4.structure.js";
+import type { ObjectValues } from "@/helpers/object.helper.js";
+import type { Matrix2 } from "@/structures/matrix2.structure.js";
+import type { Matrix2x3 } from "@/structures/matrix2x3.structure.js";
+import type { Matrix2x4 } from "@/structures/matrix2x4.structure.js";
+import type { Matrix3 } from "@/structures/matrix3.structure.js";
+import type { Matrix3x2 } from "@/structures/matrix3x2.structure.js";
+import type { Matrix3x4 } from "@/structures/matrix3x4.structure.js";
+import type { Matrix4 } from "@/structures/matrix4.structure.js";
+import type { Matrix4x2 } from "@/structures/matrix4x2.structure.js";
+import type { Matrix4x3 } from "@/structures/matrix4x3.structure.js";
+import type { Vec2 } from "@/structures/vec2.structure.js";
+import type { Vec3 } from "@/structures/vec3.structure.js";
+import type { Vec4 } from "@/structures/vec4.structure.js";
+
 import {
   BOOL_VEC_DATATYPE,
   type DATATYPE,

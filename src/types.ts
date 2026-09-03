@@ -1,4 +1,4 @@
-import type { ObjectValues } from "./helpers/object.helper.js";
+import type { ObjectValues } from "@/helpers/object.helper.js";
 
 // * SCALAR TYPES
 export const SCALAR_DATATYPE = {

@@ -1,5 +1,6 @@
-import type { BuildTarget } from "../compiler/index.js";
-import { NotImplementedError } from "../errors.js";
+import type { BuildTarget } from "@/compiler/index.js";
+import { NotImplementedError } from "@/errors.js";
+
 import type { BuilderNode } from "./node.js";
 
 /* 

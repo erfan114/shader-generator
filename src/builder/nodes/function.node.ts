@@ -1,4 +1,5 @@
-import { type Datatype } from "../../types.js";
+import { type Datatype } from "@/types.js";
+
 import { type BuilderNode, builderNode } from "../node.js";
 import type { ArgumentNodeOptions } from "./argument.node.js";
 import type { ValueDatatype } from "./value.node.js";

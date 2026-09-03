@@ -1,4 +1,5 @@
-import type { Datatype } from "../../types.js";
+import type { Datatype } from "@/types.js";
+
 import { type BuilderNode, builderNode } from "../node.js";
 
 // * IO

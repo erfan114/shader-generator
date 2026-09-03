@@ -1,4 +1,4 @@
-import { createCounter } from "../counter.js";
+import { createCounter } from "@/counter.js";
 
 export const NAME_GENERATOR_NAMING_PREFIX = "g_";
 export const NAME_GENERATOR_DEFAULT_OFFSET = 1;
