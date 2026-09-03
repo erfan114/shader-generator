@@ -101,7 +101,7 @@ const fn = generateFunctionDefinition()
 
 ## Value API (`src/builder/nodes/value.node.ts`)
 
-- ✅ `VALUE_DATATYPE` constant (all non-sampler datatypes)
+- ✅ `VALUE_DATATYPE` constant (all non-sampler data types)
 - ✅ `ValueDataType` type
 - ✅ `DatatypeValueType<T>` mapping
 - ✅ `ValueNode<Type>` type
