@@ -2,7 +2,8 @@ import { type Datatype } from "@/types.js";
 
 import { type BuilderNode, builderNode } from "../node.js";
 import type { ArgumentNodeOptions } from "./argument.node.js";
-import type { ValueDatatype } from "./value.node.js";
+import type { ValueDatatype, ValueNode } from "./value.node.js";
+import type { VariableNode } from "./variable.node.js";
 
 // * FUNCTION DEFINITION
 export type FunctionDefinition<
@@ -53,7 +54,16 @@ export type FunctionBody<
   Returns extends ValueDatatype | null,
 > =
   // TODO: Generator shouldn't yield unknown, fix it
-  (...args: Args) => Generator<unknown, Returns extends null ? void : Returns>;
+  (
+    ...args: Args
+  ) => Generator<
+    unknown,
+    Returns extends null
+      ? void
+      : Returns extends ValueDatatype
+        ? ValueNode<Returns> | VariableNode<Returns>
+        : never
+  >;
 
 // * FUNCTION NODE
 const FUNCTION_KIND = "function";
