@@ -47,3 +47,7 @@ export function vec2<T>(...args: [T, T] | [T]): Vec2<T> {
 
   return args;
 }
+
+export function isVec2(value: unknown): value is Vec2<unknown> {
+  return Array.isArray(value) && value.length === 2;
+}
