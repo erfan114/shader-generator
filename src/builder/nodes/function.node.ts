@@ -53,7 +53,7 @@ export type FunctionBody<
   Returns extends ValueDatatype | null,
 > =
   // TODO: Generator shouldn't yield unknown, fix it
-  (...args: Args) => Generator<unknown, Returns>;
+  (...args: Args) => Generator<unknown, Returns extends null ? void : Returns>;
 
 // * FUNCTION NODE
 const FUNCTION_KIND = "function";
