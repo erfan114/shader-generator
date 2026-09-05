@@ -91,7 +91,7 @@ export function fn<
   Returns extends ValueDatatype | null,
 >(
   definitionGenerator: FunctionDefinitionGenerator<Args, Returns>,
-  body: FunctionBody<Args, Returns>,
+  body: FunctionBody<NoInfer<Args>, NoInfer<Returns>>,
 ): FunctionNode<Args, Returns> {
   const definition = definitionGenerator(generateFunctionDefinition());
 
