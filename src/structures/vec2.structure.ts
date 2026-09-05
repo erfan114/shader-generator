@@ -37,12 +37,12 @@ export type Vec2<T> = [T, T];
  * // [true, false]
  */
 export function vec2<T>(value: T): Vec2<T>;
-export function vec2<T>(...args: Vec2<T>): Vec2<T>;
-export function vec2<T>(...args: Vec2<T> | [T]): Vec2<T> {
+export function vec2<T>(x: T, y: T): Vec2<T>;
+export function vec2<T>(...args: [T, T] | [T]): Vec2<T> {
   if (args.length === 1) {
     const value = args[0];
 
-    return vec2(value, value);
+    return [value, value];
   }
 
   return args;
