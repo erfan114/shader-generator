@@ -6,3 +6,4 @@ export { subtract } from "@/builder/nodes/operations/subtraction.node.js";
 export { multiply } from "@/builder/nodes/operations/multiplication.node.js";
 export { divide } from "@/builder/nodes/operations/division.node.js";
 export { modulo } from "@/builder/nodes/operations/modulus.node.js";
+export { DATATYPE } from "@/types.js";
