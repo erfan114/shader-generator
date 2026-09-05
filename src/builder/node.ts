@@ -25,3 +25,14 @@ export function builderNode<Kind extends string, Data, Methods>(
     },
   };
 }
+
+export function isBuilderNode(value: unknown): value is BuilderNode {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    "kind" in value &&
+    typeof value.kind === "string" &&
+    "data" in value &&
+    Symbol.iterator in value
+  );
+}
