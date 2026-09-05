@@ -1,8 +1,14 @@
 import { describe, expect, it } from "vitest";
 
+import { builderNode } from "@/builder/node.js";
 import type { ArgumentNodeOptions } from "@/builder/nodes/argument.node.js";
-import { generateFunctionDefinition } from "@/builder/nodes/function.node.js";
-import { VALUE_DATATYPE } from "@/builder/nodes/value.node.js";
+import {
+  fn,
+  generateFunctionDefinition,
+  isFunctionNode,
+} from "@/builder/nodes/function.node.js";
+import { VALUE_DATATYPE, value } from "@/builder/nodes/value.node.js";
+import { DATATYPE, uniform, vec2 } from "@/index.js";
 import type { Datatype } from "@/types.js";
 
 describe("Function", () => {
@@ -60,6 +66,43 @@ describe("Function", () => {
       );
       expect(definitionWithReturn.args).toHaveLength(valueDatatypes.length);
       expect(definitionWithReturn.returns).toBe(datatype);
+    }
+  });
+
+  it("'isFunctionNode' should detect functions", () => {
+    const invalidEntries = [
+      vec2(1),
+      1,
+      null,
+      {},
+      [],
+      builderNode({ kind: "some-kind", data: {} }),
+      uniform({ type: DATATYPE.BOOL }),
+    ];
+
+    const validEntries = [
+      fn(
+        (d) => d,
+        function* () {},
+      ),
+      fn(
+        (d) => d.withArg({ type: DATATYPE.BOOL }),
+        function* () {},
+      ),
+      fn(
+        (d) => d.withReturn(DATATYPE.BOOL),
+        function* () {
+          return value({ type: DATATYPE.BOOL, data: true });
+        },
+      ),
+    ];
+
+    for (const validEntry of validEntries) {
+      expect(isFunctionNode(validEntry)).toBe(true);
+    }
+
+    for (const invalidEntry of invalidEntries) {
+      expect(isFunctionNode(invalidEntry)).toBe(false);
     }
   });
 });

@@ -1,6 +1,6 @@
 import { type Datatype } from "@/types.js";
 
-import { type BuilderNode, builderNode } from "../node.js";
+import { type BuilderNode, builderNode, isBuilderNode } from "../node.js";
 import type { ArgumentNodeOptions } from "./argument.node.js";
 import type { ValueDatatype, ValueNode } from "./value.node.js";
 import type { VariableNode } from "./variable.node.js";
@@ -103,4 +103,17 @@ export function fn<
       body,
     },
   });
+}
+
+export function isFunctionNode(
+  value: unknown,
+): value is FunctionNode<ArgumentNodeOptions[]> {
+  return (
+    isBuilderNode(value) &&
+    value.kind === FUNCTION_KIND &&
+    typeof value.data === "object" &&
+    value.data !== null &&
+    "args" in value.data &&
+    "returns" in value.data
+  );
 }
