@@ -18,12 +18,12 @@ describe("Vec2", () => {
 
   it("should pass 'isVec2'", () => {
     const myVec = vec2(10);
-    const invalidVec2List = ["test", 10, null, undefined];
+    const invalidEntries = ["test", 10, null, undefined];
 
     expect(isVec2(myVec)).toBe(true);
 
-    for (const invalid of invalidVec2List) {
-      expect(isVec2(invalid)).toBe(false);
+    for (const invalidEntry of invalidEntries) {
+      expect(isVec2(invalidEntry)).toBe(false);
     }
   });
 });
