@@ -92,3 +92,7 @@ export function vec3<T>(
 
   return args;
 }
+
+export function isVec3(value: unknown): value is Vec3<unknown> {
+  return Array.isArray(value) && value.length === 3;
+}
