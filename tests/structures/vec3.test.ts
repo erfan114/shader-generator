@@ -4,6 +4,12 @@ import { vec2 } from "@/structures/vec2.structure.js";
 import { isVec3, vec3 } from "@/structures/vec3.structure.js";
 
 describe("Vec3", () => {
+  it("should create within one scalar", () => {
+    const value = 10;
+
+    expect(vec3(value)).toStrictEqual([value, value, value]);
+  });
+
   it("should create within three args", () => {
     const x = 10;
     const y = 20;
