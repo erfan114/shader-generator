@@ -146,3 +146,7 @@ function fromThreeArgs<T>(
     "vec4() with three arguments requires two scalar and one Vec2",
   );
 }
+
+export function isVec4(value: unknown): value is Vec4<unknown> {
+  return Array.isArray(value) && value.length === 4;
+}
