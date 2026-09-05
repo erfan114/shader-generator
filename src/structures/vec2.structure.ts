@@ -1,8 +1,8 @@
 /**
  * A fixed-size tuple containing two values of the same type.
  *
- * `Vec2<T>` can be used to represent any pair of related values,
- * regardless of their underlying type.
+ * `Vec2<T>` can be used to represent a pair of related values,
+ * such as a position, size, or pair of flags.
  *
  * @template T The type of both values.
  *
@@ -13,10 +13,15 @@
 export type Vec2<T> = [T, T];
 
 /**
- * Creates a {@link Vec2} from two values.
+ * Creates a {@link Vec2} from one or two values.
+ *
+ * When called with a single value, that value is used for both
+ * components. When called with two values, each value is used
+ * for its corresponding component.
  *
  * @template T The type of the values.
- * @param args The two values that make up the vector.
+ * @param value The value to use for both components when a single
+ * value is provided.
  * @returns A `Vec2` containing the provided values.
  *
  * @example
@@ -24,9 +29,21 @@ export type Vec2<T> = [T, T];
  * // [10, 20]
  *
  * @example
+ * const size = vec2(10);
+ * // [10, 10]
+ *
+ * @example
  * const flags = vec2(true, false);
  * // [true, false]
  */
-export function vec2<T>(...args: Vec2<T>): Vec2<T> {
+export function vec2<T>(value: T): Vec2<T>;
+export function vec2<T>(...args: Vec2<T>): Vec2<T>;
+export function vec2<T>(...args: Vec2<T> | [T]): Vec2<T> {
+  if (args.length === 1) {
+    const value = args[0];
+
+    return vec2(value, value);
+  }
+
   return args;
 }
