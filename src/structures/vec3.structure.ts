@@ -67,30 +67,25 @@ export function vec3<T>(x: T, y: T, z: T): Vec3<T>;
 export function vec3<T>(
   ...args: [T] | [T, Vec2<T>] | [Vec2<T>, T] | [T, T, T]
 ): Vec3<T> {
-  if (args.length === 1) {
-    const value = args[0];
-
-    return [value, value, value];
+  switch (args.length) {
+    case 1:
+      return [args[0], args[0], args[0]];
+    case 2:
+      return fromTwoArgs(args);
+    default:
+      return args;
   }
+}
 
-  if (args.length === 2) {
-    const x = args[0];
-    const y = args[1];
+function fromTwoArgs<T>(args: [T, Vec2<T>] | [Vec2<T>, T]): Vec3<T> {
+  const [x, y] = args;
 
-    if (Array.isArray(x) && !Array.isArray(y)) {
-      return [...x, y];
-    }
+  if (Array.isArray(x) && !Array.isArray(y)) return [...x, y];
+  if (!Array.isArray(x) && Array.isArray(y)) return [x, ...y];
 
-    if (!Array.isArray(x) && Array.isArray(y)) {
-      return [x, ...y];
-    }
-
-    throw new TypeError(
-      "vec3() with two arguments requires one scalar and one Vec2",
-    );
-  }
-
-  return args;
+  throw new TypeError(
+    "vec3() with two arguments requires one scalar and one Vec2",
+  );
 }
 
 export function isVec3(value: unknown): value is Vec3<unknown> {
