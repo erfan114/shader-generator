@@ -3,10 +3,6 @@ import { NotImplementedError } from "@/errors.js";
 
 import type { BuilderNode } from "./node.js";
 
-/* 
-
-*/
-
 export type BuilderGenerator = () => Generator<BuilderNode>;
 
 export class Builder {
