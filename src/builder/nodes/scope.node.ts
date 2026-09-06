@@ -4,7 +4,7 @@ import type { ValueDatatype } from "./value.node.js";
 // * SCOPE BODY
 export type ScopeBody<Returns extends ValueDatatype | null> =
   // TODO: Generator shouldn't yield unknown, fix it
-  () => Generator<unknown, Returns>;
+  () => Generator<unknown, Returns extends null ? void : Returns>;
 
 // * SCOPE NODE
 const SCOPE_KIND = "scope";
