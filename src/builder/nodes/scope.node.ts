@@ -7,7 +7,7 @@ export type ScopeBody<Returns extends ValueDatatype | null> =
   () => Generator<unknown, Returns extends null ? void : Returns>;
 
 // * SCOPE NODE
-const SCOPE_KIND = "scope";
+export const SCOPE_KIND = "scope";
 
 export type ScopeNodeOptions<Returns extends ValueDatatype | null = null> = {
   body: ScopeBody<Returns>;

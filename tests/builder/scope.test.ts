@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { scope } from "@/builder/nodes/scope.node.js";
+import { scope, SCOPE_KIND } from "@/builder/nodes/scope.node.js";
 import { isBuilderNode } from "@/builder/node.js";
 import type { ValueDatatype } from "@/builder/nodes/value.node.js";
 import { DATATYPE } from "@/types.js";
@@ -9,7 +9,7 @@ describe("Scope", () => {
   it("should create a builder node with kind 'scope'", () => {
     const myScope = scope(function* () {});
 
-    expect(myScope.kind).toBe("scope");
+    expect(myScope.kind).toBe(SCOPE_KIND);
   });
 
   it("should be recognized by isBuilderNode", () => {
