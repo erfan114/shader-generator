@@ -45,11 +45,6 @@ Legend:
 - ✅ `.as(alias)` method on input/output nodes
 - ✅ `.flat()` method on input/output nodes
 
-## Define Node (`src/builder/nodes/define.node.ts`)
-
-- ✅ `DefineNode` type
-- ❌ `define()` factory function
-
 ## Function Node (`src/builder/nodes/function.node.ts`)
 
 - ✅ `FunctionDefinitionGenerator<Args, Return>` type
@@ -165,6 +160,9 @@ const fn = generateFunctionDefinition()
 - ✅ `tests/builder/function.test.ts` — `generateFunctionDefinition()` fluent API
 - ✅ `tests/builder/variable.test.ts` — `variable()` factory + `.as()` and `.assign()`
 - ✅ `tests/builder/addition.test.ts` — `add()` operation
+- ✅ `tests/structures/matrix4.test.ts` — `matrix4()` factory from `vec4` rows and scalars
+- ✅ `tests/structures/matrix4x2.test.ts` — `matrix4x2()` factory from `vec2` rows and scalars
+- ✅ `tests/structures/matrix4x3.test.ts` — `matrix4x3()` factory from `vec3` rows and scalars
 - ❌ Add scope tests (`tests/builder/scope.test.ts`)
 - ❌ Add compiler output tests (snapshot tests for generated GLSL)
 - ❌ Add builder integration tests (full shader generation)
