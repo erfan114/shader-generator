@@ -29,7 +29,7 @@ describe("Scope", () => {
     const myScope = scope(function* () {});
     const generator = myScope.data.body();
 
-    expect(typeof generator[Symbol.iterator]).toBe("function");
+    expect(generator[Symbol.iterator]).toBeTypeOf("function");
   });
 
   it("should support a null return type", () => {
