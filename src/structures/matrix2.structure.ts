@@ -23,7 +23,30 @@ import type { Vec2 } from "./vec2.structure.js";
 export type Matrix2<T> = Vec2<Vec2<T>>;
 
 /**
- * Creates a {@link Matrix2} from two rows.
+ * Creates a {@link Matrix2} from four scalar values.
+ *
+ * The values are arranged in row-major order:
+ *
+ * ```
+ * [a1, a2]
+ * [a3, a4]
+ * ```
+ *
+ * @template T The type of the matrix elements.
+ * @param a1 The first value of the first row.
+ * @param a2 The second value of the first row.
+ * @param a3 The first value of the second row.
+ * @param a4 The second value of the second row.
+ * @returns A `Matrix2` containing the provided values.
+ *
+ * @example
+ * const matrix = matrix2(1, 2, 3, 4);
+ * // [[1, 2], [3, 4]]
+ */
+export function matrix2<T>(a1: T, a2: T, a3: T, a4: T): Matrix2<T>;
+
+/**
+ * Creates a {@link Matrix2} from two {@link Vec2} rows.
  *
  * @template T The type of the matrix elements.
  * @param args The two rows that make up the matrix.
@@ -36,6 +59,15 @@ export type Matrix2<T> = Vec2<Vec2<T>>;
  * );
  * // [[1, 2], [3, 4]]
  */
-export function matrix2<T>(...args: Matrix2<T>): Matrix2<T> {
-  return args;
+export function matrix2<T>(...args: Matrix2<T>): Matrix2<T>;
+export function matrix2<T>(...args: Matrix2<T> | [T, T, T, T]): Matrix2<T> {
+  switch (args.length) {
+    case 2:
+      return args;
+    case 4:
+      return [
+        [args[0], args[1]],
+        [args[2], args[3]],
+      ];
+  }
 }
