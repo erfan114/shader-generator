@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
 
 import { fn } from "@/builder/nodes/function.node.js";
-import { isMainNode } from "@/builder/nodes/main.node.js";
+import { isMainNode, main } from "@/builder/nodes/main.node.js";
 import { DATATYPE } from "@/types.js";
 
 describe("Main", () => {
   it("'isMainNode' should detect main function", () => {
-    const myMain = fn(
+    const myMain = main(
       (d) => d,
       function* () {},
     );
