@@ -57,6 +57,7 @@ export function matrix2<T>(...args: [T, T, T, T]): Matrix2<T>;
  * // [[1, 2], [3, 4]]
  */
 export function matrix2<T>(...args: Matrix2<T>): Matrix2<T>;
+
 export function matrix2<T>(...args: Matrix2<T> | [T, T, T, T]): Matrix2<T> {
   switch (args.length) {
     case 2:
