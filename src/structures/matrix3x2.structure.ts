@@ -26,9 +26,34 @@ import type { Vec3 } from "./vec3.structure.js";
 export type Matrix3x2<T> = Vec3<Vec2<T>>;
 
 /**
- * Creates a {@link Matrix3x2} from three rows.
+ * Creates a {@link Matrix3x2} from six scalar values.
  *
- * @template T The type of the matrix elements.
+ * The values are arranged in row-major order:
+ *
+ * ```
+ * [a1, a2]
+ * [a3, a4]
+ * [a5, a6]
+ * ```
+ *
+ * @template T The type of each matrix element.
+ * @param args The six values that make up the matrix.
+ * @returns A `Matrix3x2` containing the provided values.
+ *
+ * @example
+ * const matrix = matrix3x2(
+ *   1, 2,
+ *   3, 4,
+ *   5, 6,
+ * );
+ * // [[1, 2], [3, 4], [5, 6]]
+ */
+export function matrix3x2<T>(...args: [T, T, T, T, T, T]): Matrix3x2<T>;
+
+/**
+ * Creates a {@link Matrix3x2} from three {@link Vec2} rows.
+ *
+ * @template T The type of each matrix element.
  * @param args The three rows that make up the matrix.
  * @returns A `Matrix3x2` containing the provided rows.
  *
@@ -40,6 +65,19 @@ export type Matrix3x2<T> = Vec3<Vec2<T>>;
  * );
  * // [[1, 2], [3, 4], [5, 6]]
  */
-export function matrix3x2<T>(...args: Matrix3x2<T>): Matrix3x2<T> {
-  return args;
+export function matrix3x2<T>(...args: Matrix3x2<T>): Matrix3x2<T>;
+
+export function matrix3x2<T>(
+  ...args: Matrix3x2<T> | [T, T, T, T, T, T]
+): Matrix3x2<T> {
+  switch (args.length) {
+    case 3:
+      return args;
+    case 6:
+      return [
+        [args[0], args[1]],
+        [args[2], args[3]],
+        [args[4], args[5]],
+      ];
+  }
 }
