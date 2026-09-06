@@ -33,17 +33,14 @@ export type Matrix2<T> = Vec2<Vec2<T>>;
  * ```
  *
  * @template T The type of the matrix elements.
- * @param a1 The first value of the first row.
- * @param a2 The second value of the first row.
- * @param a3 The first value of the second row.
- * @param a4 The second value of the second row.
+ * @param args The four values that make up the matrix.
  * @returns A `Matrix2` containing the provided values.
  *
  * @example
  * const matrix = matrix2(1, 2, 3, 4);
  * // [[1, 2], [3, 4]]
  */
-export function matrix2<T>(a1: T, a2: T, a3: T, a4: T): Matrix2<T>;
+export function matrix2<T>(...args: [T, T, T, T]): Matrix2<T>;
 
 /**
  * Creates a {@link Matrix2} from two {@link Vec2} rows.
