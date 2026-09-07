@@ -35,7 +35,7 @@ export class Builder {
     return new Builder(nodes);
   }
 
-  private constructor(protected readonly nodes: BuilderNodes) {}
+  private constructor(private readonly nodes: BuilderNodes) {}
 
   /**
    * Builds the shader for the specified target.
