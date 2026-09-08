@@ -1,13 +1,14 @@
 import { eq } from "@/builder/nodes/comparison/eq.node.js";
 import { gt } from "@/builder/nodes/comparison/gt.node.js";
 import { lt } from "@/builder/nodes/comparison/lt.node.js";
-import { and } from "@/builder/nodes/logical/and.node.js";
+import { and, AND_OPERATOR } from "@/builder/nodes/logical/and.node.js";
+import { LOGICAL_KIND } from "@/builder/nodes/logical/common.js";
 import { value } from "@/builder/nodes/value.node.js";
 import { DATATYPE } from "@/types.js";
 import { describe, expect, it } from "vitest";
 
 describe("and", () => {
-  it("should create a logical node with operator &&", () => {
+  it(`should create a logical node with operator ${AND_OPERATOR}`, () => {
     const result = and(
       eq(
         value({ type: DATATYPE.FLOAT, data: 1 }),
@@ -19,8 +20,8 @@ describe("and", () => {
       ),
     );
 
-    expect(result.data.operator).toBe("&&");
-    expect(result.kind).toBe("logical");
+    expect(result.data.operator).toBe(AND_OPERATOR);
+    expect(result.kind).toBe(LOGICAL_KIND);
   });
 
   it("should accept comparison nodes", () => {
@@ -35,8 +36,8 @@ describe("and", () => {
       ),
     );
 
-    expect(result.data.operator).toBe("&&");
-    expect(result.kind).toBe("logical");
+    expect(result.data.operator).toBe(AND_OPERATOR);
+    expect(result.kind).toBe(LOGICAL_KIND);
     expect(result.data.left).toBeDefined();
     expect(result.data.right).toBeDefined();
   });
