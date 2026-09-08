@@ -29,6 +29,14 @@ export { and } from "@/builder/nodes/logical/and.node.js";
 export { not } from "@/builder/nodes/logical/not.node.js";
 export { or } from "@/builder/nodes/logical/or.node.js";
 
+// Comparison nodes
+export { eq } from "@/builder/nodes/comparison/eq.node.js";
+export { gt } from "@/builder/nodes/comparison/gt.node.js";
+export { gte } from "@/builder/nodes/comparison/gte.node.js";
+export { lt } from "@/builder/nodes/comparison/lt.node.js";
+export { lte } from "@/builder/nodes/comparison/lte.node.js";
+export { neq } from "@/builder/nodes/comparison/neq.node.js";
+
 // Structures
 export type { Vec2 } from "@/structures/vec2.structure.js";
 export { vec2 } from "@/structures/vec2.structure.js";
