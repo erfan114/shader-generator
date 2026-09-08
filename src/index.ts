@@ -1,5 +1,5 @@
 // Builder
-export { Builder } from "@/builder/index.js";
+export { Builder } from "@/builder/builder.js";
 
 // Compiler
 export type { BuildTarget } from "@/compiler/index.js";
