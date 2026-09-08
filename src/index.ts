@@ -38,6 +38,24 @@ export { lte } from "@/builder/nodes/comparison/lte.node.js";
 export { neq } from "@/builder/nodes/comparison/neq.node.js";
 
 // Structures
+export type { Matrix2 } from "@/structures/matrix2.structure.js";
+export { matrix2 } from "@/structures/matrix2.structure.js";
+export type { Matrix2x3 } from "@/structures/matrix2x3.structure.js";
+export { matrix2x3 } from "@/structures/matrix2x3.structure.js";
+export type { Matrix2x4 } from "@/structures/matrix2x4.structure.js";
+export { matrix2x4 } from "@/structures/matrix2x4.structure.js";
+export type { Matrix3 } from "@/structures/matrix3.structure.js";
+export { matrix3 } from "@/structures/matrix3.structure.js";
+export type { Matrix3x2 } from "@/structures/matrix3x2.structure.js";
+export { matrix3x2 } from "@/structures/matrix3x2.structure.js";
+export type { Matrix3x4 } from "@/structures/matrix3x4.structure.js";
+export { matrix3x4 } from "@/structures/matrix3x4.structure.js";
+export type { Matrix4 } from "@/structures/matrix4.structure.js";
+export { matrix4 } from "@/structures/matrix4.structure.js";
+export type { Matrix4x2 } from "@/structures/matrix4x2.structure.js";
+export { matrix4x2 } from "@/structures/matrix4x2.structure.js";
+export type { Matrix4x3 } from "@/structures/matrix4x3.structure.js";
+export { matrix4x3 } from "@/structures/matrix4x3.structure.js";
 export type { Vec2 } from "@/structures/vec2.structure.js";
 export { vec2 } from "@/structures/vec2.structure.js";
 export type { Vec3 } from "@/structures/vec3.structure.js";
