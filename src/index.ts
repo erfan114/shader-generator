@@ -24,7 +24,10 @@ export { modulo } from "@/builder/nodes/operations/modulus.node.js";
 export { multiply } from "@/builder/nodes/operations/multiplication.node.js";
 export { subtract } from "@/builder/nodes/operations/subtraction.node.js";
 
-// Boolean condition nodes
+// Logical nodes
+export { and } from "@/builder/nodes/logical/and.node.js";
+export { not } from "@/builder/nodes/logical/not.node.js";
+export { or } from "@/builder/nodes/logical/or.node.js";
 
 // Structures
 export type { Vec2 } from "@/structures/vec2.structure.js";
