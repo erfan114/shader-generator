@@ -29,14 +29,16 @@ export type ComparisonSide<Type extends ComparisonDatatype> =
 
 export const COMPARISON_KIND = "comparison";
 
+export type ComparisonNodeOptions<
+  Operator extends string = string,
+  Type extends ComparisonDatatype = ComparisonDatatype,
+> = {
+  operator: Operator;
+  left: ComparisonSide<Type>;
+  right: ComparisonSide<Type>;
+};
+
 export type ComparisonNode<
   Operator extends string = string,
   Type extends ComparisonDatatype = ComparisonDatatype,
-> = BuilderNode<
-  typeof COMPARISON_KIND,
-  {
-    operator: Operator;
-    left: ComparisonSide<Type>;
-    right: ComparisonSide<Type>;
-  }
->;
+> = BuilderNode<typeof COMPARISON_KIND, ComparisonNodeOptions<Operator, Type>>;
