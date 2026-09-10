@@ -7,7 +7,7 @@ import type { FunctionNode } from "./nodes/function.node.js";
 import type { InputNode } from "./nodes/input.node.js";
 import type { OutputNode } from "./nodes/output.node.js";
 import type { UniformNode } from "./nodes/uniform.node.js";
-import { BuilderNodeYieldError } from "./error.js";
+import { InvalidGeneratorMainError, InvalidNodeYieldError } from "./error.js";
 
 export type BuilderGeneratorYield =
   FunctionNode | InputNode | OutputNode | UniformNode;
@@ -29,7 +29,7 @@ export class Builder {
 
     while (!current.done) {
       if (!isBuilderNode(current.value)) {
-        throw new BuilderNodeYieldError();
+        throw new InvalidNodeYieldError();
       }
 
       nodes.push(current.value);
@@ -37,9 +37,7 @@ export class Builder {
     }
 
     if (!isMainNode(current.value)) {
-      throw new Error(
-        "Invalid builder generator: its final return value must be a 'MainNode'",
-      );
+      throw new InvalidGeneratorMainError();
     }
 
     nodes.push(current.value);
