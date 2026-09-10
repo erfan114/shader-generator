@@ -33,6 +33,7 @@ export class Builder {
       }
 
       nodes.push(current.value);
+
       current = instance.next(current.value);
     }
 
