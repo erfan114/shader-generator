@@ -94,9 +94,11 @@ const fn = generateFunctionDefinition()
 
 ## Variable API (`src/builder/nodes/variable.node.ts`)
 
-- ❌ `VariableObjectProps<T>` type
+- ❌ `VariableObjectProps<T>` type — not yet implemented
 - ✅ `VariableNode<Type>` type
 - ✅ `variable()` factory function
+- ✅ `.as(alias)` method on variable node
+- ✅ `.assign(value)` method on variable node
 
 ## Operation APIs (`src/builder/nodes/operations/`)
 
@@ -113,9 +115,9 @@ const fn = generateFunctionDefinition()
 
 ## Compiler (`src/compiler/`)
 
-- ❌ `Compiler` abstract class (empty — no code generation logic)
-- ❌ `WebGLCompiler` — GLSL ES 1.00 code generation (empty)
-- ❌ `WebGL2Compiler` — GLSL ES 3.00 code generation (empty)
+- ❌ `Compiler` abstract class (has skeleton — `compile`, `normalize`, `validate`, `emit`; `validate` throws `NotImplementedError`)
+- ❌ `WebGLCompiler` — GLSL ES 1.00 code generation (empty, `createContext` and `emit` throw `NotImplementedError`)
+- ❌ `WebGL2Compiler` — GLSL ES 3.00 code generation (empty, `createContext` and `emit` throw `NotImplementedError`)
 - ❌ GLSL type name mapping (`DATATYPE` enum → GLSL string)
 - ❌ Emit source code for any node types
 
@@ -163,6 +165,6 @@ const fn = generateFunctionDefinition()
 - ✅ `tests/structures/matrix4.test.ts` — `matrix4()` factory from `vec4` rows and scalars
 - ✅ `tests/structures/matrix4x2.test.ts` — `matrix4x2()` factory from `vec2` rows and scalars
 - ✅ `tests/structures/matrix4x3.test.ts` — `matrix4x3()` factory from `vec3` rows and scalars
-- ❌ Add scope tests (`tests/builder/scope.test.ts`)
+- ✅ `tests/builder/scope.test.ts` — scope node tests
 - ❌ Add compiler output tests (snapshot tests for generated GLSL)
 - ❌ Add builder integration tests (full shader generation)
