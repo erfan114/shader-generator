@@ -78,7 +78,7 @@ const builder = Builder.from_generator(function* () {
 });
 
 // Selects the target compiler — not yet implemented, throws NotImplementedError today:
-builder.build("webgl"); // → GLSL ES 1.00
+builder.compile(compiler); // → GLSL ES 1.00
 ```
 
 Operations follow the same pattern: each is a factory returning a node, so they compose
@@ -120,7 +120,7 @@ For example, the same logical shader input may require different GLSL declaratio
 The compiler produces the final GLSL source code:
 
 ```ts
-const source = builder.build(/* target */);
+const source = builder.compile(compiler);
 ```
 
 The resulting source can then be passed to WebGL for shader compilation.
@@ -191,7 +191,7 @@ const builder = Builder.from_generator(function* () {
 });
 
 // Select target & generate source
-builder.build("webgl"); // → GLSL ES 1.00  (not yet implemented)
+builder.compile(compiler); // → GLSL ES 1.00  (not yet implemented)
 ```
 
 The exact API is still evolving as the shader representation and compiler architecture are developed. See [ARCHITECTURE.md](./ARCHITECTURE.md) for details.

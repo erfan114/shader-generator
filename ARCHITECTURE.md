@@ -154,7 +154,7 @@ const builder = Builder.from_generator(function* () {
 });
 
 // Not yet implemented — throws NotImplementedError
-builder.build("webgl");
+builder.compile(compiler);
 ```
 
 `Builder.build(target)` is where a `BuildTarget` ("webgl" | "webgl2") selects the
@@ -284,6 +284,12 @@ produces a `builderNode`):
 | `createNameGenerator()`                                         | `name.ts`          | ✅ done | Hex `g_` prefixed names; tested                                   |
 | `createCounter()`                                               | `counter.ts`       | ✅ done | Clamped counter; tested                                           |
 | `input()` / `output()` / `define()` / `variable()` / `value()`  | various            | ❌ stub | Type exists, **no factory function**                              |
+
+| `for_()` | `control-flow/for.test.ts` | ✅ done | 4 tests covering init/null, conditions, updates |
+| `do_()` | `control-flow/do.test.ts` | ✅ done | 4 tests covering boolean expressions and body |
+| `if_()` | `control-flow/if.test.ts` | ✅ done | 5 tests covering lt/gt comparisons and body |
+| `while_()` | `control-flow/while.test.ts` | ✅ done | 5 tests covering lt/gt comparisons and body |
+| `switch_()` | `control-flow/switch.test.ts` | ✅ done | 5 tests covering cases array, defaultCase, variable expressions |
 
 ### Operation type promotion
 

@@ -13,7 +13,7 @@ Legend:
 - ✅ `BuilderGenerator` type — `() => Generator<BuilderNode>`
 - ✅ `Builder.from_generator(generator)` static method
 - ✅ `Builder` private constructor (takes `BuilderGenerator`)
-- 🚧 `build(target: BuildTarget): string` — throws `NotImplementedError`
+- 🚧 `compile(compiler: Compiler): string` — throws `NotImplementedError`
 
 ## Node Base (`src/builder/node.ts`)
 
