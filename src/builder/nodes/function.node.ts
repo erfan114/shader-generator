@@ -82,7 +82,7 @@ export type FunctionNodeStates = Partial<{
 }>;
 
 export type FunctionNode<
-  Args extends ArgumentNodeOptions[],
+  Args extends ArgumentNodeOptions[] = ArgumentNodeOptions[],
   Returns extends ValueDatatype | null = null,
 > = BuilderNode<typeof FUNCTION_KIND, FunctionNodeOptions<Args, Returns>>;
 
