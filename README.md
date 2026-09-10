@@ -2,7 +2,7 @@
 
 A utility library for generating GLSL shader source code programmatically.
 
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/erfan114/shader-generator)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/erfan114/shader-generator) [![License: MIT](https://img.shields.io/github/license/erfan114/shader-generator)](https://github.com/erfan114/shader-generator/blob/main/LICENSE) ![Tests](https://github.com/erfan114/shader-generator/actions/workflows/tests.yml/badge.svg)
 
 ![Banner](https://github.com/erfan114/shader-generator/blob/assets/banner.png)
 
