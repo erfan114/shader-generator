@@ -4,7 +4,7 @@ import { type IONode, io } from "./common.js";
 
 const OUTPUT_KIND = "output";
 
-export type OutputNode<Type extends Datatype> = IONode<
+export type OutputNode<Type extends Datatype = Datatype> = IONode<
   typeof OUTPUT_KIND,
   Type
 >;
