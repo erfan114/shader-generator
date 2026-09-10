@@ -33,6 +33,7 @@ export { or } from "@/builder/nodes/logical/or.node.js";
 export { do_ } from "@/builder/nodes/control-flow/do.node.js";
 export { for_ } from "@/builder/nodes/control-flow/for.node.js";
 export { if_ } from "@/builder/nodes/control-flow/if.node.js";
+export { switch_ } from "@/builder/nodes/control-flow/switch.node.js";
 export { while_ } from "@/builder/nodes/control-flow/while.node.js";
 
 // Comparison nodes
