@@ -29,6 +29,12 @@ export { and } from "@/builder/nodes/logical/and.node.js";
 export { not } from "@/builder/nodes/logical/not.node.js";
 export { or } from "@/builder/nodes/logical/or.node.js";
 
+// Control-flow nodes
+export { do_ } from "@/builder/nodes/control-flow/do.node.js";
+export { for_ } from "@/builder/nodes/control-flow/for.node.js";
+export { if_ } from "@/builder/nodes/control-flow/if.node.js";
+export { while_ } from "@/builder/nodes/control-flow/while.node.js";
+
 // Comparison nodes
 export { eq } from "@/builder/nodes/comparison/eq.node.js";
 export { gt } from "@/builder/nodes/comparison/gt.node.js";
