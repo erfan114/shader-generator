@@ -3,11 +3,19 @@ import { NotImplementedError } from "@/errors.js";
 
 import type { BuilderNode } from "./node.js";
 import { type MainNode, isMainNode } from "./nodes/main.node.js";
+import type { FunctionNode } from "./nodes/function.node.js";
+import type { InputNode } from "./nodes/input.node.js";
+import type { OutputNode } from "./nodes/output.node.js";
+import type { UniformNode } from "./nodes/uniform.node.js";
+
+// TODO: Limit yield to global available things
+export type BuilderGeneratorYield =
+  FunctionNode | InputNode | OutputNode | UniformNode;
 
 export type BuilderGenerator = () => Generator<
-  BuilderNode,
+  BuilderGeneratorYield,
   MainNode,
-  BuilderNode
+  BuilderGeneratorYield
 >;
 
 type BuilderNodes = BuilderNode[];
