@@ -8,7 +8,6 @@ import type { InputNode } from "./nodes/input.node.js";
 import type { OutputNode } from "./nodes/output.node.js";
 import type { UniformNode } from "./nodes/uniform.node.js";
 
-// TODO: Limit yield to global available things
 export type BuilderGeneratorYield =
   FunctionNode | InputNode | OutputNode | UniformNode;
 
