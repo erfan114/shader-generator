@@ -1,4 +1,3 @@
-import type { BuildTarget } from "@/compiler/index.js";
 import { NotImplementedError } from "@/errors.js";
 
 import { isBuilderNode, type BuilderNode } from "./node.js";
@@ -8,6 +7,7 @@ import type { InputNode } from "./nodes/input.node.js";
 import type { OutputNode } from "./nodes/output.node.js";
 import type { UniformNode } from "./nodes/uniform.node.js";
 import { InvalidGeneratorMainError, InvalidNodeYieldError } from "./error.js";
+import type { Compiler } from "@/compiler/compiler.js";
 
 export type BuilderGeneratorYield =
   FunctionNode | InputNode | OutputNode | UniformNode;
@@ -49,12 +49,11 @@ export class Builder {
   private constructor(private readonly nodes: BuilderNodes) {}
 
   /**
-   * Builds the shader for the specified target.
-   * @param target - The {@link BuildTarget} for building the shader.
+   * Compiles the shader for the specified target.
+   * @param compiler - The {@link Compiler} for compiling the shader.
    * @returns The built shader code.
-   * @throws Will throw an error if the build target is not supported or the main is not defined.
    */
-  public build(target: BuildTarget): string {
+  public compile(compiler: Compiler): string {
     throw new NotImplementedError();
   }
 }

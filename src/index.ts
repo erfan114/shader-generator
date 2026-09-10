@@ -2,7 +2,8 @@
 export { Builder } from "@/builder/builder.js";
 
 // Compiler
-export type { BuildTarget } from "@/compiler/index.js";
+export { WebGLCompiler } from "@/compiler/webgl.compiler.js";
+export { WebGL2Compiler } from "@/compiler/webgl2.compiler.js";
 
 // Data types
 export { DATATYPE } from "@/types.js";
