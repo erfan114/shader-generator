@@ -7,7 +7,7 @@ import type { FunctionNode } from "./nodes/function.node.js";
 import type { InputNode } from "./nodes/input.node.js";
 import type { OutputNode } from "./nodes/output.node.js";
 import type { UniformNode } from "./nodes/uniform.node.js";
-import { InvalidYieldError } from "./error.js";
+import { BuilderNodeYieldError } from "./error.js";
 
 export type BuilderGeneratorYield =
   FunctionNode | InputNode | OutputNode | UniformNode;
@@ -29,7 +29,7 @@ export class Builder {
 
     while (!current.done) {
       if (!isBuilderNode(current.value)) {
-        throw new InvalidYieldError();
+        throw new BuilderNodeYieldError();
       }
 
       nodes.push(current.value);
