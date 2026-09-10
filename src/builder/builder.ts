@@ -1,12 +1,13 @@
 import type { BuildTarget } from "@/compiler/index.js";
 import { NotImplementedError } from "@/errors.js";
 
-import type { BuilderNode } from "./node.js";
+import { isBuilderNode, type BuilderNode } from "./node.js";
 import { type MainNode, isMainNode } from "./nodes/main.node.js";
 import type { FunctionNode } from "./nodes/function.node.js";
 import type { InputNode } from "./nodes/input.node.js";
 import type { OutputNode } from "./nodes/output.node.js";
 import type { UniformNode } from "./nodes/uniform.node.js";
+import { InvalidYieldError } from "./error.js";
 
 export type BuilderGeneratorYield =
   FunctionNode | InputNode | OutputNode | UniformNode;
@@ -27,6 +28,10 @@ export class Builder {
     let current = instance.next();
 
     while (!current.done) {
+      if (!isBuilderNode(current.value)) {
+        throw new InvalidYieldError();
+      }
+
       nodes.push(current.value);
       current = instance.next(current.value);
     }
