@@ -53,11 +53,11 @@ export type FunctionBody<
   Args extends ArgumentNodeOptions[],
   Returns extends ValueDatatype | null,
 > =
-  // TODO: Generator shouldn't yield unknown, replace it with something more specific
+  // TODO: Generator shouldn't yield BuilderNode, replace it with something more specific
   (
     ...args: Args
   ) => Generator<
-    unknown,
+    BuilderNode,
     Returns extends null
       ? void
       : Returns extends ValueDatatype
