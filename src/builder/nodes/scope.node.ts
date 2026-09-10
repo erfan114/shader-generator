@@ -2,9 +2,10 @@ import { type BuilderNode, builderNode } from "../node.js";
 import type { ValueDatatype } from "./value.node.js";
 
 // * SCOPE BODY
-export type ScopeBody<Returns extends ValueDatatype | null> =
-  // TODO: Generator shouldn't yield unknown, fix it
-  () => Generator<unknown, Returns extends null ? void : Returns>;
+export type ScopeBody<Returns extends ValueDatatype | null> = () => Generator<
+  BuilderNode,
+  Returns extends null ? void : Returns
+>;
 
 // * SCOPE NODE
 export const SCOPE_KIND = "scope";
