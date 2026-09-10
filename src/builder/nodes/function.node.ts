@@ -53,7 +53,7 @@ export type FunctionBody<
   Args extends ArgumentNodeOptions[],
   Returns extends ValueDatatype | null,
 > =
-  // TODO: Generator shouldn't yield unknown, fix it
+  // TODO: Generator shouldn't yield unknown, replace it with something more specific
   (
     ...args: Args
   ) => Generator<
