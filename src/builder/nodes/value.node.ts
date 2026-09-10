@@ -84,6 +84,8 @@ export type ValueNode<Type extends ValueDatatype = ValueDatatype> = BuilderNode<
   ValueNodeOptions<Type>
 >;
 
+export type InferValueType<T> = T extends ValueNode<infer R> ? R : never;
+
 export function value<Type extends ValueDatatype = ValueDatatype>(
   options: ValueNodeOptions<Type>,
 ): ValueNode<Type> {
