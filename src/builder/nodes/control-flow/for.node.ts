@@ -57,7 +57,7 @@ export type ForNodeOptions<Init extends ForNodeInit> = {
    *
    * When `init` is not `null`, the loop variable is passed to the generator.
    */
-  body: ForNodeBody<Init>;
+  body: ForNodeBody<NoInfer<Init>>;
 };
 
 /**
