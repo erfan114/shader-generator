@@ -1,6 +1,5 @@
 import type { BuilderNode } from "@/builder/node.js";
 import type { CompilerContext } from "./context.js";
-import { NotImplementedError } from "@/errors.js";
 
 export abstract class Compiler {
   public compile(nodes: readonly BuilderNode[]): string {
@@ -25,7 +24,7 @@ export abstract class Compiler {
     nodes: readonly BuilderNode[],
     context: CompilerContext,
   ): void {
-    throw new NotImplementedError();
+    // TODO: Implement it
   }
 
   protected abstract emit(
