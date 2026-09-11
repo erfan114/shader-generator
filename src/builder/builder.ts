@@ -1,6 +1,6 @@
 import { NotImplementedError } from "@/errors.js";
 
-import { isBuilderNode, type BuilderNode } from "./node.js";
+import { isBuilderNode } from "./node.js";
 import { type MainNode, isMainNode } from "./nodes/main.node.js";
 import type { FunctionNode } from "./nodes/function.node.js";
 import type { InputNode } from "./nodes/input.node.js";
@@ -18,11 +18,11 @@ export type BuilderGenerator = () => Generator<
   BuilderGeneratorYield
 >;
 
-type BuilderNodes = BuilderNode[];
+export type BuilderNodes = [...BuilderGeneratorYield[], MainNode];
 
 export class Builder {
   public static from_generator(generator: BuilderGenerator): Builder {
-    const nodes: BuilderNodes = [];
+    const nodes: BuilderGeneratorYield[] = [];
     const instance = generator();
 
     let current = instance.next();
@@ -41,9 +41,9 @@ export class Builder {
       throw new InvalidGeneratorMainError();
     }
 
-    nodes.push(current.value);
+    const nodesWithMain: BuilderNodes = [...nodes, current.value];
 
-    return new Builder(nodes);
+    return new Builder(nodesWithMain);
   }
 
   private constructor(private readonly nodes: BuilderNodes) {}
