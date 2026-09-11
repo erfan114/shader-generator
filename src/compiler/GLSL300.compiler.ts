@@ -3,7 +3,7 @@ import { Compiler } from "./compiler.js";
 import type { CompilerContext } from "./context.js";
 import type { BuilderNode } from "@/builder/node.js";
 
-export class WebGL2Compiler extends Compiler {
+export class GLSL300Compiler extends Compiler {
   protected createContext(): CompilerContext {
     throw new NotImplementedError();
   }

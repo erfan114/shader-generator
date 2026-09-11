@@ -2,8 +2,8 @@
 export { Builder } from "@/builder/builder.js";
 
 // Compiler
-export { WebGLCompiler } from "@/compiler/webgl.compiler.js";
-export { WebGL2Compiler } from "@/compiler/webgl2.compiler.js";
+export { GLSL100Compiler } from "@/compiler/GLSL100.compiler.js";
+export { GLSL300Compiler } from "@/compiler/GLSL300.compiler.js";
 
 // Data types
 export { DATATYPE } from "@/types.js";
