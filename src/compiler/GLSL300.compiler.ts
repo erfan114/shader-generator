@@ -7,6 +7,7 @@ export class GLSL300Compiler extends Compiler {
   protected createContext(): CompilerContext {
     throw new NotImplementedError();
   }
+
   protected emit(
     nodes: readonly BuilderNode[],
     context: CompilerContext,
