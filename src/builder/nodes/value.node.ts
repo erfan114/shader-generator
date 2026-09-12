@@ -72,7 +72,7 @@ export type DatatypeValueType<T extends ValueDatatype> = {
 }[T];
 
 // * VALUE NODE
-const VALUE_KIND = "value";
+export const VALUE_KIND = "value";
 
 export type ValueNodeOptions<Type extends ValueDatatype = ValueDatatype> = {
   type: Type;
