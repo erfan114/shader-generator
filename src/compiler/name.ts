@@ -46,7 +46,7 @@ export const NAME_GENERATOR_DEFAULT_OFFSET = 1;
  */
 export function* createNameGenerator(): Generator<
   string,
-  string,
+  void,
   number | undefined
 > {
   const counter = createCounter();
