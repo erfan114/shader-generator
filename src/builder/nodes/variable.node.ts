@@ -1,7 +1,7 @@
 import { type BuilderNode, builderNode } from "../node.js";
 import type { DatatypeValueType, ValueDatatype } from "./value.node.js";
 
-const VARIABLE_KIND = "variable";
+export const VARIABLE_KIND = "variable";
 
 export type VariableNodeOptions<Type extends ValueDatatype> = {
   type: Type;
