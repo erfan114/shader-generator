@@ -66,7 +66,7 @@ export type FunctionBody<
   >;
 
 // * FUNCTION NODE
-const FUNCTION_KIND = "function";
+export const FUNCTION_KIND = "function";
 
 export type FunctionNodeOptions<
   Args extends ArgumentNodeOptions[],
