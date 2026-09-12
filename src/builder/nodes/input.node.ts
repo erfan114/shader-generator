@@ -2,7 +2,7 @@ import type { Datatype } from "@/types.js";
 
 import { type IONode, io } from "./common.js";
 
-const INPUT_KIND = "input";
+export const INPUT_KIND = "input";
 
 export type InputNode<Type extends Datatype = Datatype> = IONode<
   typeof INPUT_KIND,
