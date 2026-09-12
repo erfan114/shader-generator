@@ -2,7 +2,7 @@ import type { Datatype } from "@/types.js";
 
 import { type BuilderNode, builderNode } from "../node.js";
 
-const ARGUMENT_KIND = "argument";
+export const ARGUMENT_KIND = "argument";
 
 // * ARGUMENT NODE
 export type ArgumentNodeOptions<
