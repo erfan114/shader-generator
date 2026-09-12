@@ -2,7 +2,7 @@ import type { Datatype } from "@/types.js";
 
 import { type BuilderNode, builderNode } from "../node.js";
 
-const UNIFORM_KIND = "uniform";
+export const UNIFORM_KIND = "uniform";
 
 export type UniformNodeOptions<Type extends Datatype> = {
   type: Type;
