@@ -1,7 +1,6 @@
 import { createCounter } from "@/counter.js";
 
-export const NAME_GENERATOR_NAMING_PREFIX = "g_";
-export const NAME_GENERATOR_DEFAULT_OFFSET = 1;
+export const NAME_GENERATOR_NAMING_PREFIX = "_";
 
 export type NameGenerator = {
   generate(prefix?: string): string;
