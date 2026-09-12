@@ -1,3 +1,5 @@
+export type Counter = Generator<number, never, number>;
+
 /**
  * Creates a counter generator that yields the current count and optionally
  * advances it by a specified amount.
@@ -43,9 +45,7 @@
  * counter.next().value;    // 1
  * ```
  */
-export function* createCounter(
-  initial: number = 0,
-): Generator<number, number, number> {
+export function* createCounter(initial: number = 0): Counter {
   let count = Math.max(0, initial);
   let addition = yield count;
 
