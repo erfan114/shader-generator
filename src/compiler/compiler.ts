@@ -1,15 +1,13 @@
-import type { BuilderNode } from "@/builder/node.js";
 import type { CompilerContext } from "./context.js";
 import { SourceEmitter } from "./emitter.js";
-
-type ProcessNodes = readonly BuilderNode[];
+import type { BuilderNodes } from "@/builder/builder.js";
 
 export type CompilerFactoryOptions = {
   context: CompilerContext;
-  emit: (props: { nodes: ProcessNodes; emitter: SourceEmitter }) => string;
+  emit: (props: { nodes: BuilderNodes; emitter: SourceEmitter }) => string;
 };
 
-type CompileArgs = [nodes: ProcessNodes];
+type CompileArgs = [nodes: BuilderNodes];
 
 export type Compiler = {
   compile(...args: CompileArgs): string;
