@@ -3,7 +3,7 @@ import { createCounter } from "@/counter.js";
 export const NAME_GENERATOR_NAMING_PREFIX = "g_";
 export const NAME_GENERATOR_DEFAULT_OFFSET = 1;
 
-export type NameGenerator = Generator<string, void, number | undefined>;
+export type NameGenerator = Generator<string, never, number | undefined>;
 
 /**
  * Creates a generator that produces unique names using a hexadecimal counter.
