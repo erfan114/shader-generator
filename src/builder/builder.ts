@@ -1,5 +1,3 @@
-import { NotImplementedError } from "@/errors.js";
-
 import { isBuilderNode } from "./node.js";
 import { type MainNode, isMainNode } from "./nodes/main.node.js";
 import type { FunctionNode } from "./nodes/function.node.js";
@@ -54,6 +52,6 @@ export class Builder {
    * @returns The built shader code.
    */
   public compile(compiler: Compiler): string {
-    throw new NotImplementedError();
+    return compiler.compile(this.nodes);
   }
 }
