@@ -1,17 +1,10 @@
-import type { BuilderNode } from "@/builder/node.js";
-import { Compiler } from "./compiler.js";
-import type { CompilerContext } from "./context.js";
-import { NotImplementedError } from "@/errors.js";
+import { createCompiler } from "./compiler.js";
 
-export class GLSL100Compiler extends Compiler {
-  protected createContext(): CompilerContext {
-    throw new NotImplementedError();
-  }
+export const GLSL100Compiler = createCompiler({
+  context: {},
+  emit: ({ nodes, emitter }) => {
+    // TODO: Process nodes
 
-  protected emit(
-    nodes: readonly BuilderNode[],
-    context: CompilerContext,
-  ): string {
-    throw new NotImplementedError();
-  }
-}
+    return emitter.toString();
+  },
+});

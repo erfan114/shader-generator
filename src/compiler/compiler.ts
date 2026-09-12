@@ -1,34 +1,27 @@
 import type { BuilderNode } from "@/builder/node.js";
 import type { CompilerContext } from "./context.js";
+import { SourceEmitter } from "./emitter.js";
 
-export abstract class Compiler {
-  public compile(nodes: readonly BuilderNode[]): string {
-    const context = this.createContext();
-    const normalized = this.normalize(nodes, context);
+type ProcessNodes = readonly BuilderNode[];
 
-    this.validate(normalized, context);
+export type CompilerFactoryOptions = {
+  context: CompilerContext;
+  emit: (props: { nodes: ProcessNodes; emitter: SourceEmitter }) => string;
+};
 
-    return this.emit(normalized, context);
-  }
+type CompileArgs = [nodes: ProcessNodes];
 
-  protected abstract createContext(): CompilerContext;
+export type Compiler = {
+  compile(...args: CompileArgs): string;
+};
 
-  protected normalize(
-    nodes: readonly BuilderNode[],
-    context: CompilerContext,
-  ): readonly BuilderNode[] {
-    return nodes;
-  }
-
-  protected validate(
-    nodes: readonly BuilderNode[],
-    context: CompilerContext,
-  ): void {
-    // TODO: Implement it
-  }
-
-  protected abstract emit(
-    nodes: readonly BuilderNode[],
-    context: CompilerContext,
-  ): string;
+export function createCompiler(options: CompilerFactoryOptions): Compiler {
+  return {
+    compile: (nodes) => {
+      return options.emit({
+        emitter: new SourceEmitter(),
+        nodes,
+      });
+    },
+  };
 }
