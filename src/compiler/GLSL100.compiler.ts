@@ -81,6 +81,8 @@ export const GLSL100Compiler = createCompiler({
         case DATATYPE.INT_SAMPLER_CUBE:
         case DATATYPE.UINT_SAMPLER_CUBE:
           return "samplerCube";
+        default:
+          throw new Error(`Unsupported GLSL 100 datatype: ${String(datatype)}`);
       }
     },
   },
