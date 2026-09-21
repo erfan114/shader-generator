@@ -1,6 +1,6 @@
 import { createCounter } from "@/counter.js";
 
-export const NAME_GENERATOR_NAMING_PREFIX = "_";
+export const NAME_GENERATOR_DEFAULT_PREFIX = "_";
 
 export type NameGenerator = {
   generate(prefix?: string): string;
@@ -10,7 +10,7 @@ export function createNameGenerator(): NameGenerator {
   const counter = createCounter();
 
   return {
-    generate: (prefix = NAME_GENERATOR_NAMING_PREFIX) => {
+    generate: (prefix = NAME_GENERATOR_DEFAULT_PREFIX) => {
       const nextNumber = counter.next().value;
 
       return `${prefix}${nextNumber}`;

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
-  NAME_GENERATOR_NAMING_PREFIX,
+  NAME_GENERATOR_DEFAULT_PREFIX,
   createNameGenerator,
 } from "@/compiler/name.js";
 
@@ -20,7 +20,7 @@ describe("Name generator", () => {
   it("Skip 10 names", () => {
     const nameGenerator = createNameGenerator();
 
-    expect(nameGenerator.generate()).toBe(`${NAME_GENERATOR_NAMING_PREFIX}0`);
-    expect(nameGenerator.generate()).toBe(`${NAME_GENERATOR_NAMING_PREFIX}1`);
+    expect(nameGenerator.generate()).toBe(`${NAME_GENERATOR_DEFAULT_PREFIX}0`);
+    expect(nameGenerator.generate()).toBe(`${NAME_GENERATOR_DEFAULT_PREFIX}1`);
   });
 });
