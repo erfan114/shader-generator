@@ -1,7 +1,7 @@
 import { DATATYPE, type Datatype } from "@/types.js";
 import { createCompiler } from "./compiler.js";
 
-const DATATYPE_MAP: Record<Datatype, string> = {
+const DATATYPE_MAP = {
   [DATATYPE.FLOAT]: "float",
   [DATATYPE.INT]: "int",
   [DATATYPE.UINT]: "uint",
@@ -45,7 +45,7 @@ const DATATYPE_MAP: Record<Datatype, string> = {
   [DATATYPE.SAMPLER_CUBE]: "samplerCube",
   [DATATYPE.INT_SAMPLER_CUBE]: "isamplerCube",
   [DATATYPE.UINT_SAMPLER_CUBE]: "usamplerCube",
-};
+} as const satisfies Record<Datatype, string>;
 
 export const GLSL300Compiler = createCompiler({
   context: {
