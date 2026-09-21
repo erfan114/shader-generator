@@ -84,21 +84,27 @@ export const GLSL100Compiler = createCompiler({
       }
     },
   },
-  emit: ({ nodes, emitter, names }) => {
+  emit: ({ nodes, emitter, names, context }) => {
     for (const node of nodes) {
       switch (node.kind) {
         case "input": {
-          emitter.line(`attribute ? ${names.getName(node)}`);
+          emitter.line(
+            `attribute ${context.datatypeParser(node.data.type)} ${names.getName(node)}`,
+          );
 
           break;
         }
         case "output": {
-          emitter.line(`varying ? ${names.getName(node)}`);
+          emitter.line(
+            `varying ${context.datatypeParser(node.data.type)} ${names.getName(node)}`,
+          );
 
           break;
         }
         case "uniform": {
-          emitter.line(`uniform ? ${names.getName(node)}`);
+          emitter.line(
+            `uniform ${context.datatypeParser(node.data.type)} ${names.getName(node)}`,
+          );
 
           break;
         }
