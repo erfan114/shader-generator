@@ -9,6 +9,7 @@ export type CompilerFactoryOptions = {
     nodes: BuilderNodes;
     emitter: SourceEmitter;
     names: CompilerNames;
+    context: CompilerContext;
   }) => string;
 };
 
@@ -25,6 +26,7 @@ export function createCompiler(options: CompilerFactoryOptions): Compiler {
         emitter: new SourceEmitter(),
         names: new CompilerNames(),
         nodes,
+        context: options.context,
       });
     },
   };
