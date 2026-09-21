@@ -1,8 +1,8 @@
-# Library architecture
+# Library Architecture
 
 ## Overview
 
-The main idea for this library is very simple: `Builder -> Compiler -> (Runtime | GLSL)`
+The main idea for this library is very simple: `Builder → Compiler → (Runtime | GLSL)`
 
 We use colors to separate each step:
 
@@ -11,8 +11,6 @@ We use colors to separate each step:
 | `0`   | `Builder`  | `ORANGE` |
 | `1`   | `Compiler` | `PURPLE` |
 | `2`   | `Runtime`  | `BLUE`   |
-
-Therefore, based on these colors we'd have something like this:
 
 ```mermaid
 %%{init: {"themeCSS": "* { font-family: monospace; }"}}%%
@@ -37,44 +35,41 @@ flowchart LR;
   style Overview fill:#ffffff,stroke:#afafaf,stroke-width:2px;
 ```
 
-> **⚠️ Implementation reality (see [TODO.md](./TODO.md) for the full status):**
-> The diagram above describes the _target_ architecture. At the current state of the
-> codebase the pipeline is **not end-to-end** — only a slice of the Builder layer is
-> implemented and the Compiler layer is entirely empty stubs. Concretely:
+> **⚠️ Implementation Reality** (see [TODO.md](./TODO.md) for the full checklist):
+> The diagram above describes the **target architecture**. The current state:
 >
-> - The `Builder` exists and can wrap a generator, but `Builder.build(target)`
->   throws `NotImplementedError` — no compilation happens yet.
-> - The Compiler layer (`WebGLCompiler`, `WebGL2Compiler`) is empty classes with no
->   GLSL emission logic.
-> - There is no Runtime layer yet.
+> - ✅ **Builder layer**: ~80% complete — generator wrapping, node system, all core nodes, operations, control flow, type promotion
+> - 🚧 **Compiler layer**: ~15% complete — factory exists, GLSL 1.00 compiler emits declarations for uniforms/inputs/outputs, GLSL 3.00 is a stub
+> - ❌ **Runtime layer**: Not started
 
 ---
 
-## Project structure
-
-This is the actual on-disk layout (generated GLSL output is the eventual goal of the
-Compiler layer, not yet wired up):
+## Project Structure (Actual On-Disk Layout)
 
 ```text
 src/
 ├── builder/
-│   ├── builder.ts          ← Builder class (wraps a generator; build() is a stub)
-│   ├── index.ts            ← re-exports Builder
-│   ├── name.ts             ← createNameGenerator() — unique hex name generator
-│   ├── node.ts             ← BuilderNode / builderNode() factory / Symbol.iterator core
+│   ├── builder.ts           ← Builder class (from_generator, compile)
+│   ├── node.ts              ← BuilderNode base, builderNode factory, isBuilderNode
+│   ├── name.ts              ← createNameGenerator (hex-prefixed unique names)
+│   ├── error.ts             ← Custom errors (InvalidNodeYieldError, InvalidGeneratorMainError)
+│   ├── helpers/
+│   │   └── node.helper.ts   ← Node utility helpers
 │   └── nodes/
-│       ├── common.ts       ← IONode base for input/output nodes
-│       ├── global.node.ts  ← GlobalNode / createGlobalNode()
-│       ├── uniform.node.ts ← UniformNode + uniform() factory ✅ implemented
-│       ├── input.node.ts   ← InputNode type only (no factory function) ❌
-│       ├── output.node.ts  ← OutputNode type only (no factory function) ❌
-│       ├── define.node.ts  ← DefineNode type only (no factory function) ❌
-│       ├── main.node.ts    ← MainFunctionNode alias
-│       ├── function.node.ts← FunctionNode, FunctionDefinition fluent API
-│       ├── argument.node.ts← ArgumentNode + createArgumentNode()
-│       ├── scope.node.ts   ← ScopeNode + createScopeNode()
-│       ├── variable.node.ts← VariableNode type only (no factory function) ❌
-│       ├── value.node.ts   ← ValueNode + ValueDataType + DatatypeValueType<T> (type only, no factory) ❌
+│       ├── common.ts        ← IONode base for input/output (shared)
+│       ├── uniform.node.ts  ← UniformNode + uniform() factory ✅
+│       ├── input.node.ts    ← InputNode + input() factory ✅
+│       ├── output.node.ts   ← OutputNode + output() factory ✅
+│       ├── main.node.ts     ← MainNode + main() factory ✅
+│       ├── function.node.ts ← FunctionNode + fn(), FunctionDefinition fluent API ✅
+│       ├── argument.node.ts ← ArgumentNode + argument() factory ✅
+│       ├── scope.node.ts    ← ScopeNode + scope() factory ✅
+│       ├── value.node.ts    ← ValueNode + value(), VALUE_DATATYPE ✅
+│       ├── variable.node.ts ← VariableNode + variable() factory ✅
+│       ├── control-flow/    ← if_, for_, while_, do_, switch_ ✅
+│       ├── jump/            ← break_, continue_, discard_, return_ ✅
+│       ├── logical/         ← and, or, not ✅
+│       ├── comparison/      ← eq, neq, lt, lte, gt, gte ✅
 │       └── operations/
 │           ├── common.ts      ← OperationNode base type
 │           ├── addition.node.ts    ← add() ✅
@@ -83,97 +78,109 @@ src/
 │           ├── division.node.ts  ← divide() ✅
 │           ├── modulus.node.ts   ← modulo() ✅
 │           └── types/
-│               ├── additive.type.ts       ← AdditiveDatatype + AdditiveCombination<L,R> map
-│               └── multiplicative.type.ts ← MultiplicativeDatatype + MultiplicativeCombination<L,R> map
+│               ├── additive.type.ts       ← AdditiveDatatype + AdditiveCombination<L,R>
+│               └── multiplicative.type.ts ← MultiplicativeDatatype + MultiplicativeCombination<L,R>
 ├── compiler/
-│   ├── compiler.ts          ← abstract Compiler (empty) ❌
-│   ├── index.ts             ← BuildTarget ("webgl" | "webgl2") + AVAILABLE_COMPILERS
-│   ├── webgl.compiler.ts    ← WebGLCompiler extends Compiler (empty) ❌
-│   └── webgl2.compiler.ts   ← WebGL2Compiler extends Compiler (empty) ❌
-├── counter.ts               ← createCounter() — clamped counter generator
-├── errors.ts                ← NotImplementedError
-├── helpers/
-│   ├── object.helper.ts     ← values, omit, entries, valuesInclude, ObjectValues
-│   └── set.helper.ts        ← addToSet
-├── types.ts                 ← DATATYPE enum + all GLSL type groupings & mappings
-└── index.ts                 ← public API surface
+│   ├── compiler.ts          ← createCompiler factory (context + emit function)
+│   ├── context.ts           ← CompilerContext type (datatypeParser)
+│   ├── emitter.ts           ← SourceEmitter (line-based source generation)
+│   ├── names.ts             ← CompilerNames (unique name tracking)
+│   ├── GLSL100.compiler.ts  ← GLSL ES 1.00 compiler (emits attribute/varying/uniform) 🚧
+│   └── GLSL300.compiler.ts  ← GLSL ES 3.00 compiler (stub, throws NotImplementedError) ❌
+├── structures/
+│   ├── vec2.structure.ts    ← vec2, Vec2<T>, isVec2
+│   ├── vec3.structure.ts    ← vec3, Vec3<T>, isVec3
+│   ├── vec4.structure.ts    ← vec4, Vec4<T>, isVec4
+│   ├── matrix2.structure.ts      ← matrix2, Matrix2<T>
+│   ├── matrix2x3.structure.ts    ← matrix2x3, Matrix2x3<T>
+│   ├── matrix2x4.structure.ts    ← matrix2x4, Matrix2x4<T>
+│   ├── matrix3.structure.ts      ← matrix3, Matrix3<T>
+│   ├── matrix3x2.structure.ts    ← matrix3x2, Matrix3x2<T>
+│   ├── matrix3x4.structure.ts    ← matrix3x4, Matrix3x4<T>
+│   ├── matrix4.structure.ts      ← matrix4, Matrix4<T>
+│   ├── matrix4x2.structure.ts    ← matrix4x2, Matrix4x2<T>
+│   └── matrix4x3.structure.ts    ← matrix4x3, Matrix4x3<T>
+├── types.ts                 ← DATATYPE enum + all type groupings & mappings
+└── index.ts                 ← Public API exports
 ```
 
-The `tests/` directory mirrors this under `tests/builder/` and `tests/`, and runs on
-`vitest`. See [Testing](#testing) below.
+The `tests/` directory mirrors `src/builder/` and `src/` structure, runs on `vitest`.
 
 ---
 
-## Type system
+## Type System
 
-The entire DSL is backed by a bitmask-style datatype registry in `src/types.ts`. Each
-GLSL type is a constant numeric value, grouped into families, then merged into a single
-`DATATYPE` object.
+The entire DSL is backed by a numeric datatype registry in `src/types.ts`. Each GLSL type is a constant value, grouped into families, then merged into a single `DATATYPE` object.
 
-```sh
+```text
 DATATYPE (merged registry)
-├── SCALAR_DATATYPE        FLOAT, INT, UINT, BOOL
-├── FLOAT_VEC_DATATYPE     VEC2, VEC3, VEC4
-├── INT_VEC_DATATYPE       INT_VEC2, INT_VEC3, INT_VEC4
-├── UINT_VEC_DATATYPE      UINT_VEC2, UINT_VEC3, UINT_VEC4
-├── BOOL_VEC_DATATYPE      BOOL_VEC2, BOOL_VEC3, BOOL_VEC4
-├── MATRIX_DATATYPE        MATRIX2..4, MATRIX2x3, 2x4, 3x2, 3x4, 4x2, 4x3
-└── SAMPLER_DATATYPE       SAMPLER_2D/3D/CUBE + int/uint variants
+├── SCALAR_DATATYPE        FLOAT(0x00), INT(0x01), UINT(0x02), BOOL(0x03)
+├── FLOAT_VEC_DATATYPE     VEC2(0x04), VEC3(0x05), VEC4(0x06)
+├── INT_VEC_DATATYPE       INT_VEC2(0x07), INT_VEC3(0x08), INT_VEC4(0x09)
+├── UINT_VEC_DATATYPE      UINT_VEC2(0x0a), UINT_VEC3(0x0b), UINT_VEC4(0x0c)
+├── BOOL_VEC_DATATYPE      BOOL_VEC2(0x0d), BOOL_VEC3(0x0e), BOOL_VEC4(0x0f)
+├── MATRIX_DATATYPE        MATRIX2(0x10), MATRIX3(0x11), MATRIX4(0x12),
+│                          MATRIX2x3(0x13), MATRIX2x4(0x14),
+│                          MATRIX3x2(0x15), MATRIX3x4(0x16),
+│                          MATRIX4x2(0x17), MATRIX4x3(0x18)
+└── SAMPLER_DATATYPE       SAMPLER_2D(0x19), INT_SAMPLER_2D(0x1b), UINT_SAMPLER_2D(0x1c),
+                           SAMPLER_3D(0x1d), INT_SAMPLER_3D(0x1f), UINT_SAMPLER_3D(0x20),
+                           SAMPLER_CUBE(0x21), INT_SAMPLER_CUBE(0x23), UINT_SAMPLER_CUBE(0x24)
 ```
 
-These numeric values drive two things:
+These values drive two systems:
 
-1. **The `ValueNode` type mapping** (`nodes/value.node.ts`): a `ValueDataType` union
-   (everything _except_ samplers, since samplers can't be values) is mapped through
-   `DatatypeValueType<T>` to the corresponding TypeScript runtime shape
-   (`FLOAT → number`, `VEC3 → Vec3<number>`, `BOOL → boolean`, matrices → nested tuples,
-   etc.).
+1. **ValueNode Type Mapping** (`nodes/value.node.ts`): `VALUE_DATATYPE` (all non-sampler types) maps via `DatatypeValueType<T>` to TypeScript runtime shapes:
+   - `FLOAT → number`, `INT → number`, `UINT → number`, `BOOL → boolean`
+   - `VEC3 → Vec3<number>`, `MATRIX4 → Matrix4<number>` (nested tuples), etc.
 
-2. **Compile-time type promotion** for operations (see
-   [Operation type promotion](#operation-type-promotion)).
-
-The matrix helper types (`Matrix2`, `Matrix2x3`, `Vec4<Vec4<T>>`, etc.) live in `types.ts`
-as nested tuple aliases and are used by `DatatypeValueType`.
+2. **Compile-Time Type Promotion** for operations (see [Operation Type Promotion](#operation-type-promotion)).
 
 ---
 
 ## Builder
 
-### Entry point & flow
+### Entry Point & Flow
 
-The `Builder` (`src/builder/builder.ts`) is the orchestrator. A shader is described as a
-generator function that yields `BuilderNode` values, and the builder wraps that generator:
+The `Builder` (`src/builder/builder.ts`) wraps a generator function that yields `BuilderNode` values:
 
 ```ts
-import { Builder } from "shader-generator";
-import { uniform } from "shader-generator/builder/nodes/uniform.node";
+import { Builder, uniform, DATATYPE } from "shader-generator";
 
 const builder = Builder.from_generator(function* () {
   yield* uniform({ type: DATATYPE.FLOAT });
-  // ... more nodes
+  // ... more nodes: uniforms, inputs, outputs, operations, etc.
+  yield* main(
+    (def) => def,
+    function* () {
+      /* body */
+    },
+  );
 });
 
-// Not yet implemented — throws NotImplementedError
-builder.compile(compiler);
+const source = builder.compile(GLSL100Compiler); // Currently emits declarations only
 ```
 
-`Builder.build(target)` is where a `BuildTarget` ("webgl" | "webgl2") selects the
-compiler, but the body is currently a stub that throws `NotImplementedError`. The
-generator-traversal step that would walk the yielded nodes and feed them to the compiler
-does not exist yet.
+`Builder.from_generator()`:
 
-### BuilderNode — the core traversal mechanism
+1. Iterates the generator, collecting yielded nodes
+2. Validates each yield is a `BuilderNode` (via `isBuilderNode`)
+3. Requires the final return value to be a `MainNode` (via `isMainNode`)
+4. Stores the collected nodes as `BuilderNodes` tuple
 
-Every construct in the DSL is a `BuilderNode`. A node is a plain object with a `kind`
-discriminator and a `data` payload, plus a `[Symbol.iterator]` implementation so it can be
-`yield*`-ed inside a builder generator:
+`Builder.compile(compiler)` delegates to the compiler's `compile(nodes)` method.
+
+### BuilderNode — Core Traversal Mechanism
+
+Every DSL construct is a `BuilderNode` — a plain object with:
+
+- `kind` — string discriminator (`"uniform"`, `"addition"`, `"if"`, etc.)
+- `data` — typed payload (type info, operands, child nodes, etc.)
+- `[Symbol.iterator]()` — enables `yield*` delegation
 
 ```ts
 // src/builder/node.ts
-export type BuilderNodeOptions<Kind, Data> = {
-  kind: Kind;
-  data: Data;
-};
+export type BuilderNodeOptions<Kind, Data> = { kind: Kind; data: Data };
 
 export type BuilderNode<Kind = string, Data = unknown> = BuilderNodeOptions<
   Kind,
@@ -194,21 +201,9 @@ export function builderNode<Kind, Data>(
 }
 ```
 
-The pattern is:
+Factory functions (`uniform()`, `add()`, `if_()`, etc.) call `builderNode({ kind, data })` to construct typed nodes.
 
-- `kind` — a string tag (`"uniform"`, `"function"`, `"addition"`, ...) used by the
-  compiler (eventually) to dispatch compilation of each node type.
-- `data` — the node's payload (type info, operands, child nodes, etc.).
-- `[Symbol.iterator]` — lets a node be used with `yield*` inside a generator so the
-  builder can collect it. The iterator yields the node itself and returns its `data`.
-
-Factory functions (`uniform()`, `createArgumentNode()`, `createFunctionNode()`, etc.)
-call `builderNode({ kind, data })` to construct typed nodes.
-
-### Builder architecture (conceptual)
-
-In the `Builder` we have a lot of types and systems that are working compatible together.
-The conceptual model (this is the _target_ design; the current implementation is a subset):
+### Builder Architecture (Conceptual Model)
 
 ```mermaid
 %%{init: {"themeCSS": "* { font-family: monospace; }"}}%%
@@ -235,6 +230,10 @@ flowchart LR
         Subtraction
         Multiplication
         Division
+        Modulo
+        Logical
+        Comparison
+        ControlFlow
 
         Construction --> GlobalScope
 
@@ -254,212 +253,195 @@ flowchart LR
         Values -->|Operation| Subtraction
         Values -->|Operation| Multiplication
         Values -->|Operation| Division
+        Values -->|Operation| Modulo
+        Values -->|Operation| Logical
+        Values -->|Operation| Comparison
+        Values -->|Statement| ControlFlow
     end
 
-    %% Styling
     classDef orange fill:#f43f20,stroke:#b82d18,stroke-width:2px,color:#fff;
-
-    class Construction,GlobalScope,Defines,Uniforms,Inputs,Outputs,Functions,LocalScope,Variables,Arguments,Values,Addition,Subtraction,Multiplication,Division orange;
-
+    class Construction,GlobalScope,Defines,Uniforms,Inputs,Outputs,Functions,LocalScope,Variables,Arguments,Values,Addition,Subtraction,Multiplication,Division,Modulo,Logical,Comparison,ControlFlow orange;
     style Builder fill:#ffe1df,stroke:#f43f20,stroke-width:2px;
 ```
 
-This idea comes from what [Effect TS generators](https://www.effect.website/docs/v3/onboarding)
-are doing under the hood and it is simple.
+### Implementation Status (Per Node Type)
 
-### What is actually implemented today
+| Concept                 | File                               | Status  | Notes                                                        |
+| ----------------------- | ---------------------------------- | ------- | ------------------------------------------------------------ |
+| `uniform()`             | `uniform.node.ts`                  | ✅ done | `{ type }`, `.as(name)` aliasing                             |
+| `input()` / `output()`  | `input.node.ts` / `output.node.ts` | ✅ done | `.as(name)`, `.flat()` flattening                            |
+| `main()`                | `main.node.ts`                     | ✅ done | Shader entry point, requires `FunctionDefinition`            |
+| `fn()`                  | `function.node.ts`                 | ✅ done | Fluent `FunctionDefinition` with `withArg()`, `withReturn()` |
+| `argument()`            | `argument.node.ts`                 | ✅ done | Used by `FunctionDefinition.withArg`                         |
+| `scope()`               | `scope.node.ts`                    | ✅ done | Tracks `nodes`, `args: Set`, `variables: Set`                |
+| `value()`               | `value.node.ts`                    | ✅ done | Literal values for all `VALUE_DATATYPE`                      |
+| `variable()`            | `variable.node.ts`                 | ✅ done | `.as(name)`, `.assign(value)`                                |
+| Arithmetic ops          | `operations/*.ts`                  | ✅ done | `add`, `subtract`, `multiply`, `divide`, `modulo`            |
+| Logical ops             | `logical/*.ts`                     | ✅ done | `and`, `or`, `not`                                           |
+| Comparison ops          | `comparison/*.ts`                  | ✅ done | `eq`, `neq`, `lt`, `lte`, `gt`, `gte`                        |
+| Control flow            | `control-flow/*.ts`                | ✅ done | `if_`, `for_`, `while_`, `do_`, `switch_`                    |
+| Jump statements         | `jump/*.ts`                        | ✅ done | `break_`, `continue_`, `discard_`, `return_`                 |
+| `createNameGenerator()` | `name.ts`                          | ✅ done | Hex `g_` prefixed names; tested                              |
+| `createCounter()`       | `counter.ts`                       | ✅ done | Clamped counter; tested                                      |
 
-Only a subset of the nodes above have concrete factory functions. The rest exist as
-**type-only stubs** (the type is exported, but there is no `create*` / named factory that
-produces a `builderNode`):
+**Not yet implemented**: `define()` (preprocessor defines), struct types, array types, precision/interpolation qualifiers, built-in function wrappers (`texture()`, `dot()`, `normalize()`, etc.).
 
-| Concept                                                         | File               | Status  | Notes                                                             |
-| --------------------------------------------------------------- | ------------------ | ------- | ----------------------------------------------------------------- |
-| `uniform()`                                                     | `uniform.node.ts`  | ✅ done | Takes `{ type }`; no `.as(name)` yet                              |
-| `add()` / `subtract()` / `multiply()` / `divide()` / `modulo()` | `operations/*`     | ✅ done | `modulo` is untyped (no `Additive`/`Multiplicative` constraint)   |
-| `createArgumentNode()`                                          | `argument.node.ts` | ✅ done | Used by `FunctionDefinition.withArg`                              |
-| `createFunctionNode()`                                          | `function.node.ts` | ✅ done | Plus `FunctionDefinition` fluent builder (`withArg`/`withReturn`) |
-| `createScopeNode()`                                             | `scope.node.ts`    | ✅ done | Tracks `nodes`, `args: Set`, `variables: Set`                     |
-| `createGlobalNode()`                                            | `global.node.ts`   | ✅ done | Stores `defines` & `uniforms` arrays only                         |
-| `createNameGenerator()`                                         | `name.ts`          | ✅ done | Hex `g_` prefixed names; tested                                   |
-| `createCounter()`                                               | `counter.ts`       | ✅ done | Clamped counter; tested                                           |
-| `input()` / `output()` / `define()` / `variable()` / `value()`  | various            | ❌ stub | Type exists, **no factory function**                              |
+### Operation Type Promotion
 
-| `for_()` | `control-flow/for.test.ts` | ✅ done | 4 tests covering init/null, conditions, updates |
-| `do_()` | `control-flow/do.test.ts` | ✅ done | 4 tests covering boolean expressions and body |
-| `if_()` | `control-flow/if.test.ts` | ✅ done | 5 tests covering lt/gt comparisons and body |
-| `while_()` | `control-flow/while.test.ts` | ✅ done | 5 tests covering lt/gt comparisons and body |
-| `switch_()` | `control-flow/switch.test.ts` | ✅ done | 5 tests covering cases array, defaultCase, variable expressions |
+Binary operations encode GLSL's type-promotion rules via **type-level lookup maps**:
 
-### Operation type promotion
+- `operations/types/additive.type.ts` — `AdditiveCombination<L, R>` map + `AdditiveDatatype` guard
+- `operations/types/multiplicative.type.ts` — `MultiplicativeCombination<L, R>` map + `MultiplicativeDatatype` guard
 
-The binary operations encode GLSL's type-promotion rules in TypeScript via **type-level
-lookup maps** (`operations/types/additive.type.ts`, `multiplicative.type.ts`). For each
-operand datatype there is a map from the other operand's datatype to the _result_ datatype.
-`AdditiveCombination<L, R>` and `MultiplicativeCombination<L, R>` read that map at compile
-time, so e.g. `add(FLOAT, VEC3)` resolves to `VEC3` purely through types. Runtime guards
-`isAdditiveDatatype` / `isMultiplicativeDatatype` (backed by the `ADDITIVE_DATATYPE` /
-`MULTIPLICATIVE_DATATYPE` sets) are available for narrowing.
-
-### Builder API example (proposed vs. current)
-
-The following GLSL:
-
-```glsl
-uniform vec3 uColor;
-uniform float uBrightness;
-uniform float uThreshold;
-
-in vec2 vUv;
-in vec3 vNormal;
-
-out vec4 fragColor;
-
-void main()
-{
-    vec3 lightDir = vec3(0.5, 0.8, 1.0);
-    float light = max(dot(normalize(vNormal), normalize(lightDir)), 0.0);
-    vec3 color = uColor * light;
-    color *= uBrightness;
-    if (vUv.x > uThreshold) {
-        color += vec3(0.1, 0.1, 0.1);
-    }
-    color = clamp(color, 0.0, 1.0);
-    fragColor = vec4(color, 1.0);
-}
-```
-
-is _envisioned_ as (this is the aspirational fluent API — most pieces are not implemented):
-
-```ts
-const shaderIR = shader(function* () {
-  const uColor = yield* uniform(DATATYPE.VEC3).as("uColor");
-  const uBrightness = yield* uniform(DATATYPE.FLOAT).as("uBrightness");
-  const uThreshold = yield* uniform(DATATYPE.FLOAT).as("uThreshold");
-
-  const vUv = yield* input(DATATYPE.VEC2).as("vUv");
-  const vNormal = yield* input(DATATYPE.VEC3).as("vNormal");
-
-  const fragColor = yield* output(DATATYPE.VEC4).as("fragColor");
-
-  return yield* fn(function* () {
-    const lightDir = yield* variable(DATATYPE.VEC3)
-      .assign(vec3(0.5, 0.8, 1.0))
-      .as("lightDir");
-
-    const light = yield* variable(DATATYPE.FLOAT)
-      .assign(max(dot(normalize(vNormal), normalize(lightDir)), 0))
-      .as("light");
-
-    const color = yield* variable(DATATYPE.VEC3)
-      .assign(times(uColor, light))
-      .as("color");
-
-    yield* color.assign(times(color, uBrightness));
-
-    yield* if_(gt(vUv.x, uThreshold), function* () {
-      yield* color.assign(add(color, vec3(0.1, 0.1, 0.1)));
-    });
-
-    yield* color.assign(clamp(color, 0, 1));
-
-    yield* fragColor.assign(vec4(color, 1));
-  });
-});
-```
-
-The mechanics the design relies on:
-
-- We have some types that extend a general type named `BuilderNode`.
-- The `BuilderNode` has a `kind` discriminator (to identify its type at compile/encode time)
-  and a `data` payload (its actual information).
-- Every important part of GLSL has a `kind` and a corresponding node: `uniform`,
-  `input`, `output`, `define`, `function`, `argument`, `variable`, `value`, and the
-  operation kinds (`addition`, `subtraction`, `multiplication`, `division`, `modulus`).
-- Nodes are constructed via `builderNode({ kind, data })` and used inside `yield*`
-  generator expressions so the builder can collect them.
-
-The above vision is **not yet realized** in full — see the implementation matrix. The public
-API surface (`src/index.ts`) currently only exports `Builder`, `uniform`, and the five
-operation functions (`add`, `subtract`, `multiply`, `divide`, `modulo`).
+Example: `AdditiveCombination<FLOAT, VEC3>` resolves to `VEC3` at compile time. Runtime guards `isAdditiveDatatype` / `isMultiplicativeDatatype` (backed by `ADDITIVE_DATATYPE` / `MULTIPLICATIVE_DATATYPE` sets) are available for narrowing.
 
 ---
 
 ## Compiler
 
-The Compiler layer is the second stage of the pipeline. Its job is to walk the
-`BuilderNode` tree produced by the Builder and emit GLSL for the chosen target.
+### Compiler Factory
+
+`createCompiler()` (`src/compiler/compiler.ts`) takes a context and emit function:
 
 ```ts
-// src/compiler/index.ts
-export const AVAILABLE_COMPILERS = {
-  webgl: WebGLCompiler,
-  webgl2: WebGL2Compiler,
-} as const;
+export type CompilerFactoryOptions = {
+  context: CompilerContext; // { datatypeParser: (dt) => string }
+  emit: (props: { nodes; emitter; names; context }) => string;
+};
 
-export type BuildTarget = keyof typeof AVAILABLE_COMPILERS; // "webgl" | "webgl2"
+export function createCompiler(options: CompilerFactoryOptions): Compiler {
+  return {
+    compile: (nodes) =>
+      options.emit({
+        emitter: new SourceEmitter(),
+        names: new CompilerNames(),
+        nodes,
+        context: options.context,
+      }),
+  };
+}
 ```
 
-| Class                 | File                 | Status                                                       |
-| --------------------- | -------------------- | ------------------------------------------------------------ |
-| `Compiler` (abstract) | `compiler.ts`        | ❌ empty — `export abstract class Compiler {}`               |
-| `WebGLCompiler`       | `webgl.compiler.ts`  | ❌ empty — `export class WebGLCompiler extends Compiler {}`  |
-| `WebGL2Compiler`      | `webgl2.compiler.ts` | ❌ empty — `export class WebGL2Compiler extends Compiler {}` |
+### GLSL 1.00 Compiler (`GLSL100Compiler`)
 
-What's **missing** in the compiler layer:
+Partially implemented — emits declarations for global nodes:
 
-- A GLSL type-name map (`DATATYPE` value → `"float"`, `"vec3"`, `"uint"`, `"mat2x3"`, etc.)
-- A GLSL ES 1.00 vs 3.00 codegen path (version differences: `texture2D` vs `texture`,
-  `attribute`/`varying` vs `in`/`out`, no-`uint` support, etc.)
-- Any node traversal / visitor that consumes the nodes the Builder produces
-- Source emission for uniforms, inputs/outputs, functions, variables, scopes, operations,
-  assignments, returns, conditionals (`if`), loops (`for`/`while`), etc.
+```ts
+// src/compiler/GLSL100.compiler.ts
+export const GLSL100Compiler = createCompiler({
+  context: {
+    datatypeParser: (dt) => {
+      /* maps DATATYPE → GLSL string */
+    },
+  },
+  emit: ({ nodes, emitter, names, context }) => {
+    for (const node of nodes) {
+      switch (node.kind) {
+        case "input":
+          emitter.line(
+            `attribute ${context.datatypeParser(node.data.type)} ${names.getName(node)}`,
+          );
+          break;
+        case "output":
+          emitter.line(
+            `varying ${context.datatypeParser(node.data.type)} ${names.getName(node)}`,
+          );
+          break;
+        case "uniform":
+          emitter.line(
+            `uniform ${context.datatypeParser(node.data.type)} ${names.getName(node)}`,
+          );
+          break;
+      }
+    }
+    return emitter.toString();
+  },
+});
+```
 
-In short: the Compiler is **designed but not implemented**. There is no GLSL output yet.
+**Supported**: `uniform` → `uniform`, `input` → `attribute`, `output` → `varying`
+**Missing**: Function bodies, variable declarations, operations, control flow, assignments, return statements, main function emission.
+
+### GLSL 3.00 Compiler (`GLSL300Compiler`)
+
+Stub only — throws `NotImplementedError` in `datatypeParser` and `emit`.
+
+### What's Missing in Compiler Layer
+
+- Complete GLSL type-name map for all `DATATYPE` values (1.00 has partial, 3.00 has none)
+- GLSL ES 1.00 vs 3.00 codegen paths (`attribute`/`varying` vs `in`/`out`, `texture2D` vs `texture`, etc.)
+- Node traversal/visitor for function bodies, scopes, variables, operations
+- Source emission for: assignments, returns, conditionals (`if`), loops (`for`/`while`/`do`), `switch`, jump statements
+- Built-in function emission
+- Precision qualifiers (`highp`, `mediump`, `lowp`)
+- Uniform blocks / `layout(std140)`
 
 ---
 
 ## Runtime
 
-The `Runtime` (blue) slot in the Overview represents a future execution/runtime stage
-(e.g. a WebGL binding that takes compiled source and manages uniform buffers, vertex
-arrays, etc.). **It does not exist in the codebase.** It is listed only as a pipeline
-destination in the Overview for forward-planning purposes.
+The `Runtime` (blue) slot represents a future WebGL binding layer (uniform buffers, vertex arrays, draw calls). **Does not exist in the codebase** — listed only for forward planning.
+
+---
+
+## Vector/Matrix Structures
+
+`src/structures/` provides typed constructors matching GLSL semantics:
+
+| Function                                                         | Signature Highlights                                                                                                            |
+| ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `vec2<T>(x, y?)`, `vec2<T>([x, y])`                              | Single value replicated, or two scalars                                                                                         |
+| `vec3<T>(x, y?, z?)`, `vec3<T>(x, [y, z])`, `vec3<T>([x, y], z)` | Flexible: scalar, scalar+Vec2, Vec2+scalar, three scalars                                                                       |
+| `vec4<T>(...)`                                                   | 8 overloads: scalar, scalar+Vec3, Vec3+scalar, 2×Vec2, scalar+scalar+Vec2, scalar+Vec2+scalar, Vec2+scalar+scalar, four scalars |
+| `matrix2`...`matrix4x3`                                          | Column-major from row vectors (matching GLSL constructor semantics)                                                             |
+
+All include type guards (`isVec2`, `isVec3`, `isVec4`).
 
 ---
 
 ## Testing
 
-The project uses [`vitest`](https://vitest.dev) (`npm test`). Tests live under `tests/`:
+Project uses `vitest` (`npm test`). Tests under `tests/`:
 
-| File                         | Covers                          | Status                                                                      |
-| ---------------------------- | ------------------------------- | --------------------------------------------------------------------------- |
-| `tests/counter.test.ts`      | `createCounter()`               | ✅ passing (clamping, skipping)                                             |
-| `tests/builder/name.test.ts` | `createNameGenerator()`         | ✅ uniqueness + skip offsets                                                |
-| `tests/builder/node.test.ts` | `builderNode` `Symbol.iterator` | ✅ minimal — only checks iterator exists                                    |
-| `tests/variable.test.ts`     | `VariableNode` creation         | ❌ **placeholder** — body is `undefined as any`; marked `TODO: Complete it` |
+| File                                   | Covers                                    | Status                          |
+| -------------------------------------- | ----------------------------------------- | ------------------------------- |
+| `tests/counter.test.ts`                | `createCounter()`                         | ✅ passing (clamping, skipping) |
+| `tests/builder/name.test.ts`           | `createNameGenerator()`                   | ✅ uniqueness + skip offsets    |
+| `tests/builder/node.test.ts`           | `builderNode` `Symbol.iterator`           | ✅ minimal                      |
+| `tests/builder/uniform.test.ts`        | `uniform().as()`                          | ✅                              |
+| `tests/builder/input.test.ts`          | `input().as()`, `.flat()`                 | ✅                              |
+| `tests/builder/output.test.ts`         | `output().as()`, `.flat()`                | ✅                              |
+| `tests/builder/function.test.ts`       | `FunctionDefinition` fluent API           | ✅                              |
+| `tests/builder/variable.test.ts`       | `variable().as()`, `.assign()`            | ✅                              |
+| `tests/builder/addition.test.ts`       | `add()` operation                         | ✅                              |
+| `tests/builder/scope.test.ts`          | `scope()` node                            | ✅                              |
+| `tests/builder/main.test.ts`           | `main()` node                             | ✅                              |
+| `tests/builder/control-flow/*.test.ts` | `if_`, `for_`, `while_`, `do_`, `switch_` | ✅ (4-5 tests each)             |
+| `tests/structures/*.test.ts`           | `matrix2`...`matrix4x3` factories         | ✅                              |
 
-Gaps:
-
-- No tests for the five operations (`add`, `subtract`, ...).
-- No tests for `uniform()`, `createFunctionNode()`, `createArgumentNode()`, scopes.
-- No type-promotion tests for `AdditiveCombination` / `MultiplicativeCombination`.
-- No compiler output / snapshot tests (nothing to snapshot yet).
-- No builder integration test (full shader → build → GLSL).
-
-> Note: `name.test.ts` calls `nameGenerator.take(99999).toArray()` on a native
-> `Generator` object. No library in the dependency tree provides `take`/`toArray` on
-> generators, so that assertion may rely on an external/global polyfilled extension; this
-> should be verified when the test runner is exercised.
+**Gaps**: No compiler output/snapshot tests, no builder integration tests (full shader → GLSL), no type-promotion unit tests.
 
 ---
 
 ## Configuration
 
-- **Bundler/build**: [`tsup`](https://tsup.xsoto.io) — `tsup.config.ts` emits ESM + CJS
-  bundles with declarations from `src/index.ts`.
-- **Type checking**: `tsc --noEmit` (`npm run typecheck`), configured in `tsconfig.json`
-  with `strict`, `verbatimModuleSyntax`, `exactOptionalPropertyTypes`,
-  `noUncheckedIndexedAccess`. `module` is `nodenext`, `types` is `[]` (no Node types
-  included), and there is no `lib` override (defaults to `esnext` via `target`).
-- **Formatting**: `.prettierrc` + `@trivago/prettier-plugin-sort-imports`.
+| Tool           | Config             | Purpose                                                                                                                     |
+| -------------- | ------------------ | --------------------------------------------------------------------------------------------------------------------------- |
+| **tsup**       | `tsup.config.ts`   | ESM + CJS bundles with declarations from `src/index.ts`                                                                     |
+| **TypeScript** | `tsconfig.json`    | `strict`, `verbatimModuleSyntax`, `exactOptionalPropertyTypes`, `noUncheckedIndexedAccess`, `module: nodenext`, `types: []` |
+| **Prettier**   | `.prettierrc`      | + `@trivago/prettier-plugin-sort-imports`, `prettier-plugin-sort-re-exports`                                                |
+| **Vitest**     | `vitest.config.ts` | Test runner                                                                                                                 |
+
+---
+
+## Key Design Principles
+
+1. **Describe once, compile for target** — Builder describes _what_ the shader needs; Compiler decides _how_ to express it in target GLSL version.
+
+2. **Nodes as values** — Every construct is a `BuilderNode` (plain object + `Symbol.iterator`), enabling composition via `yield*`.
+
+3. **Type-level GLSL semantics** — Type promotion maps (`AdditiveCombination`, `MultiplicativeCombination`) encode GLSL rules in TypeScript types.
+
+4. **Generator-based IR collection** — Builder uses generator iteration (not AST transformation) to collect the intermediate representation.
+
+5. **Separation of concerns** — Builder knows nothing about GLSL syntax; Compiler knows nothing about API ergonomics.
