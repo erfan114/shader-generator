@@ -6,7 +6,7 @@ A utility library for generating GLSL shader source code programmatically.
 
 ![Banner](https://github.com/erfan114/shader-generator/blob/assets/banner.png)
 
-> [!WARNING]
+> [!CAUTION]
 > **This library is still in development and is not safe for production use.**
 >
 > The API and implementation are actively evolving and may contain breaking changes, bugs, or incomplete functionality. Use it for experimentation and development only.
