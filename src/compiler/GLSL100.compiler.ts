@@ -8,6 +8,7 @@ import { GLSL300_DATATYPE_MAP } from "./GLSL300.compiler.js";
 
 export const GLSL100_DATATYPE_MAP = {
   ...GLSL300_DATATYPE_MAP,
+
   [DATATYPE.UINT]: "U32",
 
   [DATATYPE.UINT_VEC2]: "UVec2",
