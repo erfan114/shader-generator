@@ -7,10 +7,12 @@ import {
 } from "./function.node.js";
 import type { ValueDatatype } from "./value.node.js";
 
-export type MainNode<Returns extends ValueDatatype | null = null> =
+export type MainNodeReturnVariant = ValueDatatype | null;
+
+export type MainNode<Returns extends MainNodeReturnVariant = null> =
   FunctionNode<[], Returns>;
 
-export function main<Returns extends ValueDatatype | null>(
+export function main<Returns extends MainNodeReturnVariant>(
   definitionGenerator: FunctionDefinitionGenerator<[], Returns>,
   body: FunctionBody<[], NoInfer<Returns>>,
 ): MainNode<Returns> {
