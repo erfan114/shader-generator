@@ -1,5 +1,6 @@
 import { DATATYPE, type Datatype } from "@/types.js";
 import { createCompiler } from "./compiler.js";
+import { runFunctionNode } from "./helpers/function.helper.js";
 
 const DATATYPE_MAP = {
   [DATATYPE.FLOAT]: "float",
@@ -79,9 +80,23 @@ export const GLSL300Compiler = createCompiler({
           break;
         }
 
-        case "function":
-          // TODO: Complete me
+        case "function": {
+          const args = node.data.args.map((arg) => {
+            const name = names.getName(arg);
+            const type = context.datatypeParser(arg.data.type);
+
+            return `${type} ${name}`;
+          });
+
+          const functionHeader = `(${args.join(", ")})`;
+          const bodyNodes = runFunctionNode(node);
+
+          emitter.block(functionHeader, () => {
+            // TODO: Handle each type
+          });
+
           break;
+        }
 
         default:
           throw new Error(`Unhandled node in GLSL300: ${node satisfies never}`);
