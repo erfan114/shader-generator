@@ -3,6 +3,10 @@ import type { ArgumentNode } from "@/builder/nodes/argument.node.js";
 import type { FunctionNode } from "@/builder/nodes/function.node.js";
 import type { ValueDatatype } from "@/builder/nodes/value.node.js";
 
+export function createFunctionHeader(args: string[]) {
+  return `(${args.join(", ")})`;
+}
+
 export function runFunctionNode(
   node: FunctionNode<ArgumentNode[], ValueDatatype | null>,
 ): BuilderNode[] {
