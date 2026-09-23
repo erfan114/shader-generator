@@ -1,6 +1,9 @@
 import { DATATYPE, type Datatype } from "@/types.js";
 import { createCompiler } from "./compiler.js";
-import { runFunctionNode } from "./helpers/function.helper.js";
+import {
+  createFunctionHeader,
+  runFunctionNode,
+} from "./helpers/function.helper.js";
 
 const DATATYPE_MAP = {
   [DATATYPE.FLOAT]: "float",
@@ -88,7 +91,7 @@ export const GLSL300Compiler = createCompiler({
             return `${type} ${name}`;
           });
 
-          const functionHeader = `(${args.join(", ")})`;
+          const functionHeader = createFunctionHeader(args);
           const bodyNodes = runFunctionNode(node);
 
           emitter.block(functionHeader, () => {
