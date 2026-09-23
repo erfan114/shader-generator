@@ -1,9 +1,10 @@
 import { describe, expect, it } from "vitest";
 
 import { builderNode } from "@/builder/node.js";
-import type {
-  ArgumentNode,
-  ArgumentNodeOptions,
+import {
+  argument,
+  type ArgumentNode,
+  type ArgumentNodeOptions,
 } from "@/builder/nodes/argument.node.js";
 import {
   fn,
@@ -17,8 +18,8 @@ import type { Datatype } from "@/types.js";
 describe("Function", () => {
   const valueDatatypes = Object.values(VALUE_DATATYPE);
 
-  const toArgumentNodeOptions = (datatype: Datatype): ArgumentNodeOptions => {
-    return { type: datatype };
+  const toArgumentNode = (datatype: Datatype): ArgumentNode => {
+    return argument({ type: datatype });
   };
 
   it("definition should have nothing", () => {
@@ -48,7 +49,7 @@ describe("Function", () => {
 
     expect(definition.args).toHaveLength(valueDatatypes.length);
 
-    const mappedDatatypes = valueDatatypes.map(toArgumentNodeOptions);
+    const mappedDatatypes = valueDatatypes.map(toArgumentNode);
 
     expect(definition.args).toStrictEqual(mappedDatatypes);
     expect(definition.returns).toBeNull();
@@ -58,14 +59,14 @@ describe("Function", () => {
     let definition = generateFunctionDefinition<ArgumentNode[]>();
 
     for (const datatype of valueDatatypes) {
-      definition = definition.withArg(toArgumentNodeOptions(datatype));
+      definition = definition.withArg({ type: datatype });
     }
 
     for (const datatype of valueDatatypes) {
       const definitionWithReturn = definition.withReturn(datatype);
 
       expect(definitionWithReturn.args).toStrictEqual(
-        valueDatatypes.map(toArgumentNodeOptions),
+        valueDatatypes.map(toArgumentNode),
       );
       expect(definitionWithReturn.args).toHaveLength(valueDatatypes.length);
       expect(definitionWithReturn.returns).toBe(datatype);
