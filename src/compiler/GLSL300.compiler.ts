@@ -5,7 +5,7 @@ import {
   runFunctionNode,
 } from "./helpers/function.helper.js";
 
-const DATATYPE_MAP = {
+export const GLSL300_DATATYPE_MAP = {
   [DATATYPE.FLOAT]: "float",
   [DATATYPE.INT]: "int",
   [DATATYPE.UINT]: "uint",
@@ -53,7 +53,7 @@ const DATATYPE_MAP = {
 
 export const GLSL300Compiler = createCompiler({
   context: {
-    datatypeParser: (datatype) => DATATYPE_MAP[datatype],
+    datatypeParser: (datatype) => GLSL300_DATATYPE_MAP[datatype],
   },
 
   emit: ({ nodes, emitter, names, context }) => {

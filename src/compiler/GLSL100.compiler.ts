@@ -4,32 +4,16 @@ import {
   createFunctionHeader,
   runFunctionNode,
 } from "./helpers/function.helper.js";
+import { GLSL300_DATATYPE_MAP } from "./GLSL300.compiler.js";
 
-const DATATYPE_MAP = {
-  [DATATYPE.FLOAT]: "float",
-  [DATATYPE.INT]: "int",
+export const GLSL100_DATATYPE_MAP = {
+  ...GLSL300_DATATYPE_MAP,
   [DATATYPE.UINT]: "U32",
-  [DATATYPE.BOOL]: "bool",
-
-  [DATATYPE.VEC2]: "vec2",
-  [DATATYPE.VEC3]: "vec3",
-  [DATATYPE.VEC4]: "vec4",
-
-  [DATATYPE.INT_VEC2]: "ivec2",
-  [DATATYPE.INT_VEC3]: "ivec3",
-  [DATATYPE.INT_VEC4]: "ivec4",
 
   [DATATYPE.UINT_VEC2]: "UVec2",
   [DATATYPE.UINT_VEC3]: "UVec3",
   [DATATYPE.UINT_VEC4]: "UVec4",
 
-  [DATATYPE.BOOL_VEC2]: "bvec2",
-  [DATATYPE.BOOL_VEC3]: "bvec3",
-  [DATATYPE.BOOL_VEC4]: "bvec4",
-
-  [DATATYPE.MATRIX2]: "mat2",
-  [DATATYPE.MATRIX3]: "mat3",
-  [DATATYPE.MATRIX4]: "mat4",
   [DATATYPE.MATRIX2x3]: "Mat2x3",
   [DATATYPE.MATRIX2x4]: "Mat2x4",
   [DATATYPE.MATRIX3x2]: "Mat3x2",
@@ -53,7 +37,7 @@ const DATATYPE_MAP = {
 
 export const GLSL100Compiler = createCompiler({
   context: {
-    datatypeParser: (datatype) => DATATYPE_MAP[datatype],
+    datatypeParser: (datatype) => GLSL100_DATATYPE_MAP[datatype],
   },
 
   emit: ({ nodes, emitter, names, context }) => {
