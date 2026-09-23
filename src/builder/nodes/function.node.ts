@@ -1,7 +1,10 @@
 import { type Datatype } from "@/types.js";
 
 import { type BuilderNode, builderNode, isBuilderNode } from "../node.js";
-import type { ArgumentNodeOptions } from "./argument.node.js";
+import type {
+  ArgumentNameVariant,
+  ArgumentNodeOptions,
+} from "./argument.node.js";
 import type { ValueDatatype, ValueNode } from "./value.node.js";
 import type { VariableNode } from "./variable.node.js";
 
@@ -10,7 +13,7 @@ export type FunctionDefinition<
   Args extends ArgumentNodeOptions[] = [],
   Returns extends ValueDatatype | null = null,
 > = {
-  withArg<Name extends string, Type extends Datatype>(
+  withArg<Name extends ArgumentNameVariant, Type extends Datatype>(
     options: ArgumentNodeOptions<Name, Type>,
   ): FunctionDefinition<[...Args, ArgumentNodeOptions<Name, Type>], Returns>;
 
