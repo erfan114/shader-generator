@@ -56,21 +56,23 @@ export type FunctionDefinitionGenerator<
 > = (fn: FunctionDefinition) => FunctionDefinition<Args, Return>;
 
 // * FUNCTION BODY
+export type FunctionBodyYield = BuilderNode;
+
 export type FunctionBody<
   Args extends ArgumentNode[],
   Returns extends ValueDatatype | null,
-> =
-  // TODO: Generator shouldn't yield BuilderNode, replace it with something more specific
-  (
-    ...args: Args
-  ) => Generator<
-    BuilderNode,
-    Returns extends null
-      ? void
-      : Returns extends ValueDatatype
-        ? ValueNode<Returns> | VariableNode<Returns>
-        : never
-  >;
+> = (
+  ...args: Args
+) => Generator<
+  FunctionBodyYield,
+  Returns extends null
+    ? void
+    : Returns extends ValueDatatype
+      ? | ValueNode<Returns>
+        | VariableNode<Returns>
+        | ArgumentNode<ArgumentNameVariant, Returns>
+      : never
+>;
 
 // * FUNCTION NODE
 export const FUNCTION_KIND = "function";
