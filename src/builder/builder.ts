@@ -6,9 +6,14 @@ import type { OutputNode } from "./nodes/output.node.js";
 import type { UniformNode } from "./nodes/uniform.node.js";
 import { InvalidGeneratorMainError, InvalidNodeYieldError } from "./error.js";
 import type { Compiler } from "@/compiler/compiler.js";
+import type { ArgumentNodeOptions } from "./nodes/argument.node.js";
+import type { ValueDatatype } from "./nodes/value.node.js";
 
 export type BuilderGeneratorYield =
-  FunctionNode | InputNode | OutputNode | UniformNode;
+  | FunctionNode<ArgumentNodeOptions[], ValueDatatype | null>
+  | InputNode
+  | OutputNode
+  | UniformNode;
 
 export type BuilderGenerator = () => Generator<
   BuilderGeneratorYield,

@@ -70,7 +70,7 @@ export const FUNCTION_KIND = "function";
 
 export type FunctionNodeOptions<
   Args extends ArgumentNodeOptions[],
-  Returns extends ValueDatatype | null = null,
+  Returns extends ValueDatatype | null,
 > = {
   args: Args;
   returns: Returns;
@@ -82,8 +82,8 @@ export type FunctionNodeStates = Partial<{
 }>;
 
 export type FunctionNode<
-  Args extends ArgumentNodeOptions[] = ArgumentNodeOptions[],
-  Returns extends ValueDatatype | null = null,
+  Args extends ArgumentNodeOptions[],
+  Returns extends ValueDatatype | null,
 > = BuilderNode<typeof FUNCTION_KIND, FunctionNodeOptions<Args, Returns>>;
 
 export function fn<
@@ -107,7 +107,7 @@ export function fn<
 
 export function isFunctionNode(
   value: unknown,
-): value is FunctionNode<ArgumentNodeOptions[]> {
+): value is FunctionNode<ArgumentNodeOptions[], ValueDatatype | null> {
   return (
     isBuilderNode(value) &&
     value.kind === FUNCTION_KIND &&
