@@ -78,6 +78,13 @@ export const GLSL300Compiler = createCompiler({
 
           break;
         }
+
+        case "function":
+          // TODO: Complete me
+          break;
+
+        default:
+          throw new Error(`Unhandled node in GLSL300: ${node satisfies never}`);
       }
     }
 
