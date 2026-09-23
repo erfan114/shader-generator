@@ -80,6 +80,13 @@ export const GLSL100Compiler = createCompiler({
             `uniform ${context.datatypeParser(node.data.type)} ${names.getName(node)}`,
           );
           break;
+
+        case "function":
+          // TODO: Complete me
+          break;
+
+        default:
+          throw new Error(`Unhandled node in GLSL100: ${node satisfies never}`);
       }
     }
 
