@@ -49,15 +49,7 @@ const DATATYPE_MAP = {
 
 export const GLSL100Compiler = createCompiler({
   context: {
-    datatypeParser: (datatype) => {
-      const result = DATATYPE_MAP[datatype];
-
-      if (result === undefined) {
-        throw new Error(`Unsupported GLSL 100 datatype: ${String(datatype)}`);
-      }
-
-      return result;
-    },
+    datatypeParser: (datatype) => DATATYPE_MAP[datatype],
   },
 
   emit: ({ nodes, emitter, names, context }) => {
