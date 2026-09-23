@@ -1,21 +1,23 @@
 import { type Datatype } from "@/types.js";
 
 import { type BuilderNode, builderNode, isBuilderNode } from "../node.js";
-import type {
-  ArgumentNameVariant,
-  ArgumentNodeOptions,
+import {
+  argument,
+  type ArgumentNameVariant,
+  type ArgumentNode,
+  type ArgumentNodeOptions,
 } from "./argument.node.js";
 import type { ValueDatatype, ValueNode } from "./value.node.js";
 import type { VariableNode } from "./variable.node.js";
 
 // * FUNCTION DEFINITION
 export type FunctionDefinition<
-  Args extends ArgumentNodeOptions[] = [],
+  Args extends ArgumentNode[] = [],
   Returns extends ValueDatatype | null = null,
 > = {
   withArg<Name extends ArgumentNameVariant, Type extends Datatype>(
     options: ArgumentNodeOptions<Name, Type>,
-  ): FunctionDefinition<[...Args, ArgumentNodeOptions<Name, Type>], Returns>;
+  ): FunctionDefinition<[...Args, ArgumentNode<Name, Type>], Returns>;
 
   withReturn<NewReturn extends ValueDatatype>(
     returnType: NewReturn,
@@ -23,7 +25,7 @@ export type FunctionDefinition<
 } & Pick<FunctionNodeOptions<Args, Returns>, "args" | "returns">;
 
 export function generateFunctionDefinition<
-  Args extends ArgumentNodeOptions[] = [],
+  Args extends ArgumentNode[] = [],
   R extends ValueDatatype | null = null,
 >(
   args: Args = [] as unknown as Args,
@@ -34,8 +36,10 @@ export function generateFunctionDefinition<
     returns,
 
     withArg(arg) {
+      const argNode = argument(arg);
+
       return generateFunctionDefinition(
-        [...args, arg] as [...Args, typeof arg],
+        [...args, argNode] as [...Args, typeof argNode],
         returns,
       );
     },
@@ -47,13 +51,13 @@ export function generateFunctionDefinition<
 }
 
 export type FunctionDefinitionGenerator<
-  Args extends ArgumentNodeOptions[],
+  Args extends ArgumentNode[],
   Return extends ValueDatatype | null,
 > = (fn: FunctionDefinition) => FunctionDefinition<Args, Return>;
 
 // * FUNCTION BODY
 export type FunctionBody<
-  Args extends ArgumentNodeOptions[],
+  Args extends ArgumentNode[],
   Returns extends ValueDatatype | null,
 > =
   // TODO: Generator shouldn't yield BuilderNode, replace it with something more specific
@@ -72,7 +76,7 @@ export type FunctionBody<
 export const FUNCTION_KIND = "function";
 
 export type FunctionNodeOptions<
-  Args extends ArgumentNodeOptions[],
+  Args extends ArgumentNode[],
   Returns extends ValueDatatype | null,
 > = {
   args: Args;
@@ -85,12 +89,12 @@ export type FunctionNodeStates = Partial<{
 }>;
 
 export type FunctionNode<
-  Args extends ArgumentNodeOptions[],
+  Args extends ArgumentNode[],
   Returns extends ValueDatatype | null,
 > = BuilderNode<typeof FUNCTION_KIND, FunctionNodeOptions<Args, Returns>>;
 
 export function fn<
-  Args extends ArgumentNodeOptions[],
+  Args extends ArgumentNode[],
   Returns extends ValueDatatype | null,
 >(
   definitionGenerator: FunctionDefinitionGenerator<Args, Returns>,
@@ -110,7 +114,7 @@ export function fn<
 
 export function isFunctionNode(
   value: unknown,
-): value is FunctionNode<ArgumentNodeOptions[], ValueDatatype | null> {
+): value is FunctionNode<ArgumentNode[], ValueDatatype | null> {
   return (
     isBuilderNode(value) &&
     value.kind === FUNCTION_KIND &&

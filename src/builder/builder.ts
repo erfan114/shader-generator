@@ -6,11 +6,11 @@ import type { OutputNode } from "./nodes/output.node.js";
 import type { UniformNode } from "./nodes/uniform.node.js";
 import { InvalidGeneratorMainError, InvalidNodeYieldError } from "./error.js";
 import type { Compiler } from "@/compiler/compiler.js";
-import type { ArgumentNodeOptions } from "./nodes/argument.node.js";
+import type { ArgumentNode } from "./nodes/argument.node.js";
 import type { ValueDatatype } from "./nodes/value.node.js";
 
 export type BuilderGeneratorYield =
-  | FunctionNode<ArgumentNodeOptions[], ValueDatatype | null>
+  | FunctionNode<ArgumentNode[], ValueDatatype | null>
   | InputNode
   | OutputNode
   | UniformNode;

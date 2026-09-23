@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
 
 import { builderNode } from "@/builder/node.js";
-import type { ArgumentNodeOptions } from "@/builder/nodes/argument.node.js";
+import type {
+  ArgumentNode,
+  ArgumentNodeOptions,
+} from "@/builder/nodes/argument.node.js";
 import {
   fn,
   generateFunctionDefinition,
@@ -14,8 +17,8 @@ import type { Datatype } from "@/types.js";
 describe("Function", () => {
   const valueDatatypes = Object.values(VALUE_DATATYPE);
 
-  const toArgumentNodeOptions = (datatype: Datatype) => {
-    return { type: datatype } satisfies ArgumentNodeOptions;
+  const toArgumentNodeOptions = (datatype: Datatype): ArgumentNodeOptions => {
+    return { type: datatype };
   };
 
   it("definition should have nothing", () => {
@@ -37,7 +40,7 @@ describe("Function", () => {
   });
 
   it("definition should have args", () => {
-    let definition = generateFunctionDefinition<ArgumentNodeOptions[]>();
+    let definition = generateFunctionDefinition<ArgumentNode[]>();
 
     for (const datatype of valueDatatypes) {
       definition = definition.withArg({ type: datatype });
@@ -52,7 +55,7 @@ describe("Function", () => {
   });
 
   it("definition should have return type and args", () => {
-    let definition = generateFunctionDefinition<ArgumentNodeOptions[]>();
+    let definition = generateFunctionDefinition<ArgumentNode[]>();
 
     for (const datatype of valueDatatypes) {
       definition = definition.withArg(toArgumentNodeOptions(datatype));
