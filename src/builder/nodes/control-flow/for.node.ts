@@ -99,7 +99,7 @@ export type ForNodeOptions<Init extends ForNodeInit> = {
  * });
  * ```
  */
-export type ForNode<Init extends ForNodeInit> = BuilderNode<
+export type ForNode<Init extends ForNodeInit = ForNodeInit> = BuilderNode<
   typeof FOR_KIND,
   ForNodeOptions<Init>
 >;
