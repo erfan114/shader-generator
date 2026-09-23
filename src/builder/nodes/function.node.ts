@@ -9,6 +9,16 @@ import {
 } from "./argument.node.js";
 import type { ValueDatatype, ValueNode } from "./value.node.js";
 import type { VariableNode } from "./variable.node.js";
+import type { DoNode } from "./control-flow/do.node.js";
+import type { ForNode } from "./control-flow/for.node.js";
+import type { IfNode } from "./control-flow/if.node.js";
+import type { SwitchNode } from "./control-flow/switch.node.js";
+import type { WhileNode } from "./control-flow/while.node.js";
+import type { BreakNode } from "./jump/break.node.js";
+import type { ContinueNode } from "./jump/continue.node.js";
+import type { DiscardNode } from "./jump/discard.node.js";
+import type { ReturnNode } from "./jump/return.node.js";
+import type { ScopeNode } from "./scope.node.js";
 
 // * FUNCTION DEFINITION
 export type FunctionDefinition<
@@ -56,7 +66,18 @@ export type FunctionDefinitionGenerator<
 > = (fn: FunctionDefinition) => FunctionDefinition<Args, Return>;
 
 // * FUNCTION BODY
-export type FunctionBodyYield = BuilderNode;
+export type FunctionBodyYield =
+  | VariableNode
+  | DoNode
+  | ForNode
+  | IfNode
+  | SwitchNode
+  | WhileNode
+  | BreakNode
+  | ContinueNode
+  | DiscardNode
+  | ReturnNode
+  | ScopeNode;
 
 export type FunctionBody<
   Args extends ArgumentNode[],
