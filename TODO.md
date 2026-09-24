@@ -13,7 +13,7 @@ Legend:
 - ✅ `BuilderGenerator` type — `() => Generator<BuilderNode>`
 - ✅ `Builder.from_generator(generator)` static method
 - ✅ `Builder` private constructor (takes `BuilderGenerator`)
-- 🚧 `compile(compiler: Compiler): string` — throws `NotImplementedError`
+- 🚧 `compile(compiler: Compiler): string` — currently delegates to compiler but full IR traversal not yet wired
 
 ## Node Base (`src/builder/node.ts`)
 
@@ -94,7 +94,6 @@ const fn = generateFunctionDefinition()
 
 ## Variable API (`src/builder/nodes/variable.node.ts`)
 
-- ❌ `VariableObjectProps<T>` type — not yet implemented
 - ✅ `VariableNode<Type>` type
 - ✅ `variable()` factory function
 - ✅ `.as(alias)` method on variable node
@@ -115,11 +114,13 @@ const fn = generateFunctionDefinition()
 
 ## Compiler (`src/compiler/`)
 
-- ❌ `Compiler` abstract class (has skeleton — `compile`, `normalize`, `validate`, `emit`; `validate` throws `NotImplementedError`)
-- ❌ `WebGLCompiler` — GLSL ES 1.00 code generation (empty, `createContext` and `emit` throw `NotImplementedError`)
-- ❌ `WebGL2Compiler` — GLSL ES 3.00 code generation (empty, `createContext` and `emit` throw `NotImplementedError`)
-- ❌ GLSL type name mapping (`DATATYPE` enum → GLSL string)
-- ❌ Emit source code for any node types
+- ✅ `createCompiler()` factory (context + emit function)
+- ✅ `Compiler` type with `compile(nodes): string`
+- ✅ GLSL 1.00 compiler (`GLSL100Compiler`) — emits declarations for uniforms/inputs/outputs
+- 🚧 GLSL 3.00 compiler (`GLSL300Compiler`) — stub only, throws `NotImplementedError` in datatypeParser and emit
+- 🚧 Parser functions — many throw `NotImplementedError` (variable assignment, control flow, operations, etc.)
+- ❌ GLSL type name mapping for all `DATATYPE` values (1.00 has partial, 3.00 has none)
+- ❌ Emit source code for: function bodies, variable declarations with assignments, operations, control flow (if/for/while/switch), jump statements, assignments, return statements
 
 ## Additional GLSL Features
 
