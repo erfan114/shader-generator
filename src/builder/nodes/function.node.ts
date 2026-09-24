@@ -20,10 +20,13 @@ import type { DiscardNode } from "./jump/discard.node.js";
 import type { ReturnNode } from "./jump/return.node.js";
 import type { ScopeNode } from "./scope.node.js";
 
+// * COMMON
+export type FunctionNodeReturnVariant = ValueDatatype | null;
+
 // * FUNCTION DEFINITION
 export type FunctionDefinition<
   Args extends ArgumentNode[] = [],
-  Returns extends ValueDatatype | null = null,
+  Returns extends FunctionNodeReturnVariant = null,
 > = {
   withArg<Name extends ArgumentNameVariant, Type extends Datatype>(
     options: ArgumentNodeOptions<Name, Type>,
@@ -81,7 +84,7 @@ export type FunctionBodyYield =
 
 export type FunctionBody<
   Args extends ArgumentNode[],
-  Returns extends ValueDatatype | null,
+  Returns extends FunctionNodeReturnVariant,
 > = (
   ...args: Args
 ) => Generator<
@@ -100,7 +103,7 @@ export const FUNCTION_KIND = "function";
 
 export type FunctionNodeOptions<
   Args extends ArgumentNode[],
-  Returns extends ValueDatatype | null,
+  Returns extends FunctionNodeReturnVariant,
 > = {
   args: Args;
   returns: Returns;
@@ -112,13 +115,13 @@ export type FunctionNodeStates = Partial<{
 }>;
 
 export type FunctionNode<
-  Args extends ArgumentNode[],
-  Returns extends ValueDatatype | null,
+  Args extends ArgumentNode[] = ArgumentNode[],
+  Returns extends FunctionNodeReturnVariant = FunctionNodeReturnVariant,
 > = BuilderNode<typeof FUNCTION_KIND, FunctionNodeOptions<Args, Returns>>;
 
 export function fn<
   Args extends ArgumentNode[],
-  Returns extends ValueDatatype | null,
+  Returns extends FunctionNodeReturnVariant,
 >(
   definitionGenerator: FunctionDefinitionGenerator<Args, Returns>,
   body: FunctionBody<NoInfer<Args>, NoInfer<Returns>>,
@@ -137,7 +140,7 @@ export function fn<
 
 export function isFunctionNode(
   value: unknown,
-): value is FunctionNode<ArgumentNode[], ValueDatatype | null> {
+): value is FunctionNode<ArgumentNode[], FunctionNodeReturnVariant> {
   return (
     isBuilderNode(value) &&
     value.kind === FUNCTION_KIND &&
