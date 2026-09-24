@@ -15,6 +15,7 @@ import type { DiscardNode } from "@/builder/nodes/jump/discard.node.js";
 import type { ReturnNode } from "@/builder/nodes/jump/return.node.js";
 import type { ScopeNode } from "@/builder/nodes/scope.node.js";
 import type { BuilderNode } from "@/builder/node.js";
+import type { SourceEmitterRequest } from "./emitter.js";
 
 type ParserFieldsMap = {
   input: InputNode;
@@ -37,7 +38,7 @@ type ParserFieldsMap = {
 export type ParserFunction<T extends BuilderNode> = (
   context: CompilerContext,
   node: T,
-) => string;
+) => SourceEmitterRequest;
 
 export type Parser = {
   [key in keyof ParserFieldsMap]: ParserFunction<ParserFieldsMap[key]>;
