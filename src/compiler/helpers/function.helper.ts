@@ -1,6 +1,8 @@
-import type { BuilderNode } from "@/builder/node.js";
 import type { ArgumentNode } from "@/builder/nodes/argument.node.js";
-import type { FunctionNode } from "@/builder/nodes/function.node.js";
+import type {
+  FunctionBodyYield,
+  FunctionNode,
+} from "@/builder/nodes/function.node.js";
 import type { ValueDatatype } from "@/builder/nodes/value.node.js";
 
 export function createFunctionHeader(args: string[]) {
@@ -9,8 +11,8 @@ export function createFunctionHeader(args: string[]) {
 
 export function runFunctionNode(
   node: FunctionNode<ArgumentNode[], ValueDatatype | null>,
-): BuilderNode[] {
-  const nodes: BuilderNode[] = [];
+): FunctionBodyYield[] {
+  const nodes: FunctionBodyYield[] = [];
   const instance = node.data.body(...node.data.args);
 
   let current = instance.next();
