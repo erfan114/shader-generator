@@ -1,10 +1,8 @@
 import { DATATYPE, type Datatype } from "@/types.js";
 import { createCompiler } from "./compiler.js";
-import {
-  createFunctionHeader,
-  runFunctionNode,
-} from "./helpers/function.helper.js";
 import { GLSL300_DATATYPE_MAP } from "./GLSL300.compiler.js";
+import { emitLine } from "./emitter.js";
+import { SHARED_PARSER_FIELDS } from "./common.js";
 
 export const GLSL100_DATATYPE_MAP = {
   ...GLSL300_DATATYPE_MAP,
@@ -39,52 +37,18 @@ export const GLSL100_DATATYPE_MAP = {
 export const GLSL100Compiler = createCompiler({
   context: {
     datatypeParser: (datatype) => GLSL100_DATATYPE_MAP[datatype],
-  },
-
-  emit: ({ nodes, emitter, names, context }) => {
-    for (const node of nodes) {
-      switch (node.kind) {
-        case "input":
-          emitter.line(
-            `attribute ${context.datatypeParser(node.data.type)} ${names.getName(node)}`,
-          );
-          break;
-
-        case "output":
-          emitter.line(
-            `varying ${context.datatypeParser(node.data.type)} ${names.getName(node)}`,
-          );
-          break;
-
-        case "uniform":
-          emitter.line(
-            `uniform ${context.datatypeParser(node.data.type)} ${names.getName(node)}`,
-          );
-          break;
-
-        case "function": {
-          const args = node.data.args.map((arg) => {
-            const name = names.getName(arg);
-            const type = context.datatypeParser(arg.data.type);
-
-            return `${type} ${name}`;
-          });
-
-          const functionHeader = createFunctionHeader(args);
-          const bodyNodes = runFunctionNode(node);
-
-          emitter.block(functionHeader, () => {
-            // TODO: Handle each type
-          });
-
-          break;
-        }
-
-        default:
-          throw new Error(`Unhandled node in GLSL100: ${node satisfies never}`);
-      }
-    }
-
-    return emitter.toString();
+    parser: {
+      ...SHARED_PARSER_FIELDS,
+      input: (context, node) => {
+        return emitLine({
+          content: `attribute ${context.datatypeParser(node.data.type)} ${context.names.getName(node)};`,
+        });
+      },
+      output: (context, node) => {
+        return emitLine({
+          content: `varying ${context.datatypeParser(node.data.type)} ${context.names.getName(node)};`,
+        });
+      },
+    },
   },
 });
