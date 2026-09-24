@@ -1,16 +1,10 @@
-import type { CompilerContext } from "./context.js";
+import type { CompilerContext, CompilerContextOptions } from "./context.js";
 import { SourceEmitter } from "./emitter.js";
 import type { BuilderNodes } from "@/builder/builder.js";
 import { CompilerNames } from "./names.js";
 
 export type CompilerFactoryOptions = {
-  context: CompilerContext;
-  emit: (props: {
-    nodes: BuilderNodes;
-    emitter: SourceEmitter;
-    names: CompilerNames;
-    context: CompilerContext;
-  }) => string;
+  context: CompilerContextOptions;
 };
 
 type CompileArgs = [nodes: BuilderNodes];
@@ -20,14 +14,45 @@ export type Compiler = {
 };
 
 export function createCompiler(options: CompilerFactoryOptions): Compiler {
+  const context: CompilerContext = {
+    ...options.context,
+    names: new CompilerNames(),
+  };
+
+  const generateEmitterRequest = (node: BuilderNodes[number]) => {
+    switch (node.kind) {
+      case "input": {
+        return context.parser.input(context, node);
+      }
+
+      case "output": {
+        return context.parser.output(context, node);
+      }
+
+      case "uniform": {
+        return context.parser.uniform(context, node);
+      }
+
+      case "function": {
+        return context.parser.function(context, node);
+      }
+
+      default:
+        throw new Error(`Unhandled node: ${node satisfies never}`);
+    }
+  };
+
   return {
     compile: (nodes) => {
-      return options.emit({
-        emitter: new SourceEmitter(),
-        names: new CompilerNames(),
-        nodes,
-        context: options.context,
-      });
+      const emitter = new SourceEmitter();
+
+      for (const node of nodes) {
+        const request = generateEmitterRequest(node);
+
+        emitter.process(request);
+      }
+
+      return emitter.toString();
     },
   };
 }
