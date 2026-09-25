@@ -2,19 +2,27 @@ import { NotImplementedError } from "@/errors.js";
 import { emitBlock, emitLine } from "./emitter.js";
 import { createFunctionHeader } from "./helpers/function.helper.js";
 import type { Parser } from "./parser.js";
+import type { Dependent } from "./dependency.js";
+import type { Datatype } from "@/types.js";
+
+export type DatatypeMapValue = Dependent<{
+  value: string;
+}>;
+
+export type DatatypeMap = Record<Datatype, DatatypeMapValue>;
 
 export const SHARED_PARSER_FIELDS = {
   uniform: (context, node) => {
     return {
       request: emitLine({
-        content: `uniform ${context.datatypeParser(node.data.type)} ${context.names.getName(node)};`,
+        content: `uniform ${context.parseDatatype(node.data.type)} ${context.names.getName(node)};`,
       }),
     };
   },
   function: (context, node) => {
     const args = node.data.args.map((arg) => {
       const name = context.names.getName(arg);
-      const type = context.datatypeParser(arg.data.type);
+      const type = context.parseDatatype(arg.data.type);
 
       return `${type} ${name}`;
     });
@@ -30,7 +38,7 @@ export const SHARED_PARSER_FIELDS = {
     };
   },
   variable: (context, node) => {
-    const variableDeclaration = `${context.datatypeParser(node.data.type)} ${context.names.getName(node)}`;
+    const variableDeclaration = `${context.parseDatatype(node.data.type)} ${context.names.getName(node)}`;
 
     if (node.data.value) {
       // TODO: Handle assigned values

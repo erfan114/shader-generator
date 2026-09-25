@@ -1,9 +1,14 @@
-import type { CompilerContext, CompilerContextOptions } from "./context.js";
+import type {
+  CompilerContext,
+  CompilerContextOptions,
+  CompilerContextHandlers,
+} from "./context.js";
 import { SourceEmitter } from "./emitter.js";
 import type { BuilderNodes } from "@/builder/builder.js";
 import { CompilerNames } from "./names.js";
 
 export type CompilerFactoryOptions = {
+  handlers: CompilerContextHandlers;
   context: CompilerContextOptions;
 };
 
@@ -16,6 +21,12 @@ export type Compiler = {
 export function createCompiler(options: CompilerFactoryOptions): Compiler {
   const context: CompilerContext = {
     ...options.context,
+    parseDatatype: (datatype) => {
+      // TODO: Handle dependencies
+      const { value } = options.handlers.datatypeParser(datatype);
+
+      return value;
+    },
     names: new CompilerNames(),
   };
 
