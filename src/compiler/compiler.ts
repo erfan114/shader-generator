@@ -47,7 +47,8 @@ export function createCompiler(options: CompilerFactoryOptions): Compiler {
       const emitter = new SourceEmitter();
 
       for (const node of nodes) {
-        const request = generateEmitterRequest(node);
+        // TODO: Handle dependencies
+        const { request } = generateEmitterRequest(node);
 
         emitter.process(request);
       }

@@ -5,9 +5,11 @@ import type { Parser } from "./parser.js";
 
 export const SHARED_PARSER_FIELDS = {
   uniform: (context, node) => {
-    return emitLine({
-      content: `uniform ${context.datatypeParser(node.data.type)} ${context.names.getName(node)};`,
-    });
+    return {
+      request: emitLine({
+        content: `uniform ${context.datatypeParser(node.data.type)} ${context.names.getName(node)};`,
+      }),
+    };
   },
   function: (context, node) => {
     const args = node.data.args.map((arg) => {
@@ -19,11 +21,13 @@ export const SHARED_PARSER_FIELDS = {
 
     const functionHeader = createFunctionHeader(args);
 
-    return emitBlock({
-      header: emitLine({ content: functionHeader }),
-      // TODO: Handle function body
-      body: [],
-    });
+    return {
+      request: emitBlock({
+        header: emitLine({ content: functionHeader }),
+        // TODO: Handle function body
+        body: [],
+      }),
+    };
   },
   variable: (context, node) => {
     const variableDeclaration = `${context.datatypeParser(node.data.type)} ${context.names.getName(node)}`;
@@ -34,9 +38,11 @@ export const SHARED_PARSER_FIELDS = {
       throw new NotImplementedError();
     }
 
-    return emitLine({
-      content: `${variableDeclaration};`,
-    });
+    return {
+      request: emitLine({
+        content: `${variableDeclaration};`,
+      }),
+    };
   },
   do: () => {
     throw new NotImplementedError();

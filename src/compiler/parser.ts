@@ -16,6 +16,7 @@ import type { ReturnNode } from "@/builder/nodes/jump/return.node.js";
 import type { ScopeNode } from "@/builder/nodes/scope.node.js";
 import type { BuilderNode } from "@/builder/node.js";
 import type { SourceEmitterRequest } from "./emitter.js";
+import type { Dependent } from "./dependency.js";
 
 type ParserFieldsMap = {
   input: InputNode;
@@ -35,10 +36,14 @@ type ParserFieldsMap = {
   scope: ScopeNode;
 };
 
+export type ParserFunctionReturn = Dependent<{
+  request: SourceEmitterRequest;
+}>;
+
 export type ParserFunction<T extends BuilderNode> = (
   context: CompilerContext,
   node: T,
-) => SourceEmitterRequest;
+) => ParserFunctionReturn;
 
 export type Parser = {
   [key in keyof ParserFieldsMap]: ParserFunction<ParserFieldsMap[key]>;
