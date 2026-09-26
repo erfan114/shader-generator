@@ -20,8 +20,6 @@ export const GLSL100_DATATYPE_MAP = {
   [DATATYPE.MATRIX4x2]: { value: "Mat4x2" },
   [DATATYPE.MATRIX4x3]: { value: "Mat4x3" },
 
-  [DATATYPE.SAMPLER_2D]: { value: "sampler2D" },
-
   [DATATYPE.INT_SAMPLER_2D]: { value: "sampler2D" },
   [DATATYPE.UINT_SAMPLER_2D]: { value: "sampler2D" },
 
@@ -29,7 +27,6 @@ export const GLSL100_DATATYPE_MAP = {
   [DATATYPE.INT_SAMPLER_3D]: { value: "sampler2D" },
   [DATATYPE.UINT_SAMPLER_3D]: { value: "sampler2D" },
 
-  [DATATYPE.SAMPLER_CUBE]: { value: "samplerCube" },
   [DATATYPE.INT_SAMPLER_CUBE]: { value: "samplerCube" },
   [DATATYPE.UINT_SAMPLER_CUBE]: { value: "samplerCube" },
 } as const satisfies DatatypeMap;
