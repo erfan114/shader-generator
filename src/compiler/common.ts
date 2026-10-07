@@ -90,7 +90,9 @@ export const SHARED_PARSER_FIELDS = {
     throw new NotImplementedError();
   },
   discard: () => {
-    throw new NotImplementedError();
+    return {
+      request: [emitLine({ content: "discard;" })],
+    };
   },
   return: () => {
     throw new NotImplementedError();
