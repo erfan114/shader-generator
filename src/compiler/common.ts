@@ -31,8 +31,9 @@ export const SHARED_PARSER_FIELDS = {
       return `${type} ${name}`;
     });
 
-    const functionHeader = createFunctionHeader(args);
-    const functionBody = context.parser.scope(
+    const header = createFunctionHeader(args);
+
+    const body = context.parser.scope(
       context,
       scope<FunctionNodeReturnVariant>(function* () {
         return yield* node.data.body(...node.data.args);
@@ -42,11 +43,11 @@ export const SHARED_PARSER_FIELDS = {
     return {
       request: [
         emitBlock({
-          header: emitLine({ content: functionHeader }),
-          body: functionBody.request,
+          header: emitLine({ content: header }),
+          body: body.request,
         }),
       ],
-      depends: functionBody.depends ?? [],
+      depends: body.depends ?? [],
     };
   },
   variable: (context, node) => {
