@@ -38,7 +38,9 @@ export const SHARED_PARSER_FIELDS = {
     };
   },
   variable: (context, node) => {
-    const variableDeclaration = `${context.parseDatatype(node.data.type)} ${context.names.getName(node)}`;
+    const name = context.names.getName(node);
+    const type = context.parseDatatype(node.data.type);
+    const declaration = `${type} ${name}`;
 
     if (node.data.value) {
       // TODO: Handle assigned values
@@ -48,7 +50,7 @@ export const SHARED_PARSER_FIELDS = {
 
     return {
       request: emitLine({
-        content: `${variableDeclaration};`,
+        content: `${declaration};`,
       }),
     };
   },
