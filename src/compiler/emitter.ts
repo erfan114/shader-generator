@@ -10,13 +10,15 @@ type SourceEmitterAppendRequest = SourceEmitterRequestTag<"append"> & {
 
 type SourceEmitterBlockRequest = SourceEmitterRequestTag<"block"> & {
   header?: SourceEmitterLineRequest;
-  body: SourceEmitterRequest[];
+  body: SourceEmitterRequests;
 };
 
 export type SourceEmitterRequest =
   | SourceEmitterLineRequest
   | SourceEmitterAppendRequest
   | SourceEmitterBlockRequest;
+
+export type SourceEmitterRequests = SourceEmitterRequest[];
 
 type SourceEmitterRequestData<T> = Omit<
   T,
@@ -71,9 +73,7 @@ export class SourceEmitter {
 
     this.indent();
 
-    for (const request of data.body) {
-      this.process(request);
-    }
+    this.process(data.body);
 
     this.dedent();
 
@@ -92,22 +92,24 @@ export class SourceEmitter {
     this.indentation--;
   }
 
-  public process(request: SourceEmitterRequest): void {
-    switch (request.kind) {
-      case "append": {
-        this.append(request);
+  public process(requests: SourceEmitterRequests): void {
+    for (const request of requests) {
+      switch (request.kind) {
+        case "append": {
+          this.append(request);
 
-        break;
-      }
-      case "line": {
-        this.line(request);
+          break;
+        }
+        case "line": {
+          this.line(request);
 
-        break;
-      }
-      case "block": {
-        this.block(request);
+          break;
+        }
+        case "block": {
+          this.block(request);
 
-        break;
+          break;
+        }
       }
     }
   }

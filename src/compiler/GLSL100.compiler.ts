@@ -40,16 +40,20 @@ export const GLSL100Compiler = createCompiler({
       ...SHARED_PARSER_FIELDS,
       input: (context, node) => {
         return {
-          request: emitLine({
-            content: `attribute ${context.parseDatatype(node.data.type)} ${context.names.getName(node)};`,
-          }),
+          request: [
+            emitLine({
+              content: `attribute ${context.parseDatatype(node.data.type)} ${context.names.getName(node)};`,
+            }),
+          ],
         };
       },
       output: (context, node) => {
         return {
-          request: emitLine({
-            content: `varying ${context.parseDatatype(node.data.type)} ${context.names.getName(node)};`,
-          }),
+          request: [
+            emitLine({
+              content: `varying ${context.parseDatatype(node.data.type)} ${context.names.getName(node)};`,
+            }),
+          ],
         };
       },
     },

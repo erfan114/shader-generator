@@ -4,6 +4,8 @@ import { createFunctionHeader } from "./helpers/function.helper.js";
 import type { Parser } from "./parser.js";
 import type { Dependent } from "./dependency.js";
 import type { Datatype } from "@/types.js";
+import { scope } from "@/builder/nodes/scope.node.js";
+import type { FunctionNodeReturnVariant } from "@/builder/nodes/function.node.js";
 
 export type DatatypeMapValue = Dependent<{
   value: string;
@@ -14,9 +16,11 @@ export type DatatypeMap = Record<Datatype, DatatypeMapValue>;
 export const SHARED_PARSER_FIELDS = {
   uniform: (context, node) => {
     return {
-      request: emitLine({
-        content: `uniform ${context.parseDatatype(node.data.type)} ${context.names.getName(node)};`,
-      }),
+      request: [
+        emitLine({
+          content: `uniform ${context.parseDatatype(node.data.type)} ${context.names.getName(node)};`,
+        }),
+      ],
     };
   },
   function: (context, node) => {
@@ -28,13 +32,21 @@ export const SHARED_PARSER_FIELDS = {
     });
 
     const functionHeader = createFunctionHeader(args);
+    const functionBody = context.parser.scope(
+      context,
+      scope<FunctionNodeReturnVariant>(function* () {
+        return yield* node.data.body(...node.data.args);
+      }),
+    );
 
     return {
-      request: emitBlock({
-        header: emitLine({ content: functionHeader }),
-        // TODO: Handle function body
-        body: [],
-      }),
+      request: [
+        emitBlock({
+          header: emitLine({ content: functionHeader }),
+          body: functionBody.request,
+        }),
+      ],
+      depends: functionBody.depends ?? [],
     };
   },
   variable: (context, node) => {
@@ -49,9 +61,11 @@ export const SHARED_PARSER_FIELDS = {
     }
 
     return {
-      request: emitLine({
-        content: `${declaration};`,
-      }),
+      request: [
+        emitLine({
+          content: `${declaration};`,
+        }),
+      ],
     };
   },
   do: () => {
