@@ -7,18 +7,8 @@ import {
   type ArgumentNode,
   type ArgumentNodeOptions,
 } from "./argument.node.js";
-import type { ValueDatatype, ValueNode } from "./value.node.js";
-import type { VariableNode } from "./variable.node.js";
-import type { DoNode } from "./control-flow/do.node.js";
-import type { ForNode } from "./control-flow/for.node.js";
-import type { IfNode } from "./control-flow/if.node.js";
-import type { SwitchNode } from "./control-flow/switch.node.js";
-import type { WhileNode } from "./control-flow/while.node.js";
-import type { BreakNode } from "./jump/break.node.js";
-import type { ContinueNode } from "./jump/continue.node.js";
-import type { DiscardNode } from "./jump/discard.node.js";
-import type { ReturnNode } from "./jump/return.node.js";
-import type { ScopeNode } from "./scope.node.js";
+import type { ValueDatatype } from "./value.node.js";
+import type { ScopeGenerator } from "./scope.node.js";
 
 // * COMMON
 export type FunctionNodeReturnVariant = ValueDatatype | null;
@@ -39,7 +29,7 @@ export type FunctionDefinition<
 
 export function generateFunctionDefinition<
   Args extends ArgumentNode[] = [],
-  R extends ValueDatatype | null = null,
+  R extends FunctionNodeReturnVariant = null,
 >(
   args: Args = [] as unknown as Args,
   returns: R = null as R,
@@ -65,38 +55,14 @@ export function generateFunctionDefinition<
 
 export type FunctionDefinitionGenerator<
   Args extends ArgumentNode[],
-  Return extends ValueDatatype | null,
+  Return extends FunctionNodeReturnVariant,
 > = (fn: FunctionDefinition) => FunctionDefinition<Args, Return>;
 
 // * FUNCTION BODY
-export type FunctionBodyYield =
-  | VariableNode
-  | DoNode
-  | ForNode
-  | IfNode
-  | SwitchNode
-  | WhileNode
-  | BreakNode
-  | ContinueNode
-  | DiscardNode
-  | ReturnNode
-  | ScopeNode;
-
 export type FunctionBody<
   Args extends ArgumentNode[],
   Returns extends FunctionNodeReturnVariant,
-> = (
-  ...args: Args
-) => Generator<
-  FunctionBodyYield,
-  Returns extends null
-    ? void
-    : Returns extends ValueDatatype
-      ? | ValueNode<Returns>
-        | VariableNode<Returns>
-        | ArgumentNode<ArgumentNameVariant, Returns>
-      : never
->;
+> = (...args: Args) => ScopeGenerator<Returns>;
 
 // * FUNCTION NODE
 export const FUNCTION_KIND = "function";
