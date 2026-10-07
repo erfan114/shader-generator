@@ -13,5 +13,5 @@ export type CompilerContextOptions = {
 
 export type CompilerContext = CompilerContextOptions & {
   names: CompilerNames;
-  parseDatatype: (datatype: Datatype) => string;
+  parseDatatype: (datatype: Datatype) => DatatypeMapValue["value"];
 };
