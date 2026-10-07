@@ -84,7 +84,9 @@ export const SHARED_PARSER_FIELDS = {
     throw new NotImplementedError();
   },
   break: () => {
-    throw new NotImplementedError();
+    return {
+      request: [emitLine({ content: "break;" })],
+    };
   },
   continue: () => {
     return {
