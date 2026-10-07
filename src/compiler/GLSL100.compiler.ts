@@ -1,8 +1,8 @@
 import { DATATYPE } from "@/types.js";
 import { createCompiler } from "./compiler.js";
 import { GLSL300_DATATYPE_MAP } from "./GLSL300.compiler.js";
-import { emitLine } from "./emitter.js";
-import { SHARED_PARSER_FIELDS, type DatatypeMap } from "./common.js";
+import { type DatatypeMap } from "./common.js";
+import { KEYWORD, type CompilerKeywordMap } from "./keyword.js";
 
 export const GLSL100_DATATYPE_MAP = {
   ...GLSL300_DATATYPE_MAP,
@@ -31,31 +31,14 @@ export const GLSL100_DATATYPE_MAP = {
   [DATATYPE.UINT_SAMPLER_CUBE]: { value: "samplerCube" },
 } as const satisfies DatatypeMap;
 
+const GLSL100_KEYWORD_MAP = {
+  [KEYWORD.INPUT]: "attribute",
+  [KEYWORD.OUTPUT]: "varying",
+} as const satisfies CompilerKeywordMap;
+
 export const GLSL100Compiler = createCompiler({
   handlers: {
+    keywordParser: (keyword) => GLSL100_KEYWORD_MAP[keyword],
     datatypeParser: (datatype) => GLSL100_DATATYPE_MAP[datatype],
-  },
-  context: {
-    parser: {
-      ...SHARED_PARSER_FIELDS,
-      input: (context, node) => {
-        return {
-          request: [
-            emitLine({
-              content: `attribute ${context.parseDatatype(node.data.type)} ${context.names.getName(node)};`,
-            }),
-          ],
-        };
-      },
-      output: (context, node) => {
-        return {
-          request: [
-            emitLine({
-              content: `varying ${context.parseDatatype(node.data.type)} ${context.names.getName(node)};`,
-            }),
-          ],
-        };
-      },
-    },
   },
 });
